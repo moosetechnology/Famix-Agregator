@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  [push, pull_request]
+
+jobs:
+  get-matrix:
+    runs-on: ubuntu-latest
+    outputs: 
+      pharo-version: ${{ steps.get-matrix-from-json.outputs.pharo-version }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get Matrix
+        id: get-matrix-from-json          
+        run: |
+          PHAROVERSION=$(cat $GITHUB_WORKSPACE/.github/workflows/pharo-versions.json)
+          echo "pharo-version=$PHAROVERSION" >> $GITHUB_OUTPUT
+  
+  build:
+    runs-on: ubuntu-latest
+    needs:
+      - get-matrix
+    strategy:
+      matrix: 
+        smalltalk: ${{ fromJSON(needs.get-matrix.outputs.pharo-version) }}
+    name: ${{ matrix.smalltalk }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: hpi-swa/setup-smalltalkCI@v1
+        with:
+          smalltalk-image: ${{ matrix.smalltalk }}
+      - run: smalltalkci -s ${{ matrix.smalltalk }}
+        shell: bash
+        timeout-minutes: 15
