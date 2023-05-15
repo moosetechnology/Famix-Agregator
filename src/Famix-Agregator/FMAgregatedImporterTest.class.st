@@ -11,6 +11,13 @@ Class {
 }
 
 { #category : #'test data' }
+FMAgregatedImporterTest class >> inspectMseString [
+
+	<script>
+	self mseString inspect
+]
+
+{ #category : #'test data' }
 FMAgregatedImporterTest class >> mseString [
 
 	^ mseString ifNil: [ 
@@ -33,7 +40,6 @@ FMAgregatedImporterTest class >> sourceModel [
 	mB1 := FamixJavaMethod named: 'methodB1'.
 	mB1 parentType: classB.
 	mB2 := FamixJavaMethod named: 'methodB2'.
-
 	mB2 parentType: classB.
 
 	refA1toB := FamixJavaReference
