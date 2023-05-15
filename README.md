@@ -5,7 +5,7 @@ To load this project in a Moose image, execute the following:
 ```Smalltalk
 Metacello new
   baseline: 'FamixAgregator';
-  repository: 'github://moosetechnology/FamixAgregator:main/src';
+  repository: 'github://moosetechnology/Famix-Agregator:main/src';
   load
   ```
   
