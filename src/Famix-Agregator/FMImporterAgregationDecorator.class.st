@@ -26,17 +26,9 @@ FMImporterAgregationDecorator >> beginDocument [
 { #category : #parsing }
 FMImporterAgregationDecorator >> beginEntity: name [
 
-	| parentClass aggregatedMethodName aggregatedMethod |
 	importer beginEntity: name.
 
-	(self isClass: name) ifFalse: [ ^ self ].
-	parentClass := importer currentEntity.
-	aggregatedMethodName := 'aggregatedMethod' , parentClass name.
-	aggregatedMethod := FMFutureEntity
-		                    in: self
-		                    named: aggregatedMethodName.
-	aggregatedMethod parentType: parentClass.
-	importer stack push: aggregatedMethod
+	(self isClass: name) ifTrue: [ self createAgregatedMethod  ]
 ]
 
 { #category : #parsing }
