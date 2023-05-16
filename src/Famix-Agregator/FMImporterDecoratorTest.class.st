@@ -1,5 +1,5 @@
 Class {
-	#name : #FMAImporterDecoratorTest,
+	#name : #FMImporterDecoratorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'model'
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : #'test data' }
-FMAImporterDecoratorTest class >> inspectMseString [
+FMImporterDecoratorTest class >> inspectMseString [
 
 	<script>
 	self mseString inspect
 ]
 
 { #category : #'test data' }
-FMAImporterDecoratorTest class >> mseString [
+FMImporterDecoratorTest class >> mseString [
 
 	^ mseString ifNil: [ 
 		  mseString := String streamContents: [ :s | 
@@ -26,7 +26,7 @@ FMAImporterDecoratorTest class >> mseString [
 ]
 
 { #category : #'test data' }
-FMAImporterDecoratorTest class >> sourceModel [
+FMImporterDecoratorTest class >> sourceModel [
 
 	| model classA mA1 mA2 classB refA1toB mB1 mB2 |
 	model := FamixJavaModel new.
@@ -58,7 +58,7 @@ FMAImporterDecoratorTest class >> sourceModel [
 ]
 
 { #category : #running }
-FMAImporterDecoratorTest >> setUp [
+FMImporterDecoratorTest >> setUp [
 
 	super setUp.
 	model := FamixJavaModel new
@@ -71,13 +71,13 @@ FMAImporterDecoratorTest >> setUp [
 ]
 
 { #category : #tests }
-FMAImporterDecoratorTest >> testClassesAreImported [
+FMImporterDecoratorTest >> testClassesAreImported [
 
 	self assert: model allModelClasses size equals: 2
 ]
 
 { #category : #tests }
-FMAImporterDecoratorTest >> testMethodsAreNotImported [
+FMImporterDecoratorTest >> testMethodsAreNotImported [
 
 	self assert: model allModelMethods size equals: 2.
 	self assert:
