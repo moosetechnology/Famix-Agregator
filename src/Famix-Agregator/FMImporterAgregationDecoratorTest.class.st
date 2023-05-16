@@ -1,5 +1,5 @@
 Class {
-	#name : #FMImporterDecoratorTest,
+	#name : #FMImporterAgregationDecoratorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'model'
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : #'test data' }
-FMImporterDecoratorTest class >> inspectMseString [
+FMImporterAgregationDecoratorTest class >> inspectMseString [
 
 	<script>
 	self mseString inspect
 ]
 
 { #category : #'test data' }
-FMImporterDecoratorTest class >> mseString [
+FMImporterAgregationDecoratorTest class >> mseString [
 
 	^ mseString ifNil: [ 
 		  mseString := String streamContents: [ :s | 
@@ -26,7 +26,7 @@ FMImporterDecoratorTest class >> mseString [
 ]
 
 { #category : #'test data' }
-FMImporterDecoratorTest class >> sourceModel [
+FMImporterAgregationDecoratorTest class >> sourceModel [
 
 	| model classA mA1 mA2 classB refA1toB mB1 mB2 |
 	model := FamixJavaModel new.
@@ -58,7 +58,7 @@ FMImporterDecoratorTest class >> sourceModel [
 ]
 
 { #category : #running }
-FMImporterDecoratorTest >> setUp [
+FMImporterAgregationDecoratorTest >> setUp [
 
 	super setUp.
 	model := FamixJavaModel new
@@ -66,12 +66,12 @@ FMImporterDecoratorTest >> setUp [
 				          importFrom: self class mseString readStream
 				          withMetamodel: FamixJavaModel metamodel
 				          customizingImporterWith: [ :importer | 
-				          FMImporterDecorator on: importer ])
+				          FMImporterAgregationDecorator on: importer ])
 		         named: 'testModel'
 ]
 
 { #category : #tests }
-FMImporterDecoratorTest >> testAggregatedMethodsAreCreated [
+FMImporterAgregationDecoratorTest >> testAggregatedMethodsAreCreated [
 
 	model allModelMethods do: [ :method |
 		self assert: (model allModelClasses includes: method parentType) ].
@@ -86,7 +86,7 @@ FMImporterDecoratorTest >> testAggregatedMethodsAreCreated [
 ]
 
 { #category : #tests }
-FMImporterDecoratorTest >> testClassesAreImported [
+FMImporterAgregationDecoratorTest >> testClassesAreImported [
 
 	self assert: model allModelClasses size equals: 2
 ]

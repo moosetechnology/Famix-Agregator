@@ -1,5 +1,5 @@
 Class {
-	#name : #FMImporterDecorator,
+	#name : #FMImporterAgregationDecorator,
 	#superclass : #Object,
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-FMImporterDecorator class >> on: aFMImporter [
+FMImporterAgregationDecorator class >> on: aFMImporter [
 
 	^ self new
 		  importer: aFMImporter;
@@ -18,13 +18,13 @@ FMImporterDecorator class >> on: aFMImporter [
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> beginDocument [
+FMImporterAgregationDecorator >> beginDocument [
 
 	importer beginDocument
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> beginEntity: name [
+FMImporterAgregationDecorator >> beginEntity: name [
 
 	| parentClass aggregatedMethodName aggregatedMethod |
 	importer beginEntity: name.
@@ -40,43 +40,57 @@ FMImporterDecorator >> beginEntity: name [
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> beginProperty: name [
+FMImporterAgregationDecorator >> beginProperty: name [
 
 	importer beginProperty: name
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> endDocument [
+FMImporterAgregationDecorator >> createAgregatedMethod [
+
+	| agregatedMethod |
+	agregatedMethod := FMFutureEntity
+		                   in: self
+		                   named:
+		                   (importer currentEntity name
+			                    copyReplaceAll: 'Class'
+			                    with: 'Method').
+	agregatedMethod instance parentType: importer currentEntity instance.
+	^ agregatedMethod
+]
+
+{ #category : #parsing }
+FMImporterAgregationDecorator >> endDocument [
 
 	importer endDocument
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> endEntity: name [
+FMImporterAgregationDecorator >> endEntity: name [
 
 	importer endEntity: name
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> endProperty: name [
+FMImporterAgregationDecorator >> endProperty: name [
 
 	importer endProperty: name
 ]
 
 { #category : #accessing }
-FMImporterDecorator >> importer [
+FMImporterAgregationDecorator >> importer [
 
 	^ importer
 ]
 
 { #category : #accessing }
-FMImporterDecorator >> importer: anObject [
+FMImporterAgregationDecorator >> importer: anObject [
 
 	importer := anObject
 ]
 
 { #category : #asserting }
-FMImporterDecorator >> isClass: aString [
+FMImporterAgregationDecorator >> isClass: aString [
 
 	| shortName |
 	shortName := (aString findTokens: $.) last.
@@ -84,19 +98,19 @@ FMImporterDecorator >> isClass: aString [
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> primitive: value [
+FMImporterAgregationDecorator >> primitive: value [
 
 	importer primitive: value
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> referenceNumber: index [
+FMImporterAgregationDecorator >> referenceNumber: index [
 
 	importer referenceNumber: index
 ]
 
 { #category : #running }
-FMImporterDecorator >> run [
+FMImporterAgregationDecorator >> run [
 
 	importer parser new
 		stream: importer stream;
@@ -105,7 +119,7 @@ FMImporterDecorator >> run [
 ]
 
 { #category : #parsing }
-FMImporterDecorator >> serial: index [
+FMImporterAgregationDecorator >> serial: index [
 
 	importer serial: index
 ]
