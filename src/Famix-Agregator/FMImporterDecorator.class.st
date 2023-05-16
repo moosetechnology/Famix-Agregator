@@ -1,5 +1,5 @@
 Class {
-	#name : #FMAgregatedImporter,
+	#name : #FMImporterDecorator,
 	#superclass : #Object,
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-FMAgregatedImporter class >> on: aFMImporter [
+FMImporterDecorator class >> on: aFMImporter [
 
 	^ self new
 		  importer: aFMImporter;
@@ -18,69 +18,69 @@ FMAgregatedImporter class >> on: aFMImporter [
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> beginDocument [
+FMImporterDecorator >> beginDocument [
 
 	importer beginDocument
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> beginEntity: name [
+FMImporterDecorator >> beginEntity: name [
 
-	(self shouldAgregate: name)
-		ifTrue: [  ]
-		ifFalse: [ importer beginEntity: name ]
+	| agregatedMethod |
+	
+	importer beginEntity: name
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> beginProperty: name [
+FMImporterDecorator >> beginProperty: name [
 
 	importer beginProperty: name
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> endDocument [
+FMImporterDecorator >> endDocument [
 
 	importer endDocument
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> endEntity: name [
+FMImporterDecorator >> endEntity: name [
 
 	importer endEntity: name
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> endProperty: name [
+FMImporterDecorator >> endProperty: name [
 
 	importer endProperty: name
 ]
 
 { #category : #accessing }
-FMAgregatedImporter >> importer [
+FMImporterDecorator >> importer [
 
 	^ importer
 ]
 
 { #category : #accessing }
-FMAgregatedImporter >> importer: anObject [
+FMImporterDecorator >> importer: anObject [
 
 	importer := anObject
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> primitive: value [
+FMImporterDecorator >> primitive: value [
 
 	importer primitive: value
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> referenceNumber: index [
+FMImporterDecorator >> referenceNumber: index [
 
 	importer referenceNumber: index
 ]
 
 { #category : #running }
-FMAgregatedImporter >> run [
+FMImporterDecorator >> run [
 
 	importer parser new
 		stream: importer stream;
@@ -89,13 +89,13 @@ FMAgregatedImporter >> run [
 ]
 
 { #category : #parsing }
-FMAgregatedImporter >> serial: index [
+FMImporterDecorator >> serial: index [
 
 	importer serial: index
 ]
 
 { #category : #asserting }
-FMAgregatedImporter >> shouldAgregate: aString [
+FMImporterDecorator >> shouldAgregate: aString [
 
 	| shortName |
 	shortName := (aString findTokens: $.) last.
