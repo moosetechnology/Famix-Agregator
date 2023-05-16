@@ -80,7 +80,9 @@ FMImporterDecoratorTest >> testAggregatedMethodsAreCreated [
 		self assert: class methods size equals: 1.
 		self
 			assert: class methods anyOne name
-			equals: (String streamContents: [:s | s <<'aggregatedMethod' << class name]) ]
+			equals:
+			(String streamContents: [ :s |
+				 s << 'aggregatedMethod' << class name ]) ]
 ]
 
 { #category : #tests }

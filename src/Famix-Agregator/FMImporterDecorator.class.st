@@ -26,9 +26,17 @@ FMImporterDecorator >> beginDocument [
 { #category : #parsing }
 FMImporterDecorator >> beginEntity: name [
 
-	| agregatedMethod |
-	
-	importer beginEntity: name
+	| parentClass aggregatedMethodName aggregatedMethod |
+	importer beginEntity: name.
+
+	(self isClass: name) ifFalse: [ ^ self ].
+	parentClass := importer currentEntity.
+	aggregatedMethodName := 'aggregatedMethod' , parentClass name.
+	aggregatedMethod := FMFutureEntity
+		                    in: self
+		                    named: aggregatedMethodName.
+	aggregatedMethod parentType: parentClass.
+	importer stack push: aggregatedMethod
 ]
 
 { #category : #parsing }
@@ -67,6 +75,14 @@ FMImporterDecorator >> importer: anObject [
 	importer := anObject
 ]
 
+{ #category : #asserting }
+FMImporterDecorator >> isClass: aString [
+
+	| shortName |
+	shortName := (aString findTokens: $.) last.
+	^ shortName = 'Class' " or: [ shortName ~= 'Attribute' ]"
+]
+
 { #category : #parsing }
 FMImporterDecorator >> primitive: value [
 
@@ -92,12 +108,4 @@ FMImporterDecorator >> run [
 FMImporterDecorator >> serial: index [
 
 	importer serial: index
-]
-
-{ #category : #asserting }
-FMImporterDecorator >> shouldAgregate: aString [
-
-	| shortName |
-	shortName := (aString findTokens: $.) last.
-	^ shortName = 'Method' " or: [ shortName ~= 'Attribute' ]"
 ]
