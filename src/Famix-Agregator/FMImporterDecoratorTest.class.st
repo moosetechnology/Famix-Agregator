@@ -73,39 +73,18 @@ FMImporterDecoratorTest >> setUp [
 { #category : #tests }
 FMImporterDecoratorTest >> testAggregatedMethodsAreCreated [
 
-	| classA classB aggregatedMethodA aggregatedMethodB |
-	classA := model allModelClasses
-		          detect: [ :class | class name = 'ClassA' ]
-		          ifNone: [ self assert: false ].
-	classB := model allModelClasses
-		          detect: [ :class | class name = 'ClassB' ]
-		          ifNone: [ self assert: false ].
+	model allModelMethods do: [ :method |
+		self assert: (model allModelClasses includes: method parentType) ].
 
-	"retrieves all methods from the imported model, and finds the aggregated methods and the 	parent-types corresponding to them."
-	aggregatedMethodA := model allModelMethods detect: [ :method |
-		                     method name = 'aggregatedMethodA' and: [
-			                     method parent = classA ] ].
-
-	aggregatedMethodB := model allModelMethods detect: [ :method |
-		                     method name = 'aggregatedMethodB' and: [
-			                     method parent = classB ] ].
-
-	"checks that the aggregated methods have been created successfully."
-	self assert: aggregatedMethodA notNil.
-	self assert: aggregatedMethodB notNil
+	model allModelClasses do: [ :class |
+		self assert: class methods size equals: 1.
+		self
+			assert: class methods anyOne name
+			equals: (String streamContents: [:s | s <<'aggregatedMethod' << class name]) ]
 ]
 
 { #category : #tests }
 FMImporterDecoratorTest >> testClassesAreImported [
 
 	self assert: model allModelClasses size equals: 2
-]
-
-{ #category : #tests }
-FMImporterDecoratorTest >> testMethodsAreNotImported [
-
-	self assert: model allModelMethods size equals: 2.
-	self assert:
-		(model allModelMethods allSatisfy: [ :m | 
-			 m name = 'agregatedMethod' ])
 ]
