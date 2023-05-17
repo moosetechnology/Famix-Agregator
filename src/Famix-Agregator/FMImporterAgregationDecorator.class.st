@@ -1,3 +1,22 @@
+"
+I represent a decorator of the model importer.
+
+Public API and Key Messages
+
+- message one
+- message two
+- (for bonus points) how to create instances.
+
+   One simple example is simply gorgeous.
+
+Internal Representation and Key Implementation Points.
+
+    Instance Variables
+	importer:		<Object>
+
+
+    Implementation Points
+"
 Class {
 	#name : #FMImporterAgregationDecorator,
 	#superclass : #Object,
@@ -28,7 +47,7 @@ FMImporterAgregationDecorator >> beginEntity: name [
 
 	importer beginEntity: name.
 
-	(self isClass: name) ifTrue: [ self createAgregatedMethod  ]
+	(self isClassImporting: name) ifTrue: [ self createAgregatedMethod ]
 ]
 
 { #category : #parsing }
@@ -40,14 +59,17 @@ FMImporterAgregationDecorator >> beginProperty: name [
 { #category : #parsing }
 FMImporterAgregationDecorator >> createAgregatedMethod [
 
-	| agregatedMethod |
+	| agregatedMethod currentEntityInstance |
+	currentEntityInstance := importer currentEntity instance.
 	agregatedMethod := FMFutureEntity
 		                   in: self
 		                   named:
-		                   (importer currentEntity name
+		                   (currentEntityInstance name
 			                    copyReplaceAll: 'Class'
 			                    with: 'Method').
-	agregatedMethod instance parentType: importer currentEntity instance.
+	agregatedMethod instance parentType: currentEntityInstance.
+	agregatedMethod instance name:
+		'agregatedMethod' , currentEntityInstance name.
 	^ agregatedMethod
 ]
 
@@ -82,11 +104,11 @@ FMImporterAgregationDecorator >> importer: anObject [
 ]
 
 { #category : #asserting }
-FMImporterAgregationDecorator >> isClass: aString [
+FMImporterAgregationDecorator >> isClassImporting: aString [
 
 	| shortName |
 	shortName := (aString findTokens: $.) last.
-	^ shortName = 'Class' " or: [ shortName ~= 'Attribute' ]"
+	^ shortName = 'Class'
 ]
 
 { #category : #parsing }
