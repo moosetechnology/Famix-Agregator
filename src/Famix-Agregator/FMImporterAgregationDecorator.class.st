@@ -43,11 +43,16 @@ FMImporterAgregationDecorator >> beginDocument [
 ]
 
 { #category : #parsing }
-FMImporterAgregationDecorator >> beginEntity: name [
+FMImporterAgregationDecorator >> beginEntity: description [
 
-	importer beginEntity: name.
-
-	(self isClassImporting: name) ifTrue: [ self createAgregatedMethod ]
+	importer beginEntity: description.
+	(self isClassImporting: description)
+		ifFalse: [ ^ self ]
+		ifTrue: [
+			self createAgregatedMethodWithDescription:
+				(importer currentEntity instance metaDescription
+					 copyReplaceAll: 'Class'
+					 with: 'Method') ]
 ]
 
 { #category : #parsing }
@@ -57,19 +62,12 @@ FMImporterAgregationDecorator >> beginProperty: name [
 ]
 
 { #category : #parsing }
-FMImporterAgregationDecorator >> createAgregatedMethod [
+FMImporterAgregationDecorator >> createAgregatedMethodWithDescription: aDescription [
 
-	| agregatedMethod currentEntityInstance |
-	currentEntityInstance := importer currentEntity instance.
-	agregatedMethod := FMFutureEntity
-		                   in: self
-		                   named:
-		                   (currentEntityInstance name
-			                    copyReplaceAll: 'Class'
-			                    with: 'Method').
-	agregatedMethod instance parentType: currentEntityInstance.
-	agregatedMethod instance name:
-		'agregatedMethod' , currentEntityInstance name.
+	| agregatedMethod |
+	agregatedMethod := FMFutureEntity in: self named: aDescription.
+	"agregatedMethod instance parentType: aDescription.
+	agregatedMethod instance name: 'agregatedMethod' , aDescription name."
 	^ agregatedMethod
 ]
 
