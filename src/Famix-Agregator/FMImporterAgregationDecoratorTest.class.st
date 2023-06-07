@@ -83,6 +83,9 @@ FMImporterAgregationDecoratorTest >> testAggregatedMethodsAreCreated [
 			equals:
 			(String streamContents: [ :s |
 				 s << 'aggregatedMethod' ]) ]
+		
+		"(String streamContents: [ :s |
+				 s << 'aggregatedMethod' << class name ]) ]"
 ]
 
 { #category : #tests }
