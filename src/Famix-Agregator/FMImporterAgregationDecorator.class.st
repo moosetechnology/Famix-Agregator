@@ -37,6 +37,18 @@ FMImporterAgregationDecorator class >> on: aFMImporter [
 ]
 
 { #category : #parsing }
+FMImporterAgregationDecorator >> beginClass: aDescription [
+
+	| currentClass |
+	currentClass := importer currentEntity instance.
+	currentClass ifNotNil: [
+		self
+			createAggregatedMethodWithDescription:
+			(aDescription copyReplaceAll: 'Class' with: 'Method')
+			for: currentClass ]
+]
+
+{ #category : #parsing }
 FMImporterAgregationDecorator >> beginDocument [
 
 	importer beginDocument
