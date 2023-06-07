@@ -62,13 +62,12 @@ FMImporterAgregationDecorator >> beginProperty: name [
 ]
 
 { #category : #parsing }
-FMImporterAgregationDecorator >> createAgregatedMethodWithDescription: aDescription [
+FMImporterAgregationDecorator >> createAggregatedMethodWithDescriptionV0: aDescription for: aClass [
 
 	| agregatedMethod |
-	agregatedMethod := FMFutureEntity in: self named: aDescription.
-	"agregatedMethod instance parentType: aDescription.
-	agregatedMethod instance name: 'agregatedMethod' , aDescription name."
-	^ agregatedMethod
+	agregatedMethod := FamixJavaMethod named: aDescription.
+	agregatedMethod name: 'agregatedMethod'.
+	aClass addMethod: agregatedMethod
 ]
 
 { #category : #parsing }
