@@ -77,9 +77,10 @@ FMImporterAgregationDecorator >> createAggregatedMethodWithDescription: aDescrip
 	methodEntity := FMFutureEntity in: importer named: aDescription.
 	aggregatedMethod := methodEntity instance.
 	aggregatedMethod
-		name: 'aggregatedMethod'; "name: 'aggregatedMethod' , aClass name"
-		parentType: aClass.
-	aClass addMethod: aggregatedMethod
+		name: 'aggregatedMethod';
+		"name: 'aggregatedMethod' , aClass name"parentType: aClass.
+	aClass addMethod: aggregatedMethod.
+	self model add: aggregatedMethod
 ]
 
 { #category : #parsing }
@@ -127,6 +128,12 @@ FMImporterAgregationDecorator >> isClassImporting: aString [
 	| shortName |
 	shortName := (aString findTokens: $.) last.
 	^ shortName = 'Class'
+]
+
+{ #category : #accessing }
+FMImporterAgregationDecorator >> model [
+
+ ^ importer model
 ]
 
 { #category : #parsing }
