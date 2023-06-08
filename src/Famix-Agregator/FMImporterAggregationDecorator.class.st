@@ -92,8 +92,8 @@ FMImporterAggregationDecorator >> createAggregatedMethodWithDescription: aDescri
 	methodEntity := FMFutureEntity in: importer named: aDescription.
 	aggregatedMethod := methodEntity instance.
 	aggregatedMethod
-		name: 'aggregatedMethod'.
-		"name: 'aggregatedMethod' , aClass name;
+		name: '__aggregatedMethod__'.
+		"name: '__aggregatedMethod__' , aClass name;
 		parentType: aClass."
 	aClass addMethod: aggregatedMethod.
 	self model add: aggregatedMethod
