@@ -97,10 +97,16 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodsAreCreatedWhenImporti
 	self importModel.
 
 	self assert: importedModel allMethods size equals: 1.
-	
+
 	expectedAggregatedmethod := importedModel allMethods anyOne.
-	self assert: expectedAggregatedmethod name equals: '__aggregatedMethod__'.
-	self assert: expectedAggregatedmethod parentType name equals: 'ClassA'.
+	
+	self
+		assert: expectedAggregatedmethod name
+		equals:
+		(String streamContents: [ :s | s << '__aggregatedMethod__' ]).
+	self
+		assert: expectedAggregatedmethod parentType name
+		equals: 'ClassA'
 ]
 
 { #category : #tests }
@@ -117,16 +123,14 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 FMImporterAggregationDecoratorTest >> testNormalMethodsAreNotCreated [
 
 	| modelMethods |
-	
-	(self mooseEntity: FamixJavaMethod named: 'methodA')
-		parentType: (self mooseEntity: FamixJavaClass named: 'ClassA').
-	self importModel.
-	
+	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
+		(self mooseEntity: FamixJavaClass named: 'ClassA').
+	self importModel 
+
 	"
 	modelMethods := importedModel allMethods.
 	self assert: modelMethods size equals: 1.
 	
 	self assert: modelMethods anyOne name equals: '__aggregatedMethod__'
 	"
-	
 ]
