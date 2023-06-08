@@ -1,5 +1,5 @@
 Class {
-	#name : #FMImporterAgregationDecoratorTest,
+	#name : #FMImporterAggregationDecoratorTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'model'
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : #'test data' }
-FMImporterAgregationDecoratorTest class >> inspectMseString [
+FMImporterAggregationDecoratorTest class >> inspectMseString [
 
 	<script>
 	self mseString inspect
 ]
 
 { #category : #'test data' }
-FMImporterAgregationDecoratorTest class >> mseString [
+FMImporterAggregationDecoratorTest class >> mseString [
 
 	^ mseString ifNil: [ 
 		  mseString := String streamContents: [ :s | 
@@ -26,7 +26,7 @@ FMImporterAgregationDecoratorTest class >> mseString [
 ]
 
 { #category : #'test data' }
-FMImporterAgregationDecoratorTest class >> sourceModel [
+FMImporterAggregationDecoratorTest class >> sourceModel [
 
 	| model classA mA1 mA2 classB refA1toB mB1 mB2 |
 	model := FamixJavaModel new.
@@ -58,7 +58,7 @@ FMImporterAgregationDecoratorTest class >> sourceModel [
 ]
 
 { #category : #running }
-FMImporterAgregationDecoratorTest >> setUp [
+FMImporterAggregationDecoratorTest >> setUp [
 
 	super setUp.
 	model := FamixJavaModel new
@@ -66,12 +66,12 @@ FMImporterAgregationDecoratorTest >> setUp [
 				          importFrom: self class mseString readStream
 				          withMetamodel: FamixJavaModel metamodel
 				          customizingImporterWith: [ :importer | 
-				          FMImporterAgregationDecorator on: importer ])
+				          FMImporterAggregationDecorator on: importer ])
 		         named: 'testModel'
 ]
 
 { #category : #tests }
-FMImporterAgregationDecoratorTest >> testAggregatedMethodsAreCreated [
+FMImporterAggregationDecoratorTest >> testAggregatedMethodsAreCreated [
 
 	model allModelMethods do: [ :method |
 		self assert: (model allModelClasses includes: method parentType) ].
@@ -80,16 +80,11 @@ FMImporterAgregationDecoratorTest >> testAggregatedMethodsAreCreated [
 		self assert: class methods size equals: 3. "To modify later : self assert: class methods size equals: 1 because the other methods shouldn't be imported"
 		self
 			assert: class methods anyOne name
-			equals:
-			(String streamContents: [ :s |
-				 s << 'aggregatedMethod' ]) ]
-		
-		"(String streamContents: [ :s |
-				 s << 'aggregatedMethod' << class name ]) ]"
+			equals: (String streamContents: [ :s | s << 'aggregatedMethod' ]) ]
 ]
 
 { #category : #tests }
-FMImporterAgregationDecoratorTest >> testClassesAreImported [
+FMImporterAggregationDecoratorTest >> testClassesAreImported [
 
 	self assert: model allModelClasses size equals: 2
 ]
