@@ -58,6 +58,20 @@ FMImporterAggregationDecoratorTest class >> sourceModel [
 	^ model
 ]
 
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest >> importModel [
+
+	| mseString |
+	mseString := String streamContents: [ :s | sourceModel exportToMSEStream: s ].
+
+	importedModel := FamixJavaModel new
+		importFrom: (FamixJavaModel
+			importFrom: mseString readStream
+			withMetamodel: FamixJavaModel metamodel
+			customizingImporterWith: [ :importer | FMImporterAggregationDecorator on: importer ])
+		named: 'testModel'
+]
+
 { #category : #running }
 FMImporterAggregationDecoratorTest >> setUp [
 
