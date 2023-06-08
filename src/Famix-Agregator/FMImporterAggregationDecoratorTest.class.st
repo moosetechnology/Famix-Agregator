@@ -2,7 +2,8 @@ Class {
 	#name : #FMImporterAggregationDecoratorTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'model'
+		'sourceModel',
+		'importedModel'
 	],
 	#classInstVars : [
 		'mseString'
@@ -61,13 +62,8 @@ FMImporterAggregationDecoratorTest class >> sourceModel [
 FMImporterAggregationDecoratorTest >> setUp [
 
 	super setUp.
-	model := FamixJavaModel new
-		         importFrom: (FamixJavaModel
-				          importFrom: self class mseString readStream
-				          withMetamodel: FamixJavaModel metamodel
-				          customizingImporterWith: [ :importer | 
-				          FMImporterAggregationDecorator on: importer ])
-		         named: 'testModel'
+
+	sourceModel := FamixJavaModel new.
 ]
 
 { #category : #tests }
