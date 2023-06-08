@@ -73,6 +73,15 @@ FMImporterAggregationDecoratorTest >> importModel [
 ]
 
 { #category : #running }
+FMImporterAggregationDecoratorTest >> mooseEntity: aFamixClass named: aString [
+
+	^ aFamixClass new
+		mooseModel: sourceModel ;
+		name: aString ;
+		yourself
+]
+
+{ #category : #running }
 FMImporterAggregationDecoratorTest >> setUp [
 
 	super setUp.
