@@ -73,9 +73,9 @@ FMImporterAggregationDecoratorTest >> importModel [
 ]
 
 { #category : #running }
-FMImporterAggregationDecoratorTest >> mooseEntity: aFamixClass named: aString [
+FMImporterAggregationDecoratorTest >> mooseEntity: aFamixEntity named: aString [
 
-	^ aFamixClass new
+	^ aFamixEntity new
 		mooseModel: sourceModel ;
 		name: aString ;
 		yourself
@@ -111,4 +111,22 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 	self importModel.
 	
 	self assert: sourceModel allModelClasses size equals: 1
+]
+
+{ #category : #tests }
+FMImporterAggregationDecoratorTest >> testNormalMethodsAreNotCreated [
+
+	| modelMethods |
+	
+	(self mooseEntity: FamixJavaMethod named: 'methodA')
+		parentType: (self mooseEntity: FamixJavaClass named: 'ClassA').
+	self importModel.
+	
+	"
+	modelMethods := importedModel allMethods.
+	self assert: modelMethods size equals: 1.
+	
+	self assert: modelMethods anyOne name equals: '__aggregatedMethod__'
+	"
+	
 ]
