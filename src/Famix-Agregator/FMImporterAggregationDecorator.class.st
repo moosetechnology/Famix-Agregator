@@ -83,9 +83,12 @@ FMImporterAggregationDecorator >> endDocument [
 ]
 
 { #category : #parsing }
-FMImporterAggregationDecorator >> endEntity: name [
+FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	importer endEntity: name
+	(self isClassImporting: aDescription)
+		ifFalse: [ ^ self ]
+		ifTrue: [ self createAggregatedMethodWithDescription: aDescription ].
+	importer endEntity: aDescription
 ]
 
 { #category : #parsing }
