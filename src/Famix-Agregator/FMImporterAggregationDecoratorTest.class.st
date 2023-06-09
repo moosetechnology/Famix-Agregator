@@ -99,11 +99,10 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodsAreCreatedWhenImporti
 	self assert: importedModel allMethods size equals: 1.
 
 	expectedAggregatedmethod := importedModel allMethods anyOne.
-	
+
 	self
 		assert: expectedAggregatedmethod name
-		equals:
-		(String streamContents: [ :s | s << '__aggregatedMethod__' ]).
+		equals: '__aggregatedMethod__ClassA' .
 	self
 		assert: expectedAggregatedmethod parentType name
 		equals: 'ClassA'
