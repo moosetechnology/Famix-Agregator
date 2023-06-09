@@ -90,12 +90,22 @@ FMImporterAggregationDecoratorTest >> setUp [
 ]
 
 { #category : #tests }
-FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreated [
+FMImporterAggregationDecoratorTest >> testAggregatedMethodCreated [
 
+	| expectedAggregatedmethod |
 	self mooseEntity: FamixJavaClass named: 'ClassA'.
 	self importModel.
 
-	self assert: importedModel allMethods size equals: 0
+	self assert: importedModel allMethods size equals: 1.
+
+	expectedAggregatedmethod := importedModel allMethods anyOne.
+
+	self
+		assert: expectedAggregatedmethod name
+		equals: '__aggregatedMethod__ClassA'.
+	self
+		assert: expectedAggregatedmethod parentType name
+		equals: 'ClassA'
 ]
 
 { #category : #tests }
@@ -116,9 +126,8 @@ FMImporterAggregationDecoratorTest >> testNormalMethodsAreNotCreated [
 		(self mooseEntity: FamixJavaClass named: 'ClassA').
 	self importModel.
 
-	
 	modelMethods := importedModel allMethods.
 	self assert: modelMethods size equals: 1.
-	
-	self assert: modelMethods anyOne name equals: '__aggregatedMethod__'
+
+	self assert: modelMethods anyOne name equals: '__aggregatedMethod__ClassA'
 ]
