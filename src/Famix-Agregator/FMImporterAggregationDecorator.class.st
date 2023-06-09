@@ -105,6 +105,12 @@ FMImporterAggregationDecorator >> endProperty: name [
 ]
 
 { #category : #accessing }
+FMImporterAggregationDecorator >> getAggregatedMethodFor: aClass [
+
+	^ aClass methods anyOne
+]
+
+{ #category : #accessing }
 FMImporterAggregationDecorator >> importer [
 
 	^ importer
