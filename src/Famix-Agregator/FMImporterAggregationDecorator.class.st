@@ -61,6 +61,22 @@ FMImporterAggregationDecorator >> beginProperty: name [
 ]
 
 { #category : #parsing }
+FMImporterAggregationDecorator >> createAggregatedMethodWithDescription: aDescription [
+
+	| methodEntity |
+	methodEntity := FMFutureEntity in: importer named: (aDescription copyReplaceAll: 'Class' with: 'Method').
+	methodEntity
+		beginProperty: 'name';
+		addToPropertyValues: '__aggregatedMethod__' , importer currentEntity instance name;
+		endProperty.
+	methodEntity
+		beginProperty: 'parentType';
+		addToPropertyValues: importer currentEntity instance;
+		endProperty.
+	self allEntities add: methodEntity instance
+]
+
+{ #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
 
 	importer endDocument
