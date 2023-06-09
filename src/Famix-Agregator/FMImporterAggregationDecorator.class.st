@@ -51,11 +51,7 @@ FMImporterAggregationDecorator >> beginDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginEntity: aDescription [
 
-	importer beginEntity: aDescription.
-	"self halt."
-	(self isClassImporting: aDescription)
-		ifFalse: [ ^ self ]
-		ifTrue: [ self beginClass: aDescription ]
+	importer beginEntity: aDescription
 ]
 
 { #category : #parsing }
