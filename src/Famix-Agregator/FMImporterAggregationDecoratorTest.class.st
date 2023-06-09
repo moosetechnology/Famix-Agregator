@@ -124,12 +124,11 @@ FMImporterAggregationDecoratorTest >> testNormalMethodsAreNotCreated [
 	| modelMethods |
 	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
 		(self mooseEntity: FamixJavaClass named: 'ClassA').
-	self importModel 
+	self importModel.
 
-	"
+	
 	modelMethods := importedModel allMethods.
 	self assert: modelMethods size equals: 1.
 	
 	self assert: modelMethods anyOne name equals: '__aggregatedMethod__'
-	"
 ]
