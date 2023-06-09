@@ -51,16 +51,6 @@ FMImporterAggregationDecorator >> beginClass: aDescription [
 		createAggregatedMethodWithDescription:
 		(aDescription copyReplaceAll: 'Class' with: 'Method')
 		for: currentClass
-	
-	
-	"
-	| entity classEntities currentEntity |
-	currentEntity := importer currentEntity.
-	classEntities := importer entities select: #isClass.
-	entity := classEntities detect: [:each | each = currentEntity].
-	entity ifNotNil: [
-		self createAggregatedMethodWithDescription: (aDescription copyReplaceAll: 'Class' with: 'Method') for: entity
-	]"
 ]
 
 { #category : #parsing }
@@ -71,7 +61,7 @@ FMImporterAggregationDecorator >> beginDocument [
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginEntity: aDescription [
-	
+
 	importer beginEntity: aDescription.
 	"self halt."
 	(self isClassImporting: aDescription)
@@ -88,15 +78,17 @@ FMImporterAggregationDecorator >> beginProperty: name [
 { #category : #parsing }
 FMImporterAggregationDecorator >> createAggregatedMethodWithDescription: aDescription for: aClass [
 
-	| methodEntity aggregatedMethod |
+	| methodEntity |
 	methodEntity := FMFutureEntity in: importer named: aDescription.
-	aggregatedMethod := methodEntity instance.
-	aggregatedMethod
-		name: '__aggregatedMethod__'.
-		"name: '__aggregatedMethod__' , aClass name;
-		parentType: aClass."
-	aClass addMethod: aggregatedMethod.
-	self model add: aggregatedMethod
+	methodEntity
+		beginProperty: 'name';
+		addToPropertyValues: '__aggregatedMethod__';
+		endProperty.
+	methodEntity
+		beginProperty: 'parentType';
+		addToPropertyValues: aClass;
+		endProperty.
+	self allEntities add: methodEntity instance
 ]
 
 { #category : #parsing }
