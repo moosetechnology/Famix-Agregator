@@ -177,3 +177,7 @@ FMImporterAggregationDecorator >> serial: index [
 
 	importer serial: index
 ]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> skipMethodePrimitives [
+]

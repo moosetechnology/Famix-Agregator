@@ -62,14 +62,16 @@ FMImporterAggregationDecoratorTest class >> sourceModel [
 FMImporterAggregationDecoratorTest >> importModel [
 
 	| mseString |
-	mseString := String streamContents: [ :s | sourceModel exportToMSEStream: s ].
+	mseString := String streamContents: [ :s |
+		             sourceModel exportToMSEStream: s ].
 
 	importedModel := FamixJavaModel new
-		importFrom: (FamixJavaModel
-			importFrom: mseString readStream
-			withMetamodel: FamixJavaModel metamodel
-			customizingImporterWith: [ :importer | FMImporterAggregationDecorator on: importer ])
-		named: 'testModel'
+		                 importFrom: (FamixJavaModel
+				                  importFrom: mseString readStream
+				                  withMetamodel: FamixJavaModel metamodel
+				                  customizingImporterWith: [ :importer |
+				                  FMImporterAggregationDecorator on: importer ])
+		                 named: 'testModel'
 ]
 
 { #category : #running }
@@ -93,9 +95,9 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodCreated [
 	self mooseEntity: FamixJavaClass named: 'ClassA'.
 	self importModel.
 
-	self assert: importedModel allMethods size equals: 1.
+	self assert: importedModel allModelMethods size equals: 1.
 
-	expectedAggregatedmethod := importedModel allMethods anyOne.
+	expectedAggregatedmethod := importedModel allModelMethods anyOne.
 
 	self
 		assert: expectedAggregatedmethod name
@@ -118,15 +120,13 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> testMethodsAreNotImported [
 
-	| modelMethods |
 	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
 		(self mooseEntity: FamixJavaClass named: 'ClassA').
 	self importModel.
 
-	modelMethods := importedModel allModelMethods.
-	self assert: modelMethods size equals: 1.
+	self assert: importedModel allModelMethods size equals: 1.
 
 	self
-		assert: modelMethods anyOne name
+		assert: importedModel allModelMethods anyOne name
 		equals: '__aggregatedMethod__ClassA'
 ]
