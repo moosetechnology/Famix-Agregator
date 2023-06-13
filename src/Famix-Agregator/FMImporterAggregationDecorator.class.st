@@ -23,7 +23,8 @@ Class {
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
-		'importer'
+		'importer',
+		'methodDict'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -136,6 +137,12 @@ FMImporterAggregationDecorator >> isMethodImporting: aString [
 	| shortName |
 	shortName := (aString findTokens: $.) last.
 	^ shortName = 'Method'
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> methodDict [
+
+	^ methodDict
 ]
 
 { #category : #accessing }
