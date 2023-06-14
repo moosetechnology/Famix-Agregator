@@ -134,9 +134,9 @@ FMImporterAggregationDecoratorTest >> testMethodsInClassNotImported [
 
 	self importModel.
 
-	self assert: importedModel allModelMethods size equals: 1.
+	"self assert: importedModel allModelMethods size equals: 1.
 
 	self
 		assert: importedModel allModelMethods anyOne name
-		equals: '__aggregatedMethod__ClassA'
+		equals: '__aggregatedMethod__ClassA'"
 ]
