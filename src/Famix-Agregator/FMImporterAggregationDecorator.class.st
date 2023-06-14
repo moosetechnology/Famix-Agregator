@@ -45,7 +45,8 @@ FMImporterAggregationDecorator >> allEntities [
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginDocument [
-
+	
+	methodDict := IdentityDictionary new.
 	importer beginDocument
 ]
 
