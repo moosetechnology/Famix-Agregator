@@ -118,6 +118,15 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 ]
 
 { #category : #tests }
+FMImporterAggregationDecoratorTest >> testMethodNotImported [
+
+	self mooseEntity: FamixJavaMethod named: 'methodA'.
+	self importModel.
+
+	self assert: importedModel allModelMethods size equals: 0
+]
+
+{ #category : #tests }
 FMImporterAggregationDecoratorTest >> testMethodsAreNotImported [
 
 	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
