@@ -134,8 +134,17 @@ FMImporterAggregationDecoratorTest >> testMethodsInClassNotImported [
 	self importModel.
 
 	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allModelClasses size equals: 1.
 
 	self
 		assert: importedModel allModelMethods anyOne name
 		equals: '__aggregatedMethod__ClassA'
+]
+
+{ #category : #tests }
+FMImporterAggregationDecoratorTest >> testMethodsParentTypeInTheDictionnary [
+
+	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
+		(self mooseEntity: FamixJavaClass named: 'ClassA').
+	self importModel.
 ]
