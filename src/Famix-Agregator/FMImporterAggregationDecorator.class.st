@@ -125,7 +125,7 @@ FMImporterAggregationDecorator >> importer: anObject [
 ]
 
 { #category : #asserting }
-FMImporterAggregationDecorator >> isClassImporting: aString [
+FMImporterAggregationDecorator >> isImportingClass: aString [
 
 	| shortName |
 	shortName := (aString findTokens: $.) last.
@@ -133,7 +133,7 @@ FMImporterAggregationDecorator >> isClassImporting: aString [
 ]
 
 { #category : #asserting }
-FMImporterAggregationDecorator >> isMethodImporting: aString [
+FMImporterAggregationDecorator >> isImportingMethod: aString [
 
 	| shortName |
 	shortName := (aString findTokens: $.) last.
