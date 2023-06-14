@@ -94,10 +94,9 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	(self isClassImporting: aDescription)
-		ifFalse: [ ^ self ]
-		ifTrue: [ self createAggregatedMethod: aDescription ].
-	importer endEntity: aDescription
+	(self isImportingMethod: aDescription) ifTrue: [ importer stack pop ]
+	ifFalse: [ (self isImportingClass: aDescription) ifTrue: [
+		self createAggregatedMethod: aDescription ]. importer endEntity: aDescription]
 ]
 
 { #category : #parsing }
