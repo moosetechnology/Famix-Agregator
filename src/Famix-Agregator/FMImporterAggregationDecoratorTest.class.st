@@ -61,7 +61,7 @@ FMImporterAggregationDecoratorTest class >> sourceModel [
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest >> importModel [
 
-	| mseString |
+	| mseString fileName stream |
 	mseString := String streamContents: [ :s |
 		             sourceModel exportToMSEStream: s ].
 
