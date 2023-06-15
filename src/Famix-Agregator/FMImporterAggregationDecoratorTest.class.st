@@ -65,6 +65,11 @@ FMImporterAggregationDecoratorTest >> importModel [
 	mseString := String streamContents: [ :s |
 		             sourceModel exportToMSEStream: s ].
 
+	fileName := 'sourceModel.mse'.
+	stream := ('/home/users/etudiant' asFileReference / fileName) "stream := (FileLocator home / fileName) asFileReference."
+		          writeStream.
+	stream close.
+
 	importedModel := FamixJavaModel new
 		                 importFrom: (FamixJavaModel
 				                  importFrom: mseString readStream
@@ -125,7 +130,7 @@ FMImporterAggregationDecoratorTest >> testMethodNotImported [
 	self mooseEntity: FamixJavaMethod named: 'methodA'.
 	self importModel.
 
-	self assert: importedModel allModelMethods size equals: 0
+	self assert: sourceModel allModelMethods size equals: 0
 ]
 
 { #category : #tests }
