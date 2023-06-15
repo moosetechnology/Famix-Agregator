@@ -45,8 +45,8 @@ FMImporterAggregationDecorator >> allEntities [
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginDocument [
-	
-	methodDict := IdentityDictionary new.
+
+	methodDict := Dictionary new.
 	importer beginDocument
 ]
 
@@ -93,9 +93,14 @@ FMImporterAggregationDecorator >> endDocument [
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
-	| methodParentType |
+
+	| method parentType name |
 	(self isImportingMethod: aDescription)
-		ifTrue: [ methodParentType := importer stack pop instance parentType ]
+		ifTrue: [
+			method := importer stack pop.
+			parentType := method instance parentType name.
+			name := method instance name.
+			methodDict at: name put: parentType  ]
 		ifFalse: [
 			(self isImportingClass: aDescription) ifTrue: [
 				self createAggregatedMethod: aDescription ].
