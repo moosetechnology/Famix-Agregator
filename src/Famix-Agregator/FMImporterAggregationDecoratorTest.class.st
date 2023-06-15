@@ -68,6 +68,7 @@ FMImporterAggregationDecoratorTest >> importModel [
 	fileName := 'sourceModel.mse'.
 	stream := ('/home/users/etudiant' asFileReference / fileName) "stream := (FileLocator home / fileName) asFileReference."
 		          writeStream.
+		stream nextPutAll: mseString.
 	stream close.
 
 	importedModel := FamixJavaModel new
