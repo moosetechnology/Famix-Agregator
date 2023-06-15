@@ -86,6 +86,8 @@ FMImporterAggregationDecoratorTest >> setUp [
 	super setUp.
 
 	sourceModel := FamixJavaModel new.
+	importedModel := nil.
+	
 ]
 
 { #category : #tests }
@@ -129,22 +131,13 @@ FMImporterAggregationDecoratorTest >> testMethodNotImported [
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> testMethodsInClassNotImported [
 
-	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
-		(self mooseEntity: FamixJavaClass named: 'ClassA').
+	(self mooseEntity: FamixJavaClass named: 'ClassA') addMethod:
+		(self mooseEntity: FamixJavaMethod named: 'methodA').
 	self importModel.
-
 	self assert: importedModel allModelMethods size equals: 1.
 	self assert: importedModel allModelClasses size equals: 1.
 
 	self
 		assert: importedModel allModelMethods anyOne name
 		equals: '__aggregatedMethod__ClassA'
-]
-
-{ #category : #tests }
-FMImporterAggregationDecoratorTest >> testMethodsParentTypeInTheDictionnary [
-
-	(self mooseEntity: FamixJavaMethod named: 'methodA') parentType:
-		(self mooseEntity: FamixJavaClass named: 'ClassA').
-	self importModel.
 ]
