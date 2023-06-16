@@ -12,21 +12,6 @@ Class {
 }
 
 { #category : #'test data' }
-FMImporterAggregationDecoratorTest class >> inspectMseString [
-
-	<script>
-	self mseString inspect
-]
-
-{ #category : #'test data' }
-FMImporterAggregationDecoratorTest class >> mseString [
-
-	^ mseString ifNil: [ 
-		  mseString := String streamContents: [ :s | 
-			               self sourceModel exportToMSEStream: s ] ]
-]
-
-{ #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> sourceModel [
 
 	| model classA mA1 mA2 classB refA1toB mB1 mB2 |
