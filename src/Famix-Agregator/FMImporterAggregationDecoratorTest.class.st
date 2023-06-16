@@ -118,10 +118,10 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodCreated [
 FMImporterAggregationDecoratorTest >> testClassesAreImported [
 
 	self mooseEntity: FamixJavaClass named: 'ClassA'.
-
 	self importModel.
 
-	self assert: importedModel allModelClasses size equals: 1
+	self assert: importedModel allModelClasses size equals: 1.
+	self assert: importedModel allModelClasses anyOne name equals: 'ClassA'
 ]
 
 { #category : #tests }
