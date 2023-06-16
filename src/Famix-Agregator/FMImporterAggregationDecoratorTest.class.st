@@ -81,6 +81,15 @@ FMImporterAggregationDecoratorTest >> importModel [
 ]
 
 { #category : #running }
+FMImporterAggregationDecoratorTest >> mooseAssociation: aFamixAssociation source: anEntity target: anotherEntity [
+
+	^ aFamixAssociation
+		  source: anEntity
+		  target: anotherEntity
+		  model: sourceModel
+]
+
+{ #category : #running }
 FMImporterAggregationDecoratorTest >> mooseEntity: aFamixEntity named: aString [
 
 	^ aFamixEntity named: aString model: sourceModel
