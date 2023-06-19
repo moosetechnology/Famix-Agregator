@@ -99,8 +99,8 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 	(self isImportingMethod: aDescription)
 		ifTrue: [
 			method := importer stack pop.
-			id := method instance mooseID.
-			parentType := method instance parentType.		
+			id := importer serialDict keys last.
+			parentType := method instance parentType.
 			methodDict add: id -> parentType ]
 		ifFalse: [
 			(self isImportingClass: aDescription) ifTrue: [
