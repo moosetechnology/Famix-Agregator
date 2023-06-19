@@ -5,37 +5,8 @@ Class {
 		'sourceModel',
 		'importedModel'
 	],
-	#classInstVars : [
-		'mseString'
-	],
 	#category : #'Famix-Agregator-Tests'
 }
-
-{ #category : #'test data' }
-FMImporterAggregationDecoratorTest class >> sourceModel [
-
-	| model classA mA1 classB refA1toB mB1 |
-	model := FamixJavaModel new.
-	classA := FamixJavaClass named: 'ClassA'.
-	mA1 := FamixJavaMethod named: 'methodA1'.
-	mA1 parentType: classA.
-
-	classB := FamixJavaClass named: 'ClassB'.
-	mB1 := FamixJavaMethod named: 'methodB1'.
-	mB1 parentType: classB.
-
-	refA1toB := FamixJavaReference
-		            source: mA1
-		            target: classB
-		            model: model.
-
-	model addAll: {
-			classA.
-			classB.
-			mA1.
-			mB1. }.
-	^ model
-]
 
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> classA [
