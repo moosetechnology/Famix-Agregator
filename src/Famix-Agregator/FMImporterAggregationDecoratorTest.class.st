@@ -37,6 +37,18 @@ FMImporterAggregationDecoratorTest class >> sourceModel [
 	^ model
 ]
 
+{ #category : #tests }
+FMImporterAggregationDecoratorTest >> classA [
+
+	^ self mooseEntity: FamixJavaClass named: 'ClassA'
+]
+
+{ #category : #tests }
+FMImporterAggregationDecoratorTest >> classB [
+
+	^ self mooseEntity: FamixJavaClass named: 'ClassB'
+]
+
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest >> importModel [
 
@@ -57,6 +69,18 @@ FMImporterAggregationDecoratorTest >> importModel [
 				                  customizingImporterWith: [ :importer |
 				                  FMImporterAggregationDecorator on: importer ])
 		                 named: 'testModel'
+]
+
+{ #category : #tests }
+FMImporterAggregationDecoratorTest >> methodA [
+
+	^ self mooseEntity: FamixJavaMethod named: 'methodA'
+]
+
+{ #category : #tests }
+FMImporterAggregationDecoratorTest >> methodB [
+
+	^ self mooseEntity: FamixJavaMethod named: 'methodB'
 ]
 
 { #category : #running }
