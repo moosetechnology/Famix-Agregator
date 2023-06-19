@@ -140,6 +140,14 @@ FMImporterAggregationDecorator >> isImportingMethod: aString [
 	^ shortName = 'Method'
 ]
 
+{ #category : #asserting }
+FMImporterAggregationDecorator >> isImportingReference: aString [
+
+	| shortName |
+	shortName := (aString findTokens: $.) last.
+	^ shortName = 'Reference'
+]
+
 { #category : #accessing }
 FMImporterAggregationDecorator >> methodDict [
 
