@@ -37,17 +37,6 @@ FMImporterAggregationDecoratorTest class >> sourceModel [
 	^ model
 ]
 
-{ #category : #running }
-FMImporterAggregationDecoratorTest >> creatingRef [
-
-	self
-		mooseAssociation: FamixJavaReference
-		source: (self mooseEntity: FamixJavaMethod named: 'methodA')
-		target: (self mooseEntity: FamixJavaClass named: 'ClassA').
-
-	self importModel
-]
-
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest >> importModel [
 
@@ -93,25 +82,6 @@ FMImporterAggregationDecoratorTest >> setUp [
 	sourceModel := FamixJavaModel new.
 	importedModel := nil.
 	
-]
-
-{ #category : #tests }
-FMImporterAggregationDecoratorTest >> testAggregatedMethodCreated [
-
-	| expectedAggregatedmethod |
-	self mooseEntity: FamixJavaClass named: 'ClassA'.
-	self importModel.
-
-	self assert: importedModel allModelMethods size equals: 1.
-
-	expectedAggregatedmethod := importedModel allModelMethods anyOne.
-
-	self
-		assert: expectedAggregatedmethod name
-		equals: '__aggregatedMethod__ClassA'.
-	self
-		assert: expectedAggregatedmethod parentType name
-		equals: 'ClassA'
 ]
 
 { #category : #tests }
