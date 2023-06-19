@@ -133,6 +133,36 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 ]
 
 { #category : #running }
+FMImporterAggregationDecoratorTest >> testReference [
+
+	| methodA |
+	methodA := self methodA.
+	self classA addMethod: methodA.
+	self
+		mooseAssociation: FamixJavaReference
+		source: methodA
+		target: self classB.
+	self importModel.
+	
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allReferences size equals: 1.
+
+	self
+		assert: importedModel allModelMethods anyOne name
+		equals: '__aggregatedMethod__ClassA'.
+	self
+		assert: importedModel allModelMethods anyOne parentType name
+		equals: 'ClassA'.
+
+	self
+		assert: importedModel allReferences anyOne referencer name
+		equals: '__aggregatedMethod__ClassA'.
+	self
+		assert: importedModel allReferences anyOne referredType name
+		equals: 'ClassB'
+]
+
+{ #category : #running }
 FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 
 	| methodA |
