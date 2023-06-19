@@ -165,15 +165,11 @@ FMImporterAggregationDecoratorTest >> testReference [
 { #category : #running }
 FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 
-	| methodA |
-	methodA := self methodA.
-	self classA addMethod: methodA.
-	self
-		mooseAssociation: FamixJavaReference
-		source: methodA
-		target: self classB.
-	self importModel.
-	
+	| modelFile |
+	modelFile := '/home/users/etudiant/Pharo/images/Famix Agregator/pharo-local/iceberg/moosetechnology/Famix-Agregator/Test-resources/classMethodRef.mse'.
+	self importModel: modelFile.
+
+	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
 	self assert: importedModel allReferences size equals: 1.
 
