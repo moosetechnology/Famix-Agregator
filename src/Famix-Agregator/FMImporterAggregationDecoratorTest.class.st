@@ -51,13 +51,16 @@ FMImporterAggregationDecoratorTest >> classB [
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest >> importModel [
 
-	| mseString fileName stream |
+	| mseString fileName stream testResourcesDirectory |
 	mseString := String streamContents: [ :s |
 		             sourceModel exportToMSEStream: s ].
 
 	fileName := 'sourceModel.mse'.
-	stream := ('/home/users/etudiant' asFileReference / fileName)
-		          writeStream. "stream := (FileLocator home / fileName) asFileReference."
+	testResourcesDirectory := (FileLocator localDirectory
+	                           / 'iceberg/moosetechnology/Famix-Agregator/Test-resources')
+		                          ensureCreateDirectory.
+	(testResourcesDirectory / fileName) ensureCreateFile.
+	stream := (testResourcesDirectory / fileName) asFileReference writeStream.
 	stream nextPutAll: mseString.
 	stream close.
 
