@@ -8,6 +8,34 @@ Class {
 	#category : #'Famix-Agregator-Tests'
 }
 
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> inspectModelClassMethodRef [
+
+	<script>
+	self modelClassMethodRef inspect
+]
+
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
+
+	| model classA mA classB refmethodAtoclassB |
+	model := FamixJavaModel new.
+	classA := FamixJavaClass named: 'ClassA'.
+	mA := FamixJavaMethod named: 'methodA'.
+	mA parentType: classA.
+
+	classB := FamixJavaClass named: 'ClassB'.
+
+	refmethodAtoclassB := FamixJavaReference source: mA target: classB.
+
+	model addAll: {
+			classA.
+			classB.
+			mA.
+			refmethodAtoclassB }.
+	^ model
+]
+
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> classA [
 
