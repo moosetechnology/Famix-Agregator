@@ -110,9 +110,8 @@ FMImporterAggregationDecoratorTest >> setUp [
 
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssociation [
-
-	(self mooseEntity: FamixJavaClass named: 'ClassA') addMethod:
-		(self mooseEntity: FamixJavaMethod named: 'methodA').
+	
+	self classA addMethod: self methodA.
 	self importModel.
 
 	self assert: importedModel allModelMethods size equals: 0.
@@ -122,9 +121,11 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssoci
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> testClassesAreImported [
 
-	self mooseEntity: FamixJavaClass named: 'ClassA'.
+	self classA.
 	self importModel.
 
 	self assert: importedModel allModelClasses size equals: 1.
-	self assert: importedModel allModelClasses anyOne name equals: 'ClassA'
+	self
+		assert: importedModel allModelClasses anyOne name
+		equals: 'ClassA'
 ]
