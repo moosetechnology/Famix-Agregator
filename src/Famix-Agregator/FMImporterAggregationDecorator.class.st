@@ -95,7 +95,6 @@ FMImporterAggregationDecorator >> endDocument [
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
 	| method parentType id |
-	1 halt.
 	(self isImportingMethod: aDescription)
 		ifTrue: [
 			method := importer stack pop.
@@ -103,7 +102,7 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 			parentType := method instance parentType.
 			methodDict add: id -> parentType ]
 		ifFalse: [
-			(self isImportingClass: aDescription) ifTrue: [
+			(self isImportingReference: aDescription) ifTrue: [
 				self createAggregatedMethod: aDescription ].
 			importer endEntity: aDescription ]
 ]
