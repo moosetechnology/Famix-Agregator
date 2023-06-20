@@ -71,11 +71,11 @@ FMImporterAggregationDecoratorTest >> importModel [
 ]
 
 { #category : #'test data' }
-FMImporterAggregationDecoratorTest >> importModel: aModel [
+FMImporterAggregationDecoratorTest >> importModel: aModelString [
 
 	importedModel := FamixJavaModel new
 		                 importFrom: (FamixJavaModel
-				                  importFrom: aModel asFileReference readStream
+				                  importFrom: (ReadStream on: aModelString)
 				                  withMetamodel: FamixJavaModel metamodel
 				                  customizingImporterWith: [ :importer |
 				                  FMImporterAggregationDecorator on: importer ])
