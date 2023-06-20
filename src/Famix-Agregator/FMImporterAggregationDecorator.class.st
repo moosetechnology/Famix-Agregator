@@ -104,6 +104,12 @@ FMImporterAggregationDecorator >> currentMethodID [
 	^ currentMethodID
 ]
 
+{ #category : #accessing }
+FMImporterAggregationDecorator >> currentMethodID: anID [
+
+	currentMethodID := anID
+]
+
 { #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
 
