@@ -138,6 +138,16 @@ FMImporterAggregationDecorator >> endProperty: name [
 	importer endProperty: name
 ]
 
+{ #category : #asserting }
+FMImporterAggregationDecorator >> getAggregatedMethodFor: aClass [
+
+	| methodName |
+	methodName := '__aggregatedMethod__' , aClass name.
+	^ aClass methods
+		  detect: [ :eachMethod | eachMethod name = methodName ]
+		  ifNone: [ nil ]
+]
+
 { #category : #accessing }
 FMImporterAggregationDecorator >> importer [
 
