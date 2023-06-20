@@ -37,7 +37,16 @@ FMImporterAggregationDecorator class >> on: aFMImporter [
 		  yourself
 ]
 
-{ #category : #parsing }
+{ #category : #asserting }
+FMImporterAggregationDecorator >> aggregatedMethodExistsFor: aClass [
+
+	| methodName |
+	methodName := '__aggregatedMethod__' , aClass name.
+	^ aClass methods anySatisfy: [ :eachMethod |
+		  eachMethod name = methodName ]
+]
+
+{ #category : #accessing }
 FMImporterAggregationDecorator >> allEntities [
 
 	^ importer entities
