@@ -249,7 +249,7 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 { #category : #running }
 FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
 
-	self importModel: self class modelMethodClassRef.
+	self importModel: self class modelMethodRefClass.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
