@@ -24,7 +24,8 @@ Class {
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
 		'importer',
-		'methodDict'
+		'methodDict',
+		'currentMethodID'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -95,6 +96,12 @@ FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 		endProperty.
 	self allEntities add: aggMethEntity instance.
 	currentReference referencer: aggMethEntity instance
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> currentMethodID [
+
+	^ currentMethodID
 ]
 
 { #category : #parsing }
