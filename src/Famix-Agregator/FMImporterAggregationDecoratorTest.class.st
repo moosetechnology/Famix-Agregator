@@ -165,9 +165,7 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 { #category : #running }
 FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 
-	| modelFile |
-	modelFile := '/home/users/etudiant/Pharo/images/Famix Agregator/pharo-local/iceberg/moosetechnology/Famix-Agregator/Test-resources/classMethodRef.mse'.
-	self importModel: modelFile.
+	self importModel: self class modelClassMethodRef.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
