@@ -33,6 +33,27 @@ FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
 	^ mseString
 ]
 
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
+
+	| model classA mA classB refmethodAtoclassB |
+	model := FamixJavaModel new.
+	classA := FamixJavaClass named: 'ClassA'.
+	mA := FamixJavaMethod named: 'methodA'.
+	mA parentType: classA.
+
+	classB := FamixJavaClass named: 'ClassB'.
+
+	refmethodAtoclassB := FamixJavaReference source: mA target: classB.
+
+	model addAll: {
+	mA.
+			classA.
+			classB.
+			refmethodAtoclassB }.
+	^ model
+]
+
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> classA [
 
