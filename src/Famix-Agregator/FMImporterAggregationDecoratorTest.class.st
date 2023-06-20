@@ -12,7 +12,7 @@ Class {
 FMImporterAggregationDecoratorTest class >> inspectModelClassMethodRef [
 
 	<script>
-	self modelMethodClassRef inspect
+	self modelCreation inspect
 ]
 
 { #category : #'test data' }
@@ -34,8 +34,7 @@ FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
 ]
 
 { #category : #'test data' }
-FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
-
+FMImporterAggregationDecoratorTest class >> modelCreation [
 	| model classA mA classB refmethodAtoclassB |
 	model := FamixJavaModel new.
 	classA := FamixJavaClass named: 'ClassA'.
@@ -47,11 +46,29 @@ FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
 	refmethodAtoclassB := FamixJavaReference source: mA target: classB.
 
 	model addAll: {
-	mA.
+			mA.
 			classA.
 			classB.
 			refmethodAtoclassB }.
 	^ model
+]
+
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
+
+	| mseString |
+	mseString := '(
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3))))'.
+	^ mseString
 ]
 
 { #category : #tests }
