@@ -71,27 +71,30 @@ FMImporterAggregationDecorator >> beginProperty: name [
 	importer beginProperty: name
 ]
 
-{ #category : #parsing }
+{ #category : #creating }
 FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 
-	| methodEntity currentClass |
-	currentClass := importer currentEntity instance.
-	currentClass allMethods ifEmpty: [
-		methodEntity := FMFutureEntity
-			                in: importer
-			                named:
-			                (aDescription
-				                 copyReplaceAll: 'Class'
-				                 with: 'Method').
-		methodEntity
-			beginProperty: 'name';
-			addToPropertyValues: '__aggregatedMethod__' , currentClass name;
-			endProperty.
-		methodEntity
-			beginProperty: 'parentType';
-			addToPropertyValues: currentClass;
-			endProperty.
-		self allEntities add: methodEntity instance ]
+	| aggMethEntity currentReference referencerMeth referencerClass |
+	currentReference := importer currentEntity instance.
+	referencerMeth := currentReference referencer.
+	referencerClass := referencerMeth parentType.
+	(self aggregatedMethodExistsFor: referencerClass) ifTrue: [ ^ self ].
+	aggMethEntity := FMFutureEntity
+		                 in: importer
+		                 named:
+		                 (aDescription
+			                  copyReplaceAll: 'Reference'
+			                  with: 'Method').
+	aggMethEntity
+		beginProperty: 'name';
+		addToPropertyValues: '__aggregatedMethod__' , referencerClass name;
+		endProperty.
+	aggMethEntity
+		beginProperty: 'parentType';
+		addToPropertyValues: referencerClass;
+		endProperty.
+	self allEntities add: aggMethEntity instance.
+	currentReference referencer: aggMethEntity instance
 ]
 
 { #category : #parsing }
