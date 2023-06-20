@@ -12,7 +12,7 @@ Class {
 FMImporterAggregationDecoratorTest class >> inspectModelClassMethodRef [
 
 	<script>
-	self modelClassMethodRef inspect
+	self modelMethodClassRef inspect
 ]
 
 { #category : #'test data' }
