@@ -25,6 +25,7 @@ Class {
 	#instVars : [
 		'importer',
 		'methodDict',
+		'classDict',
 		'currentMethodID'
 	],
 	#category : #'Famix-Agregator-Core'
@@ -70,6 +71,12 @@ FMImporterAggregationDecorator >> beginEntity: aDescription [
 FMImporterAggregationDecorator >> beginProperty: name [
 
 	importer beginProperty: name
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> classDict [
+
+	^ classDict
 ]
 
 { #category : #creating }
@@ -124,16 +131,17 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 	(self isImportingMethod: aDescription)
 		ifTrue: [
 			methEntity := importer stack pop.
-			self currentMethodID: importer serialDict keys last ]
+			self currentMethodID: importer serialDict keys last.
+			(methEntity instance parentType) ifNotNil: [ methodDict add: currentMethodID -> methEntity instance parentType ] ]
 		ifFalse: [
 			(self isImportingReference: aDescription) ifTrue: [
 				self createAggregatedMethod: aDescription.
-				method := importer serialDict
+				"method := importer serialDict
 					          at: currentMethodID
 					          ifAbsent: [ nil ].
 				method ifNotNil: [
 					aggMeth := self getAggregatedMethodFor: method parentType ].
-				methodDict add: currentMethodID -> aggMeth ].
+				methodDict add: currentMethodID -> aggMeth" ].
 			importer endEntity: aDescription ]
 ]
 
