@@ -6,11 +6,13 @@ Class {
 
 { #category : #parsing }
 FMDanglingMethodReference >> resolve: element [
-	
+
+	| aggMethod methName |
+	methName := '__aggregatedMethod__'
+		             , element parentType name.
 	self assert: element isNotNil.
-	parentProperty
-		replaceDanglingReferenceAt: position
-		by: (element parentType methods detect: [ :eachMethod |
-				 eachMethod name = '__aggregatedMethod__'
-				 , element parentType name ])
+	aggMethod := element parentType methods detect: [ :meth |
+		             meth name = methName ].
+
+	parentProperty replaceDanglingReferenceAt: position by: aggMethod
 ]
