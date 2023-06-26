@@ -24,8 +24,7 @@ Class {
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
 		'importer',
-		'methodDict',
-		'classDict'
+		'methodDict'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -70,12 +69,6 @@ FMImporterAggregationDecorator >> beginEntity: aDescription [
 FMImporterAggregationDecorator >> beginProperty: name [
 
 	importer beginProperty: name
-]
-
-{ #category : #accessing }
-FMImporterAggregationDecorator >> classDict [
-
-	^ classDict
 ]
 
 { #category : #creating }

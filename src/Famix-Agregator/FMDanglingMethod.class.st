@@ -17,7 +17,7 @@ FMDanglingMethod >> methodID [
 { #category : #accessing }
 FMDanglingMethod >> methodID: aNumber [
 
-	^ methodID := methodID
+	^ methodID := aNumber
 ]
 
 { #category : #accessing }
