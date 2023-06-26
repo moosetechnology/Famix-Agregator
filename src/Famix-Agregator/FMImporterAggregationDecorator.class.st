@@ -25,8 +25,7 @@ Class {
 	#instVars : [
 		'importer',
 		'methodDict',
-		'classDict',
-		'currentMethodID'
+		'classDict'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -106,15 +105,9 @@ FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 ]
 
 { #category : #accessing }
-FMImporterAggregationDecorator >> currentMethodID [
+FMImporterAggregationDecorator >> currentEntity [
 
-	^ currentMethodID
-]
-
-{ #category : #accessing }
-FMImporterAggregationDecorator >> currentMethodID: anID [
-
-	currentMethodID := anID
+	^ importer currentEntity
 ]
 
 { #category : #parsing }
@@ -126,22 +119,24 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	| methEntity method aggMeth |
-	"1 halt."
+	| meth ref referencerMeth |
+	1 halt.
 	(self isImportingMethod: aDescription)
 		ifTrue: [
-			methEntity := importer stack pop.
-			self currentMethodID: importer serialDict keys last.
-			(methEntity instance parentType) ifNotNil: [ methodDict add: currentMethodID -> methEntity instance parentType ] ]
+			meth := importer stack pop instance.
+			methodDict add: meth -> meth parentType.]
 		ifFalse: [
 			(self isImportingReference: aDescription) ifTrue: [
-				self createAggregatedMethod: aDescription.
-				"method := importer serialDict
-					          at: currentMethodID
-					          ifAbsent: [ nil ].
-				method ifNotNil: [
-					aggMeth := self getAggregatedMethodFor: method parentType ].
-				methodDict add: currentMethodID -> aggMeth" ].
+				ref := self currentEntity instance.
+				referencerMeth := ref referencer.
+				(methodDict includesKey: referencerMeth)
+					ifTrue: [
+						(self aggregatedMethodExistsFor: referencerMeth parentType)
+							ifTrue: [
+								referencerMeth := self getAggregatedMethodFor:
+									                  referencerMeth parentType ]
+							ifFalse: [ self createAggregatedMethod: aDescription ] ]
+					ifFalse: [ self createAggregatedMethod: aDescription ] ].
 			importer endEntity: aDescription ]
 ]
 
@@ -171,6 +166,14 @@ FMImporterAggregationDecorator >> importer [
 FMImporterAggregationDecorator >> importer: anObject [
 
 	importer := anObject
+]
+
+{ #category : #asserting }
+FMImporterAggregationDecorator >> isImportingClass: aString [
+
+	| shortName |
+	shortName := (aString findTokens: $.) last.
+	^ shortName = 'Class'
 ]
 
 { #category : #asserting }
