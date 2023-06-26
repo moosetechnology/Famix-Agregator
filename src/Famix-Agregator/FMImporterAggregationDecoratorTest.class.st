@@ -34,6 +34,24 @@ FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
 ]
 
 { #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelClassRefMethod [
+
+	| mseString |
+	mseString := '(
+        (Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        (Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))	  
+        (Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+        (Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4))))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelCreation [
 	| model classA mA classB refmethodAtoclassB |
 	model := FamixJavaModel new.
@@ -200,15 +218,6 @@ FMImporterAggregationDecoratorTest >> setUp [
 	
 ]
 
-{ #category : #running }
-FMImporterAggregationDecoratorTest >> test [
-
-	self importModel: self class testModel.
-
-	self assert: importedModel allModelMethods size equals: 2.
-	self assert: importedModel allReferences size equals: 2.
-]
-
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssociation [
 	
@@ -256,9 +265,9 @@ FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 ]
 
 { #category : #running }
-FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
+FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 
-	self importModel: self class modelMethodClassRef.
+	self importModel: self class modelClassRefMethod.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
@@ -280,9 +289,9 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 ]
 
 { #category : #running }
-FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
+FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 
-	self importModel: self class modelMethodRefClass.
+	self importModel: self class modelMethodClassRef.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
