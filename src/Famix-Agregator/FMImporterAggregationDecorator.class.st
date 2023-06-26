@@ -81,11 +81,8 @@ FMImporterAggregationDecorator >> classDict [
 { #category : #creating }
 FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 
-	| aggMethEntity currentReference referencerMeth referencerClass |
-	currentReference := importer currentEntity instance.
-	referencerMeth := currentReference referencer.
-	referencerClass := referencerMeth parentType.
-	(self aggregatedMethodExistsFor: referencerClass) ifTrue: [ ^ self ].
+	| aggMethEntity referencerMeth |
+	referencerMeth := self currentEntity instance referencer.
 	aggMethEntity := FMFutureEntity
 		                 in: importer
 		                 named:
@@ -94,14 +91,15 @@ FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 			                  with: 'Method').
 	aggMethEntity
 		beginProperty: 'name';
-		addToPropertyValues: '__aggregatedMethod__' , referencerClass name;
+		addToPropertyValues:
+			'__aggregatedMethod__' , referencerMeth parentType name;
 		endProperty.
 	aggMethEntity
 		beginProperty: 'parentType';
-		addToPropertyValues: referencerClass;
+		addToPropertyValues: referencerMeth parentType;
 		endProperty.
 	self allEntities add: aggMethEntity instance.
-	currentReference referencer: aggMethEntity instance
+	self currentEntity instance referencer: aggMethEntity instance
 ]
 
 { #category : #accessing }
