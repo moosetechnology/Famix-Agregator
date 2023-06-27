@@ -37,3 +37,11 @@ FMDanglingMethod >> parentTypeID: aNumber [
 
 	^ parentTypeID := aNumber
 ]
+
+{ #category : #accessing }
+FMDanglingMethod >> resolve: element at: aPosition in: aDict [
+	
+	self assert: methodID isNotNil.
+	self assert: parentTypeID isNotNil.
+	aDict add: aPosition -> element parentType
+]
