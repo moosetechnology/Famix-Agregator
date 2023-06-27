@@ -24,7 +24,11 @@ Class {
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
 		'importer',
-		'methodDict'
+		'methodDict',
+		'currentParentTypeID',
+		'currentSerial',
+		'currentReferencerID',
+		'currentReferredTypeID'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -219,5 +223,12 @@ FMImporterAggregationDecorator >> run [
 { #category : #parsing }
 FMImporterAggregationDecorator >> serial: index [
 
-	importer serial: index
+	importer serial: index.
+	currentSerial := index
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> serialDict [
+
+	^ importer serialDict
 ]
