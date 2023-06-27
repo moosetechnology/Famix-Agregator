@@ -1,5 +1,5 @@
 Class {
-	#name : #FMDanglingMethod,
+	#name : #FMDanglingMethodReference,
 	#superclass : #Object,
 	#instVars : [
 		'parentTypeID',
@@ -9,37 +9,37 @@ Class {
 }
 
 { #category : #accessing }
-FMDanglingMethod >> isDanglingReference [
+FMDanglingMethodReference >> isDanglingReference [
 
 	^ true
 ]
 
 { #category : #accessing }
-FMDanglingMethod >> methodID [
+FMDanglingMethodReference >> methodID [
 
 	^ methodID
 ]
 
 { #category : #accessing }
-FMDanglingMethod >> methodID: aNumber [
+FMDanglingMethodReference >> methodID: aNumber [
 
 	^ methodID := aNumber
 ]
 
 { #category : #accessing }
-FMDanglingMethod >> parentTypeID [
+FMDanglingMethodReference >> parentTypeID [
 
 	^ parentTypeID
 ]
 
 { #category : #accessing }
-FMDanglingMethod >> parentTypeID: aNumber [
+FMDanglingMethodReference >> parentTypeID: aNumber [
 
 	^ parentTypeID := aNumber
 ]
 
 { #category : #accessing }
-FMDanglingMethod >> resolve: element at: aPosition in: aDict [
+FMDanglingMethodReference >> resolve: element at: aPosition in: aDict [
 	
 	self assert: methodID isNotNil.
 	self assert: parentTypeID isNotNil.

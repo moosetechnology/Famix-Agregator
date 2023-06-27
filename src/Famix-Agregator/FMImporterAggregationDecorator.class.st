@@ -142,7 +142,7 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 	1 halt.
 	(self isImportingMethod: aDescription) ifTrue: [
 		importer stack pop.
-		danglingMeth := FMDanglingMethod new.
+		danglingMeth := FMDanglingMethodReference new.
 		danglingMeth parentTypeID: currentParentTypeID.
 		danglingMeth methodID: currentSerial.
 		self serialDict add: currentSerial -> danglingMeth ].
