@@ -138,25 +138,29 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	| meth ref referencerMeth |
+	| referencerMeth danglingMeth |
 	1 halt.
-	(self isImportingMethod: aDescription)
-		ifTrue: [
-			meth := importer stack pop instance.
-			methodDict add: meth -> meth parentType.]
-		ifFalse: [
-			(self isImportingReference: aDescription) ifTrue: [
-				ref := self currentEntity instance.
-				referencerMeth := ref referencer.
-				(methodDict includesKey: referencerMeth)
+	(self isImportingMethod: aDescription) ifTrue: [
+		importer stack pop.
+		danglingMeth := FMDanglingMethod new.
+		danglingMeth parentTypeID: currentParentTypeID.
+		danglingMeth methodID: currentSerial.
+		self serialDict add: currentSerial -> danglingMeth ].
+
+	(self isImportingReference: aDescription) ifTrue: [
+		referencerMeth := self currentEntity instance referencer.
+		(methodDict includesKey: referencerMeth)
+			ifTrue: [
+				(self aggregatedMethodExistsFor: referencerMeth parentType)
 					ifTrue: [
-						(self aggregatedMethodExistsFor: referencerMeth parentType)
-							ifTrue: [
-								referencerMeth := self getAggregatedMethodFor:
-									                  referencerMeth parentType ]
-							ifFalse: [ self createAggregatedMethod: aDescription ] ]
-					ifFalse: [ self createAggregatedMethod: aDescription ] ].
-			importer endEntity: aDescription ]
+						referencerMeth := self getAggregatedMethodFor:
+							                  referencerMeth parentType ]
+					ifFalse: [ self createAggregatedMethod: aDescription ] ]
+			ifFalse: [ self createAggregatedMethod: aDescription ].
+		importer endEntity: aDescription ].
+
+	(self isImportingClass: aDescription) ifTrue: [
+		importer endEntity: aDescription ]
 ]
 
 { #category : #parsing }
