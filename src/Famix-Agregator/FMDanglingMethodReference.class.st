@@ -2,8 +2,9 @@ Class {
 	#name : #FMDanglingMethodReference,
 	#superclass : #Object,
 	#instVars : [
-		'parentTypeID',
-		'methodID'
+		'methodID',
+		'parentType',
+		'importer'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -27,22 +28,22 @@ FMDanglingMethodReference >> methodID: aNumber [
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> parentTypeID [
+FMDanglingMethodReference >> parentType [
 
-	^ parentTypeID
+	^ parentType
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> parentTypeID: aNumber [
+FMDanglingMethodReference >> parentType: aNumber [
 
-	^ parentTypeID := aNumber
+	^ parentType := aNumber
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> resolve: element at: aPosition in: aDict [
+FMDanglingMethodReference >> resolve: element [
+	"this method is polymorphic with FMDanglingReference. This entity is now resolvable. It will be replaced by the parentType aggregated method only it is referenced elsewhere in the file."
 
-	self assert: methodID isNotNil.
-	self assert: parentTypeID isNotNil.
-	aDict add: aPosition -> element parentType.
-	"parentProperty replaceDanglingReferenceAt: position by: element"
+	self assert: element isNotNil.
+	parentType := element.
+	importer assign: self to: methodID
 ]
