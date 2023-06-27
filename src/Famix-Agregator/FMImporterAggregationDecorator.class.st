@@ -145,7 +145,8 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 		danglingMeth := FMDanglingMethodReference new.
 		danglingMeth parentTypeID: currentParentTypeID.
 		danglingMeth methodID: currentSerial.
-		self serialDict add: currentSerial -> danglingMeth ].
+		self reminderDict add: currentSerial -> danglingMeth.
+		currentParentTypeID := nil ].
 
 	(self isImportingReference: aDescription) ifTrue: [
 		referencerMeth := self currentEntity instance referencer.
@@ -246,6 +247,12 @@ FMImporterAggregationDecorator >> referenceNumber: index [
 
 	self currentEntity currentProperty metaDescription name = #referredType
 		ifTrue: [ currentReferredTypeID := index ]
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> reminderDict [
+
+	^ importer reminderDict
 ]
 
 { #category : #running }
