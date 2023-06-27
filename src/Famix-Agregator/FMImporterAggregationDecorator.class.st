@@ -24,7 +24,6 @@ Class {
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
 		'importer',
-		'methodDict',
 		'currentParentTypeID',
 		'currentSerial',
 		'currentReferencerID',
@@ -59,7 +58,6 @@ FMImporterAggregationDecorator >> allEntities [
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginDocument [
 
-	methodDict := Dictionary new.
 	importer beginDocument
 ]
 
@@ -212,12 +210,6 @@ FMImporterAggregationDecorator >> isImportingReference: aString [
 	| shortName |
 	shortName := (aString findTokens: $.) last.
 	^ shortName = 'Reference'
-]
-
-{ #category : #accessing }
-FMImporterAggregationDecorator >> methodDict [
-
-	^ methodDict
 ]
 
 { #category : #accessing }
