@@ -208,7 +208,16 @@ FMImporterAggregationDecorator >> primitive: value [
 { #category : #parsing }
 FMImporterAggregationDecorator >> referenceNumber: index [
 
-	importer referenceNumber: index
+	importer referenceNumber: index.
+
+	self currentEntity currentProperty metaDescription name = #parentType
+		ifTrue: [ currentParentTypeID := index ].
+
+	self currentEntity currentProperty metaDescription name = #referencer
+		ifTrue: [ currentReferencerID := index ].
+
+	self currentEntity currentProperty metaDescription name = #referredType
+		ifTrue: [ currentReferredTypeID := index ]
 ]
 
 { #category : #running }
