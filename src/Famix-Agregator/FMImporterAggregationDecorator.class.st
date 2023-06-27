@@ -106,6 +106,30 @@ FMImporterAggregationDecorator >> currentEntity [
 ]
 
 { #category : #parsing }
+FMImporterAggregationDecorator >> currentParentTypeID [
+
+	^ currentParentTypeID
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> currentReferencerID [
+
+	^ currentReferencerID
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> currentReferredTypeID [
+
+	^ currentReferredTypeID
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> currentSerial [
+
+	^ currentSerial
+]
+
+{ #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
 
 	importer endDocument
