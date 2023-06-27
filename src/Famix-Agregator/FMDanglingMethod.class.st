@@ -1,12 +1,18 @@
 Class {
 	#name : #FMDanglingMethod,
-	#superclass : #FMFutureEntity,
+	#superclass : #Object,
 	#instVars : [
 		'parentTypeID',
 		'methodID'
 	],
 	#category : #'Famix-Agregator-Core'
 }
+
+{ #category : #accessing }
+FMDanglingMethod >> isDanglingReference [
+
+	^ true
+]
 
 { #category : #accessing }
 FMDanglingMethod >> methodID [
