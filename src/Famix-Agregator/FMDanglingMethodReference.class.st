@@ -40,8 +40,9 @@ FMDanglingMethodReference >> parentTypeID: aNumber [
 
 { #category : #accessing }
 FMDanglingMethodReference >> resolve: element at: aPosition in: aDict [
-	
+
 	self assert: methodID isNotNil.
 	self assert: parentTypeID isNotNil.
-	aDict add: aPosition -> element parentType
+	aDict add: aPosition -> element parentType.
+	"parentProperty replaceDanglingReferenceAt: position by: element"
 ]

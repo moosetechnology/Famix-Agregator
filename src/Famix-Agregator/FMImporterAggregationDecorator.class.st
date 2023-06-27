@@ -138,7 +138,7 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	| referencerMeth danglingMeth |
+	| danglingMeth |
 	1 halt.
 	(self isImportingMethod: aDescription) ifTrue: [
 		importer stack pop.
@@ -149,15 +149,13 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 		currentParentTypeID := nil ].
 
 	(self isImportingReference: aDescription) ifTrue: [
-		referencerMeth := self currentEntity instance referencer.
-		(methodDict includesKey: referencerMeth)
-			ifTrue: [
-				(self aggregatedMethodExistsFor: referencerMeth parentType)
-					ifTrue: [
+		(self serialDict includesKey: currentReferencerID)
+			ifTrue: [ self currentEntity instance referencer: (self serialDict at: currentReferencerID)].
+			"ifFalse: [
 						referencerMeth := self getAggregatedMethodFor:
 							                  referencerMeth parentType ]
 					ifFalse: [ self createAggregatedMethod: aDescription ] ]
-			ifFalse: [ self createAggregatedMethod: aDescription ].
+			ifFalse: [ self createAggregatedMethod: aDescription ]."
 		importer endEntity: aDescription ].
 
 	(self isImportingClass: aDescription) ifTrue: [
