@@ -116,6 +116,28 @@ FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
 ]
 
 { #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelMethodInvocClass [
+
+	| mseString |
+	mseString := '(			
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2)))					
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB''))		
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB'')))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelMethodRefClass [
 
 	| mseString |
