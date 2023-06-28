@@ -58,14 +58,11 @@ FMImporterAggregationDecorator >> beginDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginEntity: aDescription [
 
-	(self isImportingMethod: aDescription) ifTrue: [
-		| methodImporter |
-		methodImporter := FMMethodImporter on: self.
-		currentParser importer: methodImporter.
-		methodImporter beginEntity: aDescription.
-		^ self ].
-	
-	decoratedImporter beginEntity: aDescription
+	| translatedName |
+	translatedName := decoratedImporter translationUnit translate:
+		                  aDescription.
+	decoratedImporter stack push:
+		(FMFutureEntity in: self named: translatedName)
 ]
 
 { #category : #parsing }
@@ -84,6 +81,12 @@ FMImporterAggregationDecorator >> currentEntity [
 FMImporterAggregationDecorator >> currentParser [
 
 	^ currentParser
+]
+
+{ #category : #private }
+FMImporterAggregationDecorator >> dangling: aFMDanglingReference to: anInteger [
+
+^ decoratedImporter dangling: aFMDanglingReference to: anInteger
 ]
 
 { #category : #accessing }
@@ -107,7 +110,7 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-(self isImportingMethod: aDescription)  ifFalse: [ 	decoratedImporter endEntity: aDescription]
+	decoratedImporter endEntity: aDescription
 ]
 
 { #category : #parsing }
@@ -119,7 +122,31 @@ FMImporterAggregationDecorator >> endProperty: name [
 { #category : #asserting }
 FMImporterAggregationDecorator >> entityAt: serial ifAbsent: aBlock [
 
-	^ decoratedImporter entityAt: serial ifPresent: [ :element | element isDanglingReference ifTrue: [ element ensureCreateAggregatedMethod ] ifFalse: [ element ] ] ifAbsent: aBlock
+	^ decoratedImporter
+		  entityAt: serial
+		  ifPresent: [ :element |
+			
+			  element isDanglingReference
+				  ifTrue: [ element ensureCreateAggregatedMethod ]
+				  ifFalse: [ element ] ]
+		  ifAbsent: aBlock
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
+
+	(self isImportingMethod: aDescription) ifTrue: [
+		| methodImporter |
+		methodImporter := FMMethodImporter on: self.
+		currentParser importer: methodImporter.
+		methodImporter beginEntity: aDescription.
+		aBlock value.
+		currentParser importer: self.
+		^ self ].
+
+	self beginEntity: aDescription.
+	aBlock value.
+	self endEntity: aDescription
 ]
 
 { #category : #asserting }
@@ -128,6 +155,12 @@ FMImporterAggregationDecorator >> isImportingMethod: aString [
 	| shortName |
 	shortName := (aString findTokens: $.) last.
 	^ shortName = 'Method'
+]
+
+{ #category : #meta }
+FMImporterAggregationDecorator >> metamodel [
+
+	^ decoratedImporter metamodel
 ]
 
 { #category : #accessing }

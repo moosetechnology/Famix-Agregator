@@ -25,8 +25,8 @@ FMParentTypeImporter >> referenceNumber: aNumber [
 		 decoratedImporter currentMethodReference resolve: parentType ]
 		ifAbsent: [
 			self sourceImporter
-				dangling: aNumber
-				to: decoratedImporter currentMethodReference ]
+				dangling: decoratedImporter currentMethodReference
+				to: aNumber  ]
 ]
 
 { #category : #parsing }

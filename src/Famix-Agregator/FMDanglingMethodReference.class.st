@@ -26,17 +26,23 @@ FMDanglingMethodReference >> aggregatedMethod [
 { #category : #accessing }
 FMDanglingMethodReference >> createAggregatedMethod [
 
-	aggregatedMethod := FMFutureEntity in: importer named: description.
+	aggregatedMethod := FMFutureEntity
+		                    in: importer
+		                    named:
+		                    (importer decoratedImporter translationUnit
+			                     translate: description).
 	aggregatedMethod
 		beginProperty: 'name';
-		addToPropertyValues:
-			'__aggregatedMethod__' , aggregatedMethod parentType name;
+		addToPropertyValues: '__aggregatedMethod__' ", parentType name";
 		endProperty.
+		self flag: 'we cannot access parentType name when the file order is method -> ref -> class. The resolution of this DMR is triggered by serial which is before inProperty: do:'.
+
 	aggregatedMethod
 		beginProperty: 'parentType';
 		addToPropertyValues: parentType;
 		endProperty.
-	importer allEntities add: aggregatedMethod instance
+	importer allEntities add: aggregatedMethod instance.
+	^ aggregatedMethod instance
 ]
 
 { #category : #accessing }

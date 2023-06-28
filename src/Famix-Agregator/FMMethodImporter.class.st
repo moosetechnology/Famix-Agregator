@@ -20,9 +20,11 @@ FMMethodImporter >> beginEntity: aDescription [
 FMMethodImporter >> beginProperty: aName [
 	"We will not create an actual method. So we don't need to create properties"
 
+	
 	aName = #parentType ifTrue: [
-		self currentParser importer:
-			(FMParentTypeImporter on: self) ]
+		self currentParser importer: (FMParentTypeImporter on: self) ]
+
+	
 ]
 
 { #category : #accessing }
@@ -35,12 +37,6 @@ FMMethodImporter >> currentMethodReference [
 FMMethodImporter >> currentParser [
 
 	^ decoratedImporter currentParser
-]
-
-{ #category : #parsing }
-FMMethodImporter >> endEntity: aDescription [
-
-	self currentParser importer: decoratedImporter
 ]
 
 { #category : #parsing }
