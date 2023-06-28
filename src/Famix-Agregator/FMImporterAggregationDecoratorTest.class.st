@@ -162,6 +162,12 @@ FMImporterAggregationDecoratorTest >> expectedAggregatedMethodName [
 	^ "'__aggregatedMethod__ClassA'" '__aggregatedMethod__'
 ]
 
+{ #category : #running }
+FMImporterAggregationDecoratorTest >> expectedAttributeName [
+
+	^ 'attributeA'
+]
+
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest >> importModel [
 
