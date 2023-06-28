@@ -40,15 +40,6 @@ FMImporterAggregationDecorator class >> on: aFMImporter [
 		  yourself
 ]
 
-{ #category : #asserting }
-FMImporterAggregationDecorator >> aggregatedMethodExistsFor: aClass [
-
-	| methodName |
-	methodName := '__aggregatedMethod__' , aClass name.
-	^ aClass methods anySatisfy: [ :eachMethod |
-		  eachMethod name = methodName ]
-]
-
 { #category : #accessing }
 FMImporterAggregationDecorator >> allEntities [
 
@@ -78,30 +69,6 @@ FMImporterAggregationDecorator >> beginEntity: aDescription [
 FMImporterAggregationDecorator >> beginProperty: name [
 
 	decoratedImporter beginProperty: name
-]
-
-{ #category : #creating }
-FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
-
-	| aggMethEntity referencerMeth |
-	referencerMeth := self currentEntity instance referencer.
-	aggMethEntity := FMFutureEntity
-		                 in: decoratedImporter
-		                 named:
-		                 (aDescription
-			                  copyReplaceAll: 'Reference'
-			                  with: 'Method').
-	aggMethEntity
-		beginProperty: 'name';
-		addToPropertyValues:
-			'__aggregatedMethod__' , referencerMeth parentType name;
-		endProperty.
-	aggMethEntity
-		beginProperty: 'parentType';
-		addToPropertyValues: referencerMeth parentType;
-		endProperty.
-	self allEntities add: aggMethEntity instance.
-	self currentEntity instance referencer: aggMethEntity instance
 ]
 
 { #category : #accessing }
@@ -155,28 +122,7 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	| danglingMeth |
-	(self isImportingMethod: aDescription) ifTrue: [
-		decoratedImporter stack pop.
-		danglingMeth := FMDanglingMethodReference new.
-		danglingMeth parentType: (self serialDict at: currentParentTypeID).
-		danglingMeth methodID: currentSerial.
-		self reminderDict add: currentSerial -> danglingMeth.
-		currentParentTypeID := nil ].
-
-	(self isImportingReference: aDescription) ifTrue: [
-		(self serialDict includesKey: currentReferencerID) ifTrue: [
-			self currentEntity instance referencer:
-				(self serialDict at: currentReferencerID) ].
-		"ifFalse: [
-						referencerMeth := self getAggregatedMethodFor:
-							                  referencerMeth parentType ]
-					ifFalse: [ self createAggregatedMethod: aDescription ] ]
-			ifFalse: [ self createAggregatedMethod: aDescription ]."
-		decoratedImporter endEntity: aDescription ].
-
-	(self isImportingClass: aDescription) ifTrue: [
-		decoratedImporter endEntity: aDescription ]
+	decoratedImporter endEntity: aDescription
 ]
 
 { #category : #parsing }
@@ -186,13 +132,9 @@ FMImporterAggregationDecorator >> endProperty: name [
 ]
 
 { #category : #asserting }
-FMImporterAggregationDecorator >> getAggregatedMethodFor: aClass [
+FMImporterAggregationDecorator >> entityAt: serial ifAbsent: aBlock [
 
-	| methodName |
-	methodName := '__aggregatedMethod__' , aClass name.
-	^ aClass methods
-		  detect: [ :eachMethod | eachMethod name = methodName ]
-		  ifNone: [ nil ]
+	^ decoratedImporter entityAt: serial ifPresent: [ :element | element isDanglingReference ifTrue: [ element ensureCreateAggregatedMethod ] ifFalse: [ element ] ] ifAbsent: aBlock
 ]
 
 { #category : #asserting }
