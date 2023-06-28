@@ -23,10 +23,6 @@ Class {
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
-		'currentParentTypeID',
-		'currentSerial',
-		'currentReferencerID',
-		'currentReferredTypeID',
 		'decoratedImporter',
 		'currentParser'
 	],
@@ -85,33 +81,9 @@ FMImporterAggregationDecorator >> currentEntity [
 ]
 
 { #category : #parsing }
-FMImporterAggregationDecorator >> currentParentTypeID [
-
-	^ currentParentTypeID
-]
-
-{ #category : #parsing }
 FMImporterAggregationDecorator >> currentParser [
 
 	^ currentParser
-]
-
-{ #category : #accessing }
-FMImporterAggregationDecorator >> currentReferencerID [
-
-	^ currentReferencerID
-]
-
-{ #category : #parsing }
-FMImporterAggregationDecorator >> currentReferredTypeID [
-
-	^ currentReferredTypeID
-]
-
-{ #category : #parsing }
-FMImporterAggregationDecorator >> currentSerial [
-
-	^ currentSerial
 ]
 
 { #category : #accessing }
@@ -151,27 +123,11 @@ FMImporterAggregationDecorator >> entityAt: serial ifAbsent: aBlock [
 ]
 
 { #category : #asserting }
-FMImporterAggregationDecorator >> isImportingClass: aString [
-
-	| shortName |
-	shortName := (aString findTokens: $.) last.
-	^ shortName = 'Class'
-]
-
-{ #category : #asserting }
 FMImporterAggregationDecorator >> isImportingMethod: aString [
 
 	| shortName |
 	shortName := (aString findTokens: $.) last.
 	^ shortName = 'Method'
-]
-
-{ #category : #asserting }
-FMImporterAggregationDecorator >> isImportingReference: aString [
-
-	| shortName |
-	shortName := (aString findTokens: $.) last.
-	^ shortName = 'Reference'
 ]
 
 { #category : #accessing }
@@ -195,16 +151,7 @@ FMImporterAggregationDecorator >> primitive: value [
 { #category : #parsing }
 FMImporterAggregationDecorator >> referenceNumber: index [
 
-	decoratedImporter referenceNumber: index.
-
-	self currentEntity currentProperty metaDescription name = #parentType
-		ifTrue: [ currentParentTypeID := index ].
-
-	self currentEntity currentProperty metaDescription name = #referencer
-		ifTrue: [ currentReferencerID := index ].
-
-	self currentEntity currentProperty metaDescription name = #referredType
-		ifTrue: [ currentReferredTypeID := index ]
+	decoratedImporter referenceNumber: index
 ]
 
 { #category : #parsing }
@@ -228,7 +175,6 @@ FMImporterAggregationDecorator >> run [
 FMImporterAggregationDecorator >> serial: index [
 
 	decoratedImporter serial: index.
-	currentSerial := index
 ]
 
 { #category : #parsing }
