@@ -451,6 +451,28 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 ]
 
 { #category : #running }
+FMImporterAggregationDecoratorTest >> testInvocationInvocMethodClass [
+
+	self importModel: self class modelInvocMethodClass.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 2.
+	self assert: importedModel allInvocations size equals: 1.
+
+	self assert: (importedModel allModelMethods allSatisfy: [ :method |
+			 method name = self expectedAggregatedMethodName ]).
+
+	self assert:
+		(importedModel allInvocations allSatisfy: [ :invocation |
+			 invocation sender name = self expectedAggregatedMethodName ]).
+
+	self assert:
+		(importedModel allInvocations allSatisfy: [ :invocation |
+			 invocation candidates anySatisfy: [ :candidate |
+				 candidate name = self expectedAggregatedMethodName ] ])
+]
+
+{ #category : #running }
 FMImporterAggregationDecoratorTest >> testInvocationMethodClassInvoc [
 
 	self importModel: self class modelMethodClassInvoc.
