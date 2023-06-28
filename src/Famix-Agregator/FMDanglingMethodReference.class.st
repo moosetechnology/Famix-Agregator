@@ -4,10 +4,52 @@ Class {
 	#instVars : [
 		'methodID',
 		'parentType',
-		'importer'
+		'importer',
+		'aggregatedMethod',
+		'aDescription'
 	],
 	#category : #'Famix-Agregator-Core'
 }
+
+{ #category : #accessing }
+FMDanglingMethodReference >> aDescription: anObject [
+
+	aDescription := anObject
+]
+
+{ #category : #accessing }
+FMDanglingMethodReference >> aggregatedMethod [
+
+	^ aggregatedMethod
+]
+
+{ #category : #accessing }
+FMDanglingMethodReference >> createAggregatedMethod [
+
+	aggregatedMethod := FMFutureEntity in: importer named: aDescription.
+	aggregatedMethod
+		beginProperty: 'name';
+		addToPropertyValues:
+			'__aggregatedMethod__' , aggregatedMethod parentType name;
+		endProperty.
+	aggregatedMethod
+		beginProperty: 'parentType';
+		addToPropertyValues: parentType;
+		endProperty.
+	importer allEntities add: aggregatedMethod instance
+]
+
+{ #category : #accessing }
+FMDanglingMethodReference >> ensureCreateAggregatedMethod [
+
+	^ aggregatedMethod ifNil: [ self createAggregatedMethod ]
+]
+
+{ #category : #accessing }
+FMDanglingMethodReference >> importer: anObject [
+
+	importer := anObject
+]
 
 { #category : #accessing }
 FMDanglingMethodReference >> isDanglingReference [
@@ -34,16 +76,11 @@ FMDanglingMethodReference >> parentType [
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> parentType: aNumber [
-
-	^ parentType := aNumber
-]
-
-{ #category : #accessing }
 FMDanglingMethodReference >> resolve: element [
-	"this method is polymorphic with FMDanglingReference. This entity is now resolvable. It will be replaced by the parentType aggregated method only it is referenced elsewhere in the file."
+	"this method is polymorphic with FMDanglingReference. This entity is now resolvable. It will be replaced by the parentType's aggregated method only if it is referenced elsewhere in the file."
 
 	self assert: element isNotNil.
 	parentType := element.
-	importer assign: self to: methodID
+
+	importer assignDanglingMethod: self to: methodID
 ]

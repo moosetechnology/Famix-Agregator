@@ -23,11 +23,11 @@ Class {
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
-		'importer',
 		'currentParentTypeID',
 		'currentSerial',
 		'currentReferencerID',
-		'currentReferredTypeID'
+		'currentReferredTypeID',
+		'decoratedImporter'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -36,7 +36,7 @@ Class {
 FMImporterAggregationDecorator class >> on: aFMImporter [
 
 	^ self new
-		  importer: aFMImporter;
+		  decoratedImporter: aFMImporter;
 		  yourself
 ]
 
@@ -52,25 +52,32 @@ FMImporterAggregationDecorator >> aggregatedMethodExistsFor: aClass [
 { #category : #accessing }
 FMImporterAggregationDecorator >> allEntities [
 
-	^ importer entities
+	^ decoratedImporter entities
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginDocument [
 
-	importer beginDocument
+	decoratedImporter beginDocument
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginEntity: aDescription [
 
-	importer beginEntity: aDescription
+	(self isImportingMethod: aDescription) ifTrue: [
+		| methodImporter |
+		methodImporter := FMMethodImporter on: self.
+		self parser decoratedImporter: methodImporter.
+		methodImporter beginEntity: aDescription.
+		^ self ].
+	
+	decoratedImporter beginEntity: aDescription
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginProperty: name [
 
-	importer beginProperty: name
+	decoratedImporter beginProperty: name
 ]
 
 { #category : #creating }
@@ -79,7 +86,7 @@ FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 	| aggMethEntity referencerMeth |
 	referencerMeth := self currentEntity instance referencer.
 	aggMethEntity := FMFutureEntity
-		                 in: importer
+		                 in: decoratedImporter
 		                 named:
 		                 (aDescription
 			                  copyReplaceAll: 'Reference'
@@ -100,7 +107,7 @@ FMImporterAggregationDecorator >> createAggregatedMethod: aDescription [
 { #category : #accessing }
 FMImporterAggregationDecorator >> currentEntity [
 
-	^ importer currentEntity
+	^ decoratedImporter currentEntity
 ]
 
 { #category : #parsing }
@@ -127,10 +134,22 @@ FMImporterAggregationDecorator >> currentSerial [
 	^ currentSerial
 ]
 
+{ #category : #accessing }
+FMImporterAggregationDecorator >> decoratedImporter [
+
+	^ decoratedImporter
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> decoratedImporter: anObject [
+
+	decoratedImporter := anObject
+]
+
 { #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
 
-	importer endDocument
+	decoratedImporter endDocument
 ]
 
 { #category : #parsing }
@@ -138,7 +157,7 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 
 	| danglingMeth |
 	(self isImportingMethod: aDescription) ifTrue: [
-		importer stack pop.
+		decoratedImporter stack pop.
 		danglingMeth := FMDanglingMethodReference new.
 		danglingMeth parentType: (self serialDict at: currentParentTypeID).
 		danglingMeth methodID: currentSerial.
@@ -154,16 +173,16 @@ FMImporterAggregationDecorator >> endEntity: aDescription [
 							                  referencerMeth parentType ]
 					ifFalse: [ self createAggregatedMethod: aDescription ] ]
 			ifFalse: [ self createAggregatedMethod: aDescription ]."
-		importer endEntity: aDescription ].
+		decoratedImporter endEntity: aDescription ].
 
 	(self isImportingClass: aDescription) ifTrue: [
-		importer endEntity: aDescription ]
+		decoratedImporter endEntity: aDescription ]
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> endProperty: name [
 
-	importer endProperty: name
+	decoratedImporter endProperty: name
 ]
 
 { #category : #asserting }
@@ -174,18 +193,6 @@ FMImporterAggregationDecorator >> getAggregatedMethodFor: aClass [
 	^ aClass methods
 		  detect: [ :eachMethod | eachMethod name = methodName ]
 		  ifNone: [ nil ]
-]
-
-{ #category : #accessing }
-FMImporterAggregationDecorator >> importer [
-
-	^ importer
-]
-
-{ #category : #accessing }
-FMImporterAggregationDecorator >> importer: anObject [
-
-	importer := anObject
 ]
 
 { #category : #asserting }
@@ -215,19 +222,25 @@ FMImporterAggregationDecorator >> isImportingReference: aString [
 { #category : #accessing }
 FMImporterAggregationDecorator >> model [
 
- ^ importer model
+ ^ decoratedImporter model
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> parser [
+
+	^ decoratedImporter parser
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> primitive: value [
 
-	importer primitive: value
+	decoratedImporter primitive: value
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> referenceNumber: index [
 
-	importer referenceNumber: index.
+	decoratedImporter referenceNumber: index.
 
 	self currentEntity currentProperty metaDescription name = #parentType
 		ifTrue: [ currentParentTypeID := index ].
@@ -242,27 +255,27 @@ FMImporterAggregationDecorator >> referenceNumber: index [
 { #category : #parsing }
 FMImporterAggregationDecorator >> reminderDict [
 
-	^ importer reminderDict
+	^ decoratedImporter reminderDict
 ]
 
 { #category : #running }
 FMImporterAggregationDecorator >> run [
 
-	importer parser new
-		stream: importer stream;
-		importer: self;
+	decoratedImporter parser new
+		stream: decoratedImporter stream;
+		decoratedImporter: self;
 		run
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> serial: index [
 
-	importer serial: index.
+	decoratedImporter serial: index.
 	currentSerial := index
 ]
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> serialDict [
 
-	^ importer serialDict
+	^ decoratedImporter serialDict
 ]
