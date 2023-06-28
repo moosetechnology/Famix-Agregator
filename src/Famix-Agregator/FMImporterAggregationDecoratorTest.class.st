@@ -34,6 +34,24 @@ FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
 ]
 
 { #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelClassRefMethod [
+
+	| mseString |
+	mseString := '(
+        (Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        (Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))	  
+        (Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+        (Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4))))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelCreation [
 	| model classA mA classB refmethodAtoclassB |
 	model := FamixJavaModel new.
@@ -90,6 +108,66 @@ FMImporterAggregationDecoratorTest class >> modelMethodRefClass [
 	^ mseString
 ]
 
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelRefClassMethod [
+
+	| mseString |
+	mseString := '(					
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))			
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4))))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelRefMethodClass [
+
+	| mseString |
+	mseString := '(					
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB'')))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> testModel [
+
+	| mseString |
+	mseString := '(			
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))        	
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))
+			(Famix-Java-Entities.Method (id: 7)
+            (name ''methodB'')
+            (parentType (ref: 3)))
+			(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+			(Famix-Java-Entities.Reference (id: 8)
+            (referencer (ref: 7))
+            (referredType (ref: 4))))'.
+	^ mseString
+]
+
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> classA [
 
@@ -100,6 +178,12 @@ FMImporterAggregationDecoratorTest >> classA [
 FMImporterAggregationDecoratorTest >> classB [
 
 	^ self mooseEntity: FamixJavaClass named: 'ClassB'
+]
+
+{ #category : #running }
+FMImporterAggregationDecoratorTest >> expectedAggregatedMethodName [
+
+	^ "'__aggregatedMethod__ClassA'" '__aggregatedMethod__'
 ]
 
 { #category : #'test data' }
@@ -209,14 +293,38 @@ FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 
 	self
 		assert: importedModel allModelMethods anyOne name
-		equals: '__aggregatedMethod__ClassA'.
+		equals: self expectedAggregatedMethodName.
 	self
 		assert: importedModel allModelMethods anyOne parentType name
 		equals: 'ClassA'.
 
 	self
 		assert: importedModel allReferences anyOne referencer name
-		equals: '__aggregatedMethod__ClassA'.
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allReferences anyOne referredType name
+		equals: 'ClassB'
+]
+
+{ #category : #running }
+FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
+
+	self importModel: self class modelClassRefMethod.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allReferences size equals: 1.
+
+	self
+		assert: importedModel allModelMethods anyOne name
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allModelMethods anyOne parentType name
+		equals: 'ClassA'.
+
+	self
+		assert: importedModel allReferences anyOne referencer name
+		equals: self expectedAggregatedMethodName.
 	self
 		assert: importedModel allReferences anyOne referredType name
 		equals: 'ClassB'
@@ -233,14 +341,14 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 
 	self
 		assert: importedModel allModelMethods anyOne name
-		equals: '__aggregatedMethod__ClassA'.
+		equals: self expectedAggregatedMethodName.
 	self
 		assert: importedModel allModelMethods anyOne parentType name
 		equals: 'ClassA'.
 
 	self
 		assert: importedModel allReferences anyOne referencer name
-		equals: '__aggregatedMethod__ClassA'.
+		equals: self expectedAggregatedMethodName.
 	self
 		assert: importedModel allReferences anyOne referredType name
 		equals: 'ClassB'
@@ -257,14 +365,62 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
 
 	self
 		assert: importedModel allModelMethods anyOne name
-		equals: '__aggregatedMethod__ClassA'.
+		equals: self expectedAggregatedMethodName.
 	self
 		assert: importedModel allModelMethods anyOne parentType name
 		equals: 'ClassA'.
 
 	self
 		assert: importedModel allReferences anyOne referencer name
-		equals: '__aggregatedMethod__ClassA'.
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allReferences anyOne referredType name
+		equals: 'ClassB'
+]
+
+{ #category : #running }
+FMImporterAggregationDecoratorTest >> testReferenceRefClassMethod [
+
+	self importModel: self class modelRefClassMethod.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allReferences size equals: 1.
+
+	self
+		assert: importedModel allModelMethods anyOne name
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allModelMethods anyOne parentType name
+		equals: 'ClassA'.
+
+	self
+		assert: importedModel allReferences anyOne referencer name
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allReferences anyOne referredType name
+		equals: 'ClassB'
+]
+
+{ #category : #running }
+FMImporterAggregationDecoratorTest >> testReferenceRefMethodClass [
+
+	self importModel: self class modelRefMethodClass.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allReferences size equals: 1.
+
+	self
+		assert: importedModel allModelMethods anyOne name
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allModelMethods anyOne parentType name
+		equals: 'ClassA'.
+
+	self
+		assert: importedModel allReferences anyOne referencer name
+		equals: self expectedAggregatedMethodName.
 	self
 		assert: importedModel allReferences anyOne referredType name
 		equals: 'ClassB'
