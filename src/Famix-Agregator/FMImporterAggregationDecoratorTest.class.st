@@ -73,28 +73,33 @@ FMImporterAggregationDecoratorTest class >> modelClassRefMethod [
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelCreation [
 
-	| model classA methodA attributeA access |
+	| model classA classB methodA methodB invocation |
 	model := FamixJavaModel new.
 
 	classA := FamixJavaClass named: 'ClassA'.
-
-	attributeA := FamixJavaAttribute named: 'attributeA'.
-	attributeA parentType: classA.
-
+	classB := FamixJavaClass named: 'ClassB'.
+	
 	methodA := FamixJavaMethod named: 'methodA'.
 	methodA parentType: classA.
 
-	access := FamixJavaAccess new.
-	access accessor: methodA.
-	access variable: attributeA.
+	methodB := FamixJavaMethod named: 'methodB'.
+	methodB parentType: classB.
+
+	invocation := FamixJavaInvocation new.
+	invocation sender: methodA.
+	invocation addCandidate: methodB.
+	invocation signature: 'methodB'.
 
 	model addAll: {
-			classA.
-			methodA.
-			attributeA.
-			access }.
+    classA.
+    classB.
+    methodA.
+    methodB.
+    invocation
+	}.
 
 	^ model
+
 ]
 
 { #category : #'test data' }
