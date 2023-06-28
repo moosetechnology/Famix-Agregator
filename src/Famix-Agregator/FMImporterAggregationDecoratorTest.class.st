@@ -144,30 +144,6 @@ FMImporterAggregationDecoratorTest class >> modelRefMethodClass [
 	^ mseString
 ]
 
-{ #category : #'test data' }
-FMImporterAggregationDecoratorTest class >> testModel [
-
-	| mseString |
-	mseString := '(			
-        	(Famix-Java-Entities.Class (id: 4)
-            (name ''ClassA''))
-        	(Famix-Java-Entities.Class (id: 3)
-            (name ''ClassB''))        	
-			(Famix-Java-Entities.Method (id: 2)
-            (name ''methodA'')
-            (parentType (ref: 4)))
-			(Famix-Java-Entities.Method (id: 7)
-            (name ''methodB'')
-            (parentType (ref: 3)))
-			(Famix-Java-Entities.Reference (id: 1)
-            (referencer (ref: 2))
-            (referredType (ref: 3)))
-			(Famix-Java-Entities.Reference (id: 8)
-            (referencer (ref: 7))
-            (referredType (ref: 4))))'.
-	^ mseString
-]
-
 { #category : #tests }
 FMImporterAggregationDecoratorTest >> classA [
 
