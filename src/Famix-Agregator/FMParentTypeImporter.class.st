@@ -5,9 +5,15 @@ Class {
 }
 
 { #category : #parsing }
+FMParentTypeImporter >> currentParser [
+
+	^ decoratedImporter currentParser
+]
+
+{ #category : #parsing }
 FMParentTypeImporter >> endProperty: aName [
 
-	self parser importer: self decoratedImporter
+	self currentParser importer: self decoratedImporter
 ]
 
 { #category : #parsing }

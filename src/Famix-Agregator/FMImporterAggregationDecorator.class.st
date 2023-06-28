@@ -27,7 +27,8 @@ Class {
 		'currentSerial',
 		'currentReferencerID',
 		'currentReferredTypeID',
-		'decoratedImporter'
+		'decoratedImporter',
+		'currentParser'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -46,6 +47,12 @@ FMImporterAggregationDecorator >> allEntities [
 	^ decoratedImporter entities
 ]
 
+{ #category : #'as yet unclassified' }
+FMImporterAggregationDecorator >> assignDanglingMethod: element to: serial [
+
+	decoratedImporter assignDanglingMethod: element to: serial
+]
+
 { #category : #parsing }
 FMImporterAggregationDecorator >> beginDocument [
 
@@ -58,7 +65,7 @@ FMImporterAggregationDecorator >> beginEntity: aDescription [
 	(self isImportingMethod: aDescription) ifTrue: [
 		| methodImporter |
 		methodImporter := FMMethodImporter on: self.
-		self parser decoratedImporter: methodImporter.
+		currentParser importer: methodImporter.
 		methodImporter beginEntity: aDescription.
 		^ self ].
 	
@@ -81,6 +88,12 @@ FMImporterAggregationDecorator >> currentEntity [
 FMImporterAggregationDecorator >> currentParentTypeID [
 
 	^ currentParentTypeID
+]
+
+{ #category : #parsing }
+FMImporterAggregationDecorator >> currentParser [
+
+	^ currentParser
 ]
 
 { #category : #accessing }
@@ -122,7 +135,7 @@ FMImporterAggregationDecorator >> endDocument [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endEntity: aDescription [
 
-	decoratedImporter endEntity: aDescription
+(self isImportingMethod: aDescription)  ifFalse: [ 	decoratedImporter endEntity: aDescription]
 ]
 
 { #category : #parsing }
@@ -202,11 +215,13 @@ FMImporterAggregationDecorator >> reminderDict [
 
 { #category : #running }
 FMImporterAggregationDecorator >> run [
-
-	decoratedImporter parser new
+	
+	currentParser := decoratedImporter parser new.
+	currentParser
 		stream: decoratedImporter stream;
-		decoratedImporter: self;
+		importer: self;
 		run
+		
 ]
 
 { #category : #parsing }

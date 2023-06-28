@@ -6,7 +6,7 @@ Class {
 		'parentType',
 		'importer',
 		'aggregatedMethod',
-		'aDescription'
+		'description'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -14,7 +14,7 @@ Class {
 { #category : #accessing }
 FMDanglingMethodReference >> aDescription: anObject [
 
-	aDescription := anObject
+	description := anObject
 ]
 
 { #category : #accessing }
@@ -26,7 +26,7 @@ FMDanglingMethodReference >> aggregatedMethod [
 { #category : #accessing }
 FMDanglingMethodReference >> createAggregatedMethod [
 
-	aggregatedMethod := FMFutureEntity in: importer named: aDescription.
+	aggregatedMethod := FMFutureEntity in: importer named: description.
 	aggregatedMethod
 		beginProperty: 'name';
 		addToPropertyValues:
@@ -37,6 +37,12 @@ FMDanglingMethodReference >> createAggregatedMethod [
 		addToPropertyValues: parentType;
 		endProperty.
 	importer allEntities add: aggregatedMethod instance
+]
+
+{ #category : #accessing }
+FMDanglingMethodReference >> description: aDescription [
+
+	description := aDescription
 ]
 
 { #category : #accessing }
