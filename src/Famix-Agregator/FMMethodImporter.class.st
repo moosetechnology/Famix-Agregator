@@ -47,7 +47,18 @@ FMMethodImporter >> endProperty: name [
 
 { #category : #parsing }
 FMMethodImporter >> primitive: value [
-"Nothing to do"
+
+	"Nothing to do: the current property is not #parentType, so we don't care about it."
+
+	
+]
+
+{ #category : #parsing }
+FMMethodImporter >> referenceNumber: index [
+
+	"Nothing to do: the current property is not #parentType, so we don't care about it."
+
+	
 ]
 
 { #category : #parsing }
