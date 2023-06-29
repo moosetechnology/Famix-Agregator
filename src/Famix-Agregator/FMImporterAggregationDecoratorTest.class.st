@@ -277,7 +277,7 @@ FMImporterAggregationDecoratorTest class >> modelMethodRefClass [
 ]
 
 { #category : #'test data' }
-FMImporterAggregationDecoratorTest class >> modelMultipleAssociations [
+FMImporterAggregationDecoratorTest class >> modelMultipleInvocationsToSameMethods [
 
 	| mseString |
 	mseString := '(					
@@ -631,9 +631,9 @@ FMImporterAggregationDecoratorTest >> testLocalModel [
 ]
 
 { #category : #running }
-FMImporterAggregationDecoratorTest >> testMultipleInvocations [
+FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 
-	self importModel: self class modelMultipleAssociations.
+	self importModel: self class modelMultipleInvocationsToSameMethods.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allInvocations size equals: 2.
