@@ -20,7 +20,6 @@ FMMethodImporter >> beginEntity: aDescription [
 FMMethodImporter >> beginProperty: aName [
 	"We will not create an actual method. So we don't need to create properties"
 
-	
 	aName = #parentType ifTrue: [
 		self currentParser importer: (FMParentTypeImporter on: self) ]
 

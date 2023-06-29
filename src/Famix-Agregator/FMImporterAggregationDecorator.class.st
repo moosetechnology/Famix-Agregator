@@ -43,7 +43,7 @@ FMImporterAggregationDecorator >> allEntities [
 	^ decoratedImporter entities
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #parsing }
 FMImporterAggregationDecorator >> assignDanglingMethod: element to: serial [
 
 	decoratedImporter assignDanglingMethod: element to: serial
@@ -77,7 +77,7 @@ FMImporterAggregationDecorator >> currentEntity [
 	^ decoratedImporter currentEntity
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMImporterAggregationDecorator >> currentParser [
 
 	^ currentParser
@@ -119,7 +119,7 @@ FMImporterAggregationDecorator >> endProperty: name [
 	decoratedImporter endProperty: name
 ]
 
-{ #category : #asserting }
+{ #category : #parsing }
 FMImporterAggregationDecorator >> entityAt: serial ifAbsent: aBlock [
 
 	^ decoratedImporter
@@ -169,7 +169,7 @@ FMImporterAggregationDecorator >> model [
  ^ decoratedImporter model
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMImporterAggregationDecorator >> parser [
 
 	^ decoratedImporter parser
@@ -187,7 +187,7 @@ FMImporterAggregationDecorator >> referenceNumber: index [
 	decoratedImporter referenceNumber: index
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMImporterAggregationDecorator >> reminderDict [
 
 	^ decoratedImporter reminderDict
@@ -204,13 +204,13 @@ FMImporterAggregationDecorator >> run [
 		
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMImporterAggregationDecorator >> serial: index [
 
 	decoratedImporter serial: index.
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMImporterAggregationDecorator >> serialDict [
 
 	^ decoratedImporter serialDict

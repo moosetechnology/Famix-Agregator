@@ -4,7 +4,7 @@ Class {
 	#category : #'Famix-Agregator-Core'
 }
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMParentTypeImporter >> currentParser [
 
 	^ decoratedImporter currentParser
@@ -29,7 +29,7 @@ FMParentTypeImporter >> referenceNumber: aNumber [
 				to: aNumber  ]
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMParentTypeImporter >> sourceImporter [
 	"Decorated importer is a FMMethodImporter.
 	Its decorated importer is a FMImporterAggregationDecorator.

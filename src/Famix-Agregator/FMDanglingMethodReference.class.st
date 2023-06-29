@@ -23,7 +23,7 @@ FMDanglingMethodReference >> aggregatedMethod [
 	^ aggregatedMethod
 ]
 
-{ #category : #accessing }
+{ #category : #'creating a method' }
 FMDanglingMethodReference >> createAggregatedMethod [
 
 	aggregatedMethod := (importer metamodel elementNamed: description)
@@ -46,7 +46,7 @@ FMDanglingMethodReference >> description: aDescription [
 	description := aDescription
 ]
 
-{ #category : #accessing }
+{ #category : #'creating a method' }
 FMDanglingMethodReference >> ensureCreateAggregatedMethod [
 
 	^ aggregatedMethod ifNil: [ self createAggregatedMethod ]
@@ -58,7 +58,7 @@ FMDanglingMethodReference >> importer: anObject [
 	importer := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 FMDanglingMethodReference >> isDanglingReference [
 
 	^ true
@@ -82,7 +82,7 @@ FMDanglingMethodReference >> parentType [
 	^ parentType
 ]
 
-{ #category : #accessing }
+{ #category : #resolving }
 FMDanglingMethodReference >> resolve: element [
 	"this method is polymorphic with FMDanglingReference. This entity is now resolvable. It will be replaced by the parentType's aggregated method only if it is referenced elsewhere in the file."
 
