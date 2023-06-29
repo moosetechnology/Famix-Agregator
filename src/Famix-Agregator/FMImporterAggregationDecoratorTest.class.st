@@ -301,7 +301,7 @@ FMImporterAggregationDecoratorTest class >> modelMultipleAssociations [
 			(Famix-Java-Entities.Invocation (id: 7)
     			(candidates (ref: 5))
     			(sender (ref: 4))
-    			(signature ''methodB''))))'.
+    			(signature ''methodB'')))'.
 	^ mseString
 ]
 
@@ -628,6 +628,28 @@ FMImporterAggregationDecoratorTest >> testLocalModel [
 					                  customizingImporterWith: [ :importer |
 					                  FMImporterAggregationDecorator on: importer ])
 			                 named: 'testModel' ]"
+]
+
+{ #category : #running }
+FMImporterAggregationDecoratorTest >> testMultipleInvocations [
+
+	self importModel: self class modelMultipleAssociations.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allInvocations size equals: 2.
+	self assert: importedModel allModelMethods size equals: 2.
+	
+	self assert: (importedModel allModelMethods allSatisfy: [ :method |
+			 method name = self expectedAggregatedMethodName ]).
+
+	self assert:
+		(importedModel allInvocations allSatisfy: [ :invocation |
+			 invocation sender name = self expectedAggregatedMethodName ]).
+
+	self assert:
+		(importedModel allInvocations allSatisfy: [ :invocation |
+			 invocation candidates anySatisfy: [ :candidate |
+				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
 { #category : #running }
