@@ -277,6 +277,35 @@ FMImporterAggregationDecoratorTest class >> modelMethodRefClass [
 ]
 
 { #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelMultipleAssociations [
+
+	| mseString |
+	mseString := '(					
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB''))
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA1'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodA2'')
+   			 	(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 5)
+    			(name ''methodB1'')
+   			 	(parentType (ref: 2)))
+			(Famix-Java-Entities.Invocation (id: 6)
+    			(candidates (ref: 5))
+    			(sender (ref: 3))
+    			(signature ''methodB''))
+			(Famix-Java-Entities.Invocation (id: 7)
+    			(candidates (ref: 5))
+    			(sender (ref: 4))
+    			(signature ''methodB''))))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelRefClassMethod [
 
 	| mseString |
