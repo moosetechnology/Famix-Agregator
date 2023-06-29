@@ -117,33 +117,39 @@ FMImporterAggregationDecoratorTest class >> modelClassRefMethod [
 { #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelCreation [
 
-	| model classA classB methodA methodB invocation |
+	| model classA classB methodA1 methodA2 methodB1 invocA1toB1 invocA2toB1 |
 	model := FamixJavaModel new.
 
 	classA := FamixJavaClass named: 'ClassA'.
+	methodA1 := FamixJavaMethod named: 'methodA1'.
+	methodA1 parentType: classA.
+	methodA2 := FamixJavaMethod named: 'methodA2'.
+	methodA2 parentType: classA.
+
 	classB := FamixJavaClass named: 'ClassB'.
-	
-	methodA := FamixJavaMethod named: 'methodA'.
-	methodA parentType: classA.
+	methodB1 := FamixJavaMethod named: 'methodB1'.
+	methodB1 parentType: classB.
 
-	methodB := FamixJavaMethod named: 'methodB'.
-	methodB parentType: classB.
+	invocA1toB1 := FamixJavaInvocation new.
+	invocA1toB1 sender: methodA1.
+	invocA1toB1 addCandidate: methodB1.
+	invocA1toB1 signature: 'methodB1'.
 
-	invocation := FamixJavaInvocation new.
-	invocation sender: methodA.
-	invocation addCandidate: methodB.
-	invocation signature: 'methodB'.
+	invocA2toB1 := FamixJavaInvocation new.
+	invocA2toB1 sender: methodA2.
+	invocA2toB1 addCandidate: methodB1.
+	invocA2toB1 signature: 'methodB1'.
 
 	model addAll: {
-    classA.
-    classB.
-    methodA.
-    methodB.
-    invocation
-	}.
+			classA.
+			classB.
+			methodA1.
+			methodA2.
+			methodB1.
+			invocA1toB1.
+			invocA2toB1 }.
 
 	^ model
-
 ]
 
 { #category : #'test data' }
