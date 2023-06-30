@@ -197,6 +197,26 @@ FMImporterAggregationDecoratorTest class >> modelInvocMethodClass [
 ]
 
 { #category : #'test data' }
+FMImporterAggregationDecoratorTest class >> modelInvocationInSameClass [
+
+	| mseString |
+	mseString := '(					
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Method (id: 2)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodB'')
+   			 	(parentType (ref: 1)))
+			(Famix-Java-Entities.Invocation (id: 4)
+    			(candidates (ref: 3))
+    			(sender (ref: 2))
+    			(signature ''methodB'')))'.
+	^ mseString
+]
+
+{ #category : #'test data' }
 FMImporterAggregationDecoratorTest class >> modelMethodClassInvoc [
 
 	| mseString |
@@ -297,11 +317,11 @@ FMImporterAggregationDecoratorTest class >> modelMultipleInvocationsToSameMethod
 			(Famix-Java-Entities.Invocation (id: 6)
     			(candidates (ref: 5))
     			(sender (ref: 3))
-    			(signature ''methodB''))
+    			(signature ''methodB1''))
 			(Famix-Java-Entities.Invocation (id: 7)
     			(candidates (ref: 5))
     			(sender (ref: 4))
-    			(signature ''methodB'')))'.
+    			(signature ''methodB1'')))'.
 	^ mseString
 ]
 
