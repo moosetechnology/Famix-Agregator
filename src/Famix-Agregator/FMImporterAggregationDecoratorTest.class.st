@@ -394,7 +394,7 @@ FMImporterAggregationDecoratorTest >> importModel [
 FMImporterAggregationDecoratorTest >> importModel: aModelString [
 
 	importedModel := FamixJavaModel new
-		                 importFrom: (FamixJavaModel
+		                 importFrom: (FamixStModel
 				                  importFrom: (ReadStream on: aModelString)
 				                  withMetamodel: FamixJavaModel metamodel
 				                  customizingImporterWith: [ :importer |
