@@ -530,6 +530,16 @@ FMImporterAggregationDecoratorTest >> testInvocationClassMethodInvoc [
 ]
 
 { #category : #running }
+FMImporterAggregationDecoratorTest >> testInvocationInSameClassDoesNotCreateDependance [
+
+	self importModel: self class modelInvocationInSameClass.
+
+	self assert: importedModel allModelClasses size equals: 1.
+	self assert: importedModel allModelMethods size equals: 0.
+	self assert: importedModel allInvocations size equals: 0
+]
+
+{ #category : #running }
 FMImporterAggregationDecoratorTest >> testInvocationInvocClassMethod [
 
 	self importModel: self class modelInvocClassMethod.
