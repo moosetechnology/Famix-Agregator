@@ -104,9 +104,6 @@ FMImporterAggregationDecorator >> decoratedImporter: anObject [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
 
-	"| methodsGroupByParentType |
-	methodsGroupByParentType := (decoratedImporter entities select:
-		                             #isMethod) groupedBy: #parentType."
 	decoratedImporter endDocument
 ]
 
