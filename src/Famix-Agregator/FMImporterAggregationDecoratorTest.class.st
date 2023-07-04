@@ -373,13 +373,13 @@ FMImporterAggregationDecoratorTest >> classB [
 	^ self mooseEntity: FamixJavaClass named: 'ClassB'
 ]
 
-{ #category : #running }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> expectedAggregatedMethodName [
 
 	^ "'__aggregatedMethod__ClassA'" '__aggregatedMethod__'
 ]
 
-{ #category : #running }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> expectedAttributeName [
 
 	^ 'attributeA'
@@ -435,15 +435,6 @@ FMImporterAggregationDecoratorTest >> methodB [
 ]
 
 { #category : #setting }
-FMImporterAggregationDecoratorTest >> mooseAssociation: aFamixAssociation source: anEntity target: anotherEntity [
-
-	^ aFamixAssociation
-		  source: anEntity
-		  target: anotherEntity
-		  model: sourceModel
-]
-
-{ #category : #setting }
 FMImporterAggregationDecoratorTest >> mooseEntity: aFamixEntity named: aString [
 
 	^ aFamixEntity named: aString model: sourceModel
@@ -459,7 +450,7 @@ FMImporterAggregationDecoratorTest >> setUp [
 	
 ]
 
-{ #category : #running }
+{ #category : #'test access' }
 FMImporterAggregationDecoratorTest >> testAccess [
 
 	self importModel: self class modelAccess.
@@ -483,7 +474,7 @@ FMImporterAggregationDecoratorTest >> testAccess [
 		equals: 'attributeA'
 ]
 
-{ #category : #tests }
+{ #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssociation [
 	
 	self classA addMethod: self methodA.
@@ -493,7 +484,7 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssoci
 	self assert: importedModel allModelClasses size equals: 1
 ]
 
-{ #category : #tests }
+{ #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testClassesAreImported [
 
 	self classA.
@@ -505,7 +496,7 @@ FMImporterAggregationDecoratorTest >> testClassesAreImported [
 		equals: 'ClassA'
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationClassInvocMethod [
 
 	self importModel: self class modelClassInvocMethod.
@@ -527,7 +518,7 @@ FMImporterAggregationDecoratorTest >> testInvocationClassInvocMethod [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationClassMethodInvoc [
 
 	self importModel: self class modelClassMethodInvoc.
@@ -549,7 +540,7 @@ FMImporterAggregationDecoratorTest >> testInvocationClassMethodInvoc [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationInSameClassDoesNotCreateDependance [
 
 	self importModel: self class modelInvocationInSameClass.
@@ -559,7 +550,7 @@ FMImporterAggregationDecoratorTest >> testInvocationInSameClassDoesNotCreateDepe
 	self assert: importedModel allInvocations size equals: 0
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationInvocClassMethod [
 
 	self importModel: self class modelInvocClassMethod.
@@ -581,7 +572,7 @@ FMImporterAggregationDecoratorTest >> testInvocationInvocClassMethod [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationInvocMethodClass [
 
 	self importModel: self class modelInvocMethodClass.
@@ -603,7 +594,7 @@ FMImporterAggregationDecoratorTest >> testInvocationInvocMethodClass [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationMethodClassInvoc [
 
 	self importModel: self class modelMethodClassInvoc.
@@ -625,7 +616,7 @@ FMImporterAggregationDecoratorTest >> testInvocationMethodClassInvoc [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationMethodInvocClass [
 
 	self importModel: self class modelMethodInvocClass.
@@ -647,7 +638,7 @@ FMImporterAggregationDecoratorTest >> testInvocationMethodInvocClass [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 
 	self importModel: self class modelMultipleInvocationsToSameMethods.
@@ -669,7 +660,7 @@ FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 				 candidate name = self expectedAggregatedMethodName ] ])
 ]
 
-{ #category : #running }
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 
 	self importModel: self class modelClassMethodRef.
@@ -693,7 +684,7 @@ FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 		equals: 'ClassB'
 ]
 
-{ #category : #running }
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 
 	self importModel: self class modelClassRefMethod.
@@ -717,7 +708,7 @@ FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 		equals: 'ClassB'
 ]
 
-{ #category : #running }
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 
 	self importModel: self class modelMethodClassRef.
@@ -741,7 +732,7 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 		equals: 'ClassB'
 ]
 
-{ #category : #running }
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
 
 	self importModel: self class modelMethodRefClass.
@@ -765,7 +756,7 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
 		equals: 'ClassB'
 ]
 
-{ #category : #running }
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceRefClassMethod [
 
 	self importModel: self class modelRefClassMethod.
@@ -789,7 +780,7 @@ FMImporterAggregationDecoratorTest >> testReferenceRefClassMethod [
 		equals: 'ClassB'
 ]
 
-{ #category : #running }
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceRefMethodClass [
 
 	self importModel: self class modelRefMethodClass.
