@@ -403,7 +403,7 @@ FMImporterAggregationDecoratorTest >> expectedAggregatedMethodName [
 { #category : #setting }
 FMImporterAggregationDecoratorTest >> expectedAttributeName [
 
-	^ 'attributeA'
+	^ 'attributeB'
 ]
 
 { #category : #setting }
