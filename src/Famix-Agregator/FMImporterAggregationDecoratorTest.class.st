@@ -472,6 +472,16 @@ FMImporterAggregationDecoratorTest >> setUp [
 ]
 
 { #category : #'test access' }
+FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependanceAndMethod [
+
+	self importModel: self class modelAccessInSameClass.
+
+	self assert: importedModel allModelClasses size equals: 1.
+	self assert: importedModel allModelMethods size equals: 0.
+	self assert: importedModel allAccesses size equals: 0.
+]
+
+{ #category : #'test access' }
 FMImporterAggregationDecoratorTest >> testAccessToExternalClassAttribute [
 
 	self importModel: self class modelAccessToExternalClassAttribute.
