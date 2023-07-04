@@ -646,7 +646,7 @@ FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allInvocations size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
-	
+
 	self assert: (importedModel allModelMethods allSatisfy: [ :method |
 			 method name = self expectedAggregatedMethodName ]).
 

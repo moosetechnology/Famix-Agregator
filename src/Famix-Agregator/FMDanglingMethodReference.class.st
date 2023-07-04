@@ -48,8 +48,10 @@ FMDanglingMethodReference >> description: aDescription [
 
 { #category : #'creating a method' }
 FMDanglingMethodReference >> ensureCreateAggregatedMethod [
+	"ensures the existence of the unique aggregated method in the class. If the class doesn't already have an aggregated method, it creates it."
 
-	^ aggregatedMethod ifNil: [ self createAggregatedMethod ]
+	parentType methods ifEmpty: [ self createAggregatedMethod ].
+	^ parentType methods anyOne
 ]
 
 { #category : #accessing }
