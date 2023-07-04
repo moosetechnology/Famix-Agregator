@@ -471,6 +471,30 @@ FMImporterAggregationDecoratorTest >> setUp [
 	
 ]
 
+{ #category : #'test access' }
+FMImporterAggregationDecoratorTest >> testAccessToExternalClassAttribute [
+
+	self importModel: self class modelAccessToExternalClassAttribute.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allAccesses size equals: 1.
+
+	self
+		assert: importedModel allModelMethods anyOne name
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allModelMethods anyOne parentType name
+		equals: 'ClassA'.
+
+	self
+		assert: importedModel allAccesses anyOne accessor name
+		equals: self expectedAggregatedMethodName.
+	self
+		assert: importedModel allAccesses anyOne variable name
+		equals: self expectedAttributeName
+]
+
 { #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssociation [
 	
