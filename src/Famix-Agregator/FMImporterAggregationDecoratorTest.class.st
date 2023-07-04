@@ -365,6 +365,22 @@ FMImporterAggregationDecoratorTest class >> modelRefClassMethod [
 ]
 
 { #category : #'model reference' }
+FMImporterAggregationDecoratorTest class >> modelRefFromMethodToItsParentType [
+
+	| mseString |
+	mseString := '(
+        (Famix-Java-Entities.Class (id: 1)
+            (name ''ClassA''))
+        (Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 1)))
+        (Famix-Java-Entities.Reference (id: 3)
+            (referencer (ref: 2))
+            (referredType (ref: 1))))'.
+	^ mseString
+]
+
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelRefMethodClass [
 
 	| mseString |
