@@ -103,6 +103,18 @@ FMImporterAggregationDecorator >> decoratedImporter: anObject [
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
+	| accesses references aggMethods |
+	aggMethods := OrderedCollection new.
+	accesses := self allEntities select: [ :e |
+		            (e class allTraits includesAny: { FamixTAccess }) and: [
+			            e source parentType = e target parentType ] ].
+	accesses do: [ :a |
+		aggMethods add: a source.
+		aggMethods add: a target ].
+	self allEntities removeAll: accesses.
+	
+	
+	self allEntities removeAll: aggMethods.
 
 	decoratedImporter endDocument
 ]
