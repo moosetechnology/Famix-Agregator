@@ -8,14 +8,14 @@ Class {
 	#category : #'Famix-Agregator-Tests'
 }
 
-{ #category : #'test data' }
+{ #category : #inspecting }
 FMImporterAggregationDecoratorTest class >> inspectModelClassMethodRef [
 
 	<script>
 	self modelCreation inspect
 ]
 
-{ #category : #'test data' }
+{ #category : #'model access' }
 FMImporterAggregationDecoratorTest class >> modelAccess [
 
 	| mseString |
@@ -34,7 +34,7 @@ FMImporterAggregationDecoratorTest class >> modelAccess [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelClassInvocMethod [
 
 	| mseString |
@@ -56,7 +56,7 @@ FMImporterAggregationDecoratorTest class >> modelClassInvocMethod [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelClassMethodInvoc [
 
 	| mseString |
@@ -78,7 +78,7 @@ FMImporterAggregationDecoratorTest class >> modelClassMethodInvoc [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
 
 	| mseString |
@@ -96,7 +96,7 @@ FMImporterAggregationDecoratorTest class >> modelClassMethodRef [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelClassRefMethod [
 
 	| mseString |
@@ -114,7 +114,7 @@ FMImporterAggregationDecoratorTest class >> modelClassRefMethod [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #inspecting }
 FMImporterAggregationDecoratorTest class >> modelCreation [
 
 	| model classA classB methodA1 methodA2 methodB1 invocA1toB1 invocA2toB1 |
@@ -152,7 +152,7 @@ FMImporterAggregationDecoratorTest class >> modelCreation [
 	^ model
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelInvocClassMethod [
 
 	| mseString |
@@ -174,7 +174,7 @@ FMImporterAggregationDecoratorTest class >> modelInvocClassMethod [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelInvocMethodClass [
 
 	| mseString |
@@ -196,7 +196,7 @@ FMImporterAggregationDecoratorTest class >> modelInvocMethodClass [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelInvocationInSameClass [
 
 	| mseString |
@@ -216,7 +216,7 @@ FMImporterAggregationDecoratorTest class >> modelInvocationInSameClass [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelMethodClassInvoc [
 
 	| mseString |
@@ -238,7 +238,7 @@ FMImporterAggregationDecoratorTest class >> modelMethodClassInvoc [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
 
 	| mseString |
@@ -256,7 +256,7 @@ FMImporterAggregationDecoratorTest class >> modelMethodClassRef [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelMethodInvocClass [
 
 	| mseString |
@@ -278,7 +278,7 @@ FMImporterAggregationDecoratorTest class >> modelMethodInvocClass [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelMethodRefClass [
 
 	| mseString |
@@ -296,7 +296,7 @@ FMImporterAggregationDecoratorTest class >> modelMethodRefClass [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelMultipleInvocationsToSameMethods [
 
 	| mseString |
@@ -325,7 +325,7 @@ FMImporterAggregationDecoratorTest class >> modelMultipleInvocationsToSameMethod
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelRefClassMethod [
 
 	| mseString |
@@ -343,7 +343,7 @@ FMImporterAggregationDecoratorTest class >> modelRefClassMethod [
 	^ mseString
 ]
 
-{ #category : #'test data' }
+{ #category : #'model reference' }
 FMImporterAggregationDecoratorTest class >> modelRefMethodClass [
 
 	| mseString |
