@@ -22,11 +22,12 @@ FMParentTypeImporter >> referenceNumber: aNumber [
 	self sourceImporter
 		entityAt: aNumber
 		ifPresent: [ :parentType |
-		 decoratedImporter currentMethodReference resolve: parentType ]
+			decoratedImporter currentMethodReference resolve:
+				parentType ]
 		ifAbsent: [
 			self sourceImporter
 				dangling: decoratedImporter currentMethodReference
-				to: aNumber  ]
+				to: aNumber ]
 ]
 
 { #category : #accessing }

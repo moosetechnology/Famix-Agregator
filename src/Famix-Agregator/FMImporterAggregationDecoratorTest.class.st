@@ -361,13 +361,13 @@ FMImporterAggregationDecoratorTest class >> modelRefMethodClass [
 	^ mseString
 ]
 
-{ #category : #tests }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> classA [
 
 	^ self mooseEntity: FamixJavaClass named: 'ClassA'
 ]
 
-{ #category : #tests }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> classB [
 
 	^ self mooseEntity: FamixJavaClass named: 'ClassB'
@@ -385,7 +385,7 @@ FMImporterAggregationDecoratorTest >> expectedAttributeName [
 	^ 'attributeA'
 ]
 
-{ #category : #'test data' }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> importModel [
 
 	| mseString fileName stream testResourcesDirectory |
@@ -410,7 +410,7 @@ FMImporterAggregationDecoratorTest >> importModel [
 		                 named: 'testModel'
 ]
 
-{ #category : #'test data' }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> importModel: aModelString [
 
 	importedModel := FamixJavaModel new
@@ -422,19 +422,19 @@ FMImporterAggregationDecoratorTest >> importModel: aModelString [
 		                 named: 'testModel'
 ]
 
-{ #category : #tests }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> methodA [
 
 	^ self mooseEntity: FamixJavaMethod named: 'methodA'
 ]
 
-{ #category : #tests }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> methodB [
 
 	^ self mooseEntity: FamixJavaMethod named: 'methodB'
 ]
 
-{ #category : #running }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> mooseAssociation: aFamixAssociation source: anEntity target: anotherEntity [
 
 	^ aFamixAssociation
@@ -443,7 +443,7 @@ FMImporterAggregationDecoratorTest >> mooseAssociation: aFamixAssociation source
 		  model: sourceModel
 ]
 
-{ #category : #running }
+{ #category : #setting }
 FMImporterAggregationDecoratorTest >> mooseEntity: aFamixEntity named: aString [
 
 	^ aFamixEntity named: aString model: sourceModel
