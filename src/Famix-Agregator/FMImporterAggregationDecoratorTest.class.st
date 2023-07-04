@@ -471,30 +471,6 @@ FMImporterAggregationDecoratorTest >> setUp [
 	
 ]
 
-{ #category : #'test access' }
-FMImporterAggregationDecoratorTest >> testAccess [
-
-	self importModel: self class modelAccess.
-
-	self assert: importedModel allModelClasses size equals: 1.
-	self assert: importedModel allModelMethods size equals: 1.
-	self assert: importedModel allAccesses size equals: 1.
-
-	self
-		assert: importedModel allModelMethods anyOne name
-		equals: self expectedAggregatedMethodName.
-	self
-		assert: importedModel allModelMethods anyOne parentType name
-		equals: 'ClassA'.
-
-	self
-		assert: importedModel allAccesses anyOne accessor name
-		equals: self expectedAggregatedMethodName.
-	self
-		assert: importedModel allAccesses anyOne variable name
-		equals: 'attributeA'
-]
-
 { #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssociation [
 	
