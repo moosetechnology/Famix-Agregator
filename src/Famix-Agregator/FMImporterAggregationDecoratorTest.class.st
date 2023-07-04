@@ -35,6 +35,25 @@ FMImporterAggregationDecoratorTest class >> modelAccess [
 ]
 
 { #category : #'model access' }
+FMImporterAggregationDecoratorTest class >> modelAccessInSameClass [
+
+	| mseString |
+	mseString := '(	
+        	(Famix-Java-Entities.Class (id: 1)
+        		(name ''ClassA''))
+    		(Famix-Java-Entities.Method (id: 2)
+        		(name ''methodA'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Attribute (id: 3)
+        		(name ''attributeA'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Access (id: 4)
+        		(accessor (ref: 2))
+        		(variable (ref: 3))))'.
+	^ mseString
+]
+
+{ #category : #'model access' }
 FMImporterAggregationDecoratorTest class >> modelAccessToExternalClassAttribute [
 
 	| mseString |
