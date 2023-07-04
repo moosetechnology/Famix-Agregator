@@ -648,19 +648,6 @@ FMImporterAggregationDecoratorTest >> testInvocationMethodInvocClass [
 ]
 
 { #category : #running }
-FMImporterAggregationDecoratorTest >> testLocalModel [
-	"importedModel := '/home/users/etudiant/projet_totoum_patricia_coo/output.mse'
-		                 asFileReference readStreamDo: [ :st |
-		                 FamixJavaModel new
-			                 importFrom: (FamixJavaModel
-					                  importFrom: st
-					                  withMetamodel: FamixJavaModel metamodel
-					                  customizingImporterWith: [ :importer |
-					                  FMImporterAggregationDecorator on: importer ])
-			                 named: 'testModel' ]"
-]
-
-{ #category : #running }
 FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 
 	self importModel: self class modelMultipleInvocationsToSameMethods.
