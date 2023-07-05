@@ -103,19 +103,17 @@ FMImporterAggregationDecorator >> decoratedImporter: anObject [
 
 { #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
+
 	| accesses nonReferencedAggMeths |
 	nonReferencedAggMeths := OrderedCollection new.
-	
+
 	"deleting accesses in same class"
 	accesses := self allEntities select: [ :e |
 		            e isAccess and: [
-			            e source parentType = e target parentType ] ].
-	accesses do: [ :a |
-		nonReferencedAggMeths addAll: {
-				a source.
-				a target } ].
-	
-	self allEntities removeAll: accesses, nonReferencedAggMeths.
+			            e accessor parentType = e variable parentType ] ].
+	accesses collect: [ :a | a accessor ] into: nonReferencedAggMeths.
+
+	self allEntities removeAll: accesses , nonReferencedAggMeths.
 
 	decoratedImporter endDocument
 ]
