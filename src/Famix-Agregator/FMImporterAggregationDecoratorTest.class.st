@@ -229,11 +229,12 @@ FMImporterAggregationDecoratorTest class >> modelInvocationInSameClass [
     			(parentType (ref: 1)))
 			(Famix-Java-Entities.Method (id: 3)
     			(name ''methodB'')
+				(signature ''methodB()'')
    			 	(parentType (ref: 1)))
 			(Famix-Java-Entities.Invocation (id: 4)
     			(candidates (ref: 3))
     			(sender (ref: 2))
-    			(signature ''methodB'')))'.
+    			(signature ''methodB()'')))'.
 	^ mseString
 ]
 
