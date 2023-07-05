@@ -8,4 +8,5 @@ Metacello new
   repository: 'github://moosetechnology/Famix-Agregator:main/src';
   load
   ```
-  
+  # Exporting the aggregated meta-model
+  '/path/to/file.mse' asFileReference writeStreamDo: [ :writeStream | (MooseModel root at: aPosition) metamodel exportOn: writeStream ]
