@@ -756,6 +756,16 @@ FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 ]
 
 { #category : #'test reference' }
+FMImporterAggregationDecoratorTest >> testReferenceFromMethodToItsParentTypeDoesNotCreateDependanceAndMethod [
+
+	self importModel: self class modelRefFromMethodToItsParentType.
+
+	self assert: importedModel allModelClasses size equals: 1.
+	self assert: importedModel allModelMethods size equals: 0.
+	self assert: importedModel allReferences size equals: 0.
+]
+
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 
 	self importModel: self class modelMethodClassRef.
