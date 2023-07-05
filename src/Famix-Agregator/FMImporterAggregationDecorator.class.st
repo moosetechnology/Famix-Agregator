@@ -104,33 +104,36 @@ FMImporterAggregationDecorator >> decoratedImporter: anObject [
 { #category : #parsing }
 FMImporterAggregationDecorator >> endDocument [
 
-	"| accesses nonReferencedAggMeths references invocations |
+	| accesses nonReferencedAggMeths references invocations |
 	nonReferencedAggMeths := OrderedCollection new.
 
-	""deleting accesses in same class""
+	"deleting accesses in same class"
 	accesses := self allEntities select: [ :e |
 		            e isAccess and: [
 			            e accessor parentType = e variable parentType ] ].
 	accesses collect: [ :a | a accessor ] into: nonReferencedAggMeths.
 
-	""deleting references from a referencer to its the parentType""
+	"deleting references from a referencer to its the parentType"
 	references := self allEntities select: [ :e |
 		              e isReference and: [
 			              e referencer parentType = e referredType ] ].
 	references collect: [ :r | r referencer ] into: nonReferencedAggMeths.
 
-	""deleting invocations within the same class""
+	"deleting invocations within the same class"
 	invocations := self allEntities select: [ :e |
 		               e isInvocation and: [
 			               | senderClass |
 			               senderClass := e sender parentType.
 			               e candidates anySatisfy: [ :cand |
+				               
+					               cand parentType = senderClass ] ]  ].
+	" e candidates anySatisfy: [ :cand |
 				               cand signature = e signature and: [
-					               cand parentType = senderClass ] ] ] ].
+					               cand parentType = senderClass ] ]"
 	invocations collect: [ :i | i sender ] into: nonReferencedAggMeths.
 
 	self allEntities removeAll:
-		accesses , references , invocations , nonReferencedAggMeths."
+		accesses , references , invocations , nonReferencedAggMeths.
 
 	decoratedImporter endDocument
 ]
