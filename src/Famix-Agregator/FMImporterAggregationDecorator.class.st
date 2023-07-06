@@ -125,8 +125,7 @@ FMImporterAggregationDecorator >> endDocument [
 			               | senderClass |
 			               senderClass := e sender parentType.
 			               e candidates anySatisfy: [ :cand |
-				               
-					               cand parentType = senderClass ] ]  ].
+				               cand parentType = senderClass ] ] ].
 	" e candidates anySatisfy: [ :cand |
 				               cand signature = e signature and: [
 					               cand parentType = senderClass ] ]"
@@ -174,6 +173,15 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 		aBlock value.
 		currentParser importer: self.
 		^ self ].
+
+	(self isImportingAssociation: aDescription) ifTrue: [ 
+		| associationImporter|
+		associationImporter := FMAssociationImporter on: self.
+		currentParser importer: associationImporter.
+		associationImporter beginEntity: aDescription.
+		aBlock value.
+		currentParser importer: self.
+		 ].
 
 	self beginEntity: aDescription.
 	aBlock value.
