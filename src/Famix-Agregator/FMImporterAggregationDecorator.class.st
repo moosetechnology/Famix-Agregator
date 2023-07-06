@@ -181,6 +181,15 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 ]
 
 { #category : #asserting }
+FMImporterAggregationDecorator >> isImportingAssociation: aString [
+
+	| shortName allowedAssociations |
+	allowedAssociations := #( 'Access' 'Reference' 'Invocation' ).
+	shortName := (aString findTokens: $.) last.
+	^ allowedAssociations includes: shortName
+]
+
+{ #category : #asserting }
 FMImporterAggregationDecorator >> isImportingMethod: aString [
 
 	| shortName |
