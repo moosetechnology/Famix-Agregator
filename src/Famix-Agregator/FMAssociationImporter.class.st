@@ -48,6 +48,17 @@ FMAssociationImporter >> currentParser [
 	^ decoratedImporter currentParser
 ]
 
+{ #category : #parsing }
+FMAssociationImporter >> endProperty: name [
+]
+
+{ #category : #parsing }
+FMAssociationImporter >> primitive: value [
+	"Nothing to do: the current property is not a source or target of the association, so we don't care 	about it."
+
+	
+]
+
 { #category : #accessing }
 FMAssociationImporter >> serial: aNumber [
 
