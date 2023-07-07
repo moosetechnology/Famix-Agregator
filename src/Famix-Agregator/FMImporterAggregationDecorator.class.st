@@ -144,14 +144,13 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 		currentParser importer: self.
 		^ self ].
 
-	(self isImportingAssociation: aDescription) ifTrue: [ 
-		| associationImporter|
+	(self isImportingAssociation: aDescription) ifTrue: [
+		| associationImporter |
 		associationImporter := FMAssociationImporter on: self.
 		currentParser importer: associationImporter.
 		associationImporter beginEntity: aDescription.
 		aBlock value.
-		currentParser importer: self.
-		 ].
+		currentParser importer: self ].
 
 	self beginEntity: aDescription.
 	aBlock value.
