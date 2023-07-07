@@ -47,3 +47,9 @@ FMAssociationImporter >> currentParser [
 
 	^ decoratedImporter currentParser
 ]
+
+{ #category : #accessing }
+FMAssociationImporter >> serial: aNumber [
+
+	currentAssociationReference referenceID: aNumber
+]
