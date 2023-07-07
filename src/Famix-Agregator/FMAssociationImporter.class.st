@@ -21,5 +21,14 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #FMAssociationImporter,
 	#superclass : #FMImporterAggregationDecorator,
+	#instVars : [
+		'currentAssociationReference'
+	],
 	#category : #'Famix-Agregator-Core'
 }
+
+{ #category : #accessing }
+FMAssociationImporter >> currentAssociationReference [
+
+	^ currentAssociationReference
+]
