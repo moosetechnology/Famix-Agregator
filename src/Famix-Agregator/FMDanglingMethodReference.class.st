@@ -12,12 +12,6 @@ Class {
 }
 
 { #category : #accessing }
-FMDanglingMethodReference >> aDescription: anObject [
-
-	description := anObject
-]
-
-{ #category : #accessing }
 FMDanglingMethodReference >> aggregatedMethod [
 
 	^ aggregatedMethod

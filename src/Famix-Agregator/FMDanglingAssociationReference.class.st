@@ -4,10 +4,17 @@ Class {
 	#instVars : [
 		'sourceTypeID',
 		'targetTypeID',
-		'importer'
+		'importer',
+		'description'
 	],
 	#category : #'Famix-Agregator-Core'
 }
+
+{ #category : #accessing }
+FMDanglingAssociationReference >> description: anObject [
+
+	description := anObject
+]
 
 { #category : #accessing }
 FMDanglingAssociationReference >> importer: anObject [
