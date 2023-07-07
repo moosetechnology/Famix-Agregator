@@ -51,7 +51,7 @@ FMMethodImporter >> currentMethodReference [
 	^ currentMethodReference
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMMethodImporter >> currentParser [
 
 	^ decoratedImporter currentParser
@@ -76,7 +76,7 @@ FMMethodImporter >> referenceNumber: index [
 	
 ]
 
-{ #category : #parsing }
+{ #category : #accessing }
 FMMethodImporter >> serial: aNumber [
 
 	currentMethodReference methodID: aNumber

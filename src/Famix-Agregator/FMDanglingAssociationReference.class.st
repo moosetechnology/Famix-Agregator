@@ -28,6 +28,7 @@ Class {
 	#name : #FMDanglingAssociationReference,
 	#superclass : #Object,
 	#instVars : [
+		'referenceID',
 		'sourceTypeID',
 		'targetTypeID',
 		'importer',
@@ -55,25 +56,25 @@ FMDanglingAssociationReference >> isDanglingReference [
 ]
 
 { #category : #accessing }
+FMDanglingAssociationReference >> referenceID [
+
+	^ referenceID
+]
+
+{ #category : #accessing }
+FMDanglingAssociationReference >> referenceID: aNumber [
+
+	referenceID := aNumber
+]
+
+{ #category : #accessing }
 FMDanglingAssociationReference >> sourceTypeID [
 
 	^ sourceTypeID
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> sourceTypeID: anObject [
-
-	sourceTypeID := anObject
-]
-
-{ #category : #accessing }
 FMDanglingAssociationReference >> targetTypeID [
 
 	^ targetTypeID
-]
-
-{ #category : #accessing }
-FMDanglingAssociationReference >> targetTypeID: anObject [
-
-	targetTypeID := anObject
 ]

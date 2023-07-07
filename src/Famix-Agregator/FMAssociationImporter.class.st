@@ -27,8 +27,23 @@ Class {
 	#category : #'Famix-Agregator-Core'
 }
 
+{ #category : #parsing }
+FMAssociationImporter >> beginEntity: aDescription [
+
+	currentAssociationReference := FMDanglingAssociationReference new
+		                               importer: self decoratedImporter;
+		                               description: aDescription;
+		                               yourself
+]
+
 { #category : #accessing }
 FMAssociationImporter >> currentAssociationReference [
 
 	^ currentAssociationReference
+]
+
+{ #category : #accessing }
+FMAssociationImporter >> currentParser [
+
+	^ decoratedImporter currentParser
 ]
