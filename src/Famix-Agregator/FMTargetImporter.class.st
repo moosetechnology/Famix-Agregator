@@ -46,3 +46,9 @@ FMTargetImporter >> referenceNumber: aNumber [
 			ifAbsent: [
 			self sourceImporter dangling: FMDanglingReference new to: aNumber ] ]
 ]
+
+{ #category : #accessing }
+FMTargetImporter >> targetName: aName [
+
+	targetName := aName
+]
