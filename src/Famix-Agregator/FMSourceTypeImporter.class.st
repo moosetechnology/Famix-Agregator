@@ -9,3 +9,9 @@ FMSourceTypeImporter >> currentParser [
 
 	^ decoratedImporter currentParser
 ]
+
+{ #category : #parsing }
+FMSourceTypeImporter >> endProperty: aName [
+
+	self currentParser importer: self decoratedImporter
+]
