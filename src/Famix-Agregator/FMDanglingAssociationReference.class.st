@@ -57,10 +57,10 @@ FMDanglingAssociationReference >> isDanglingReference [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #resolving }
 FMDanglingAssociationReference >> maybeResolve [
 
-	sourceType ~= targetType ifTrue: [ 1 halt ]
+	sourceType ~= targetType ifTrue: [ ]
 ]
 
 { #category : #accessing }
