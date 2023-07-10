@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #parsing }
+FMTargetImporter >> endProperty: aName [
+
+	self currentParser importer: self decoratedImporter
+]
+
+{ #category : #parsing }
 FMTargetImporter >> referenceNumber: aNumber [
 
 	| entitiesWithParentType |
