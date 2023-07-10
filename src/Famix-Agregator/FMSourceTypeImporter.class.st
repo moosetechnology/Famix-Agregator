@@ -16,6 +16,24 @@ FMSourceTypeImporter >> endProperty: aName [
 	self currentParser importer: self decoratedImporter
 ]
 
+{ #category : #parsing }
+FMSourceTypeImporter >> referenceNumber: aNumber [
+
+	self sourceImporter
+		entityAt: aNumber
+		ifPresent: [ :source |
+			source parentType ifNotNil: [
+				decoratedImporter currentAssociationReference sourceType:
+					source parentType. decoratedImporter currentAssociationReference sourceID: aNumber ].
+			 ]
+		ifAbsent: [
+			self sourceImporter
+				dangling: decoratedImporter currentAssociationReference
+				to: aNumber ].
+
+	decoratedImporter currentAssociationReference
+]
+
 { #category : #accessing }
 FMSourceTypeImporter >> sourceImporter [
 	"Decorated importer is a FMAssociationImporter.
