@@ -24,14 +24,10 @@ FMSourceTypeImporter >> referenceNumber: aNumber [
 		ifPresent: [ :source |
 			source parentType ifNotNil: [
 				decoratedImporter currentAssociationReference sourceType:
-					source parentType. decoratedImporter currentAssociationReference sourceID: aNumber ].
-			 ]
+					source parentType.
+				decoratedImporter currentAssociationReference sourceID: aNumber ] ]
 		ifAbsent: [
-			self sourceImporter
-				dangling: decoratedImporter currentAssociationReference
-				to: aNumber ].
-
-	decoratedImporter currentAssociationReference
+		"self sourceImporter dangling: (FMDanglingReference with:) to: aNumber" ]
 ]
 
 { #category : #accessing }
