@@ -414,7 +414,7 @@ FMImporterAggregationDecoratorTest >> classB [
 { #category : #setting }
 FMImporterAggregationDecoratorTest >> expectedAggregatedMethodName [
 
-	^ "'__aggregatedMethod__ClassA'" '__aggregatedMethod__'
+	^ '__aggregatedMethod__'
 ]
 
 { #category : #setting }

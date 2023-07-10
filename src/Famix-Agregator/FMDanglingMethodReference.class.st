@@ -52,9 +52,7 @@ FMDanglingMethodReference >> createAggregatedMethod [
 	aggregatedMethod := (importer metamodel elementNamed: description)
 		                    createInstance.
 
-	aggregatedMethod name: '__aggregatedMethod__'. ", parentType name"
-	self flag:
-		'we cannot access parentType name when the file order is method -> ref -> class. The resolution of this DMR is triggered by serial which is before inProperty: do:'.
+	aggregatedMethod name: '__aggregatedMethod__'.
 
 	aggregatedMethod parentType: parentType.
 
