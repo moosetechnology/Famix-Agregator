@@ -29,10 +29,12 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'referenceID',
-		'sourceTypeID',
-		'targetTypeID',
+		'sourceID',
+		'targetID',
 		'importer',
-		'description'
+		'description',
+		'sourceType',
+		'targetType'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -56,6 +58,12 @@ FMDanglingAssociationReference >> isDanglingReference [
 ]
 
 { #category : #accessing }
+FMDanglingAssociationReference >> maybeResolve [
+
+	sourceType ~= targetType ifTrue: [ 1 halt ]
+]
+
+{ #category : #accessing }
 FMDanglingAssociationReference >> referenceID [
 
 	^ referenceID
@@ -68,13 +76,25 @@ FMDanglingAssociationReference >> referenceID: aNumber [
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> sourceTypeID [
+FMDanglingAssociationReference >> sourceID: aNumber [
 
-	^ sourceTypeID
+	sourceID := aNumber
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> targetTypeID [
+FMDanglingAssociationReference >> sourceType: anEntity [
 
-	^ targetTypeID
+	sourceType := anEntity
+]
+
+{ #category : #accessing }
+FMDanglingAssociationReference >> targetID: aNumber [
+
+	targetID := aNumber
+]
+
+{ #category : #accessing }
+FMDanglingAssociationReference >> targetType: anEntity [
+
+	targetType := anEntity
 ]
