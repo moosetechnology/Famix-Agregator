@@ -7,6 +7,12 @@ Class {
 	#category : #'Famix-Agregator-Core'
 }
 
+{ #category : #accessing }
+FMTargetImporter >> currentParser [
+
+	^ decoratedImporter currentParser
+]
+
 { #category : #parsing }
 FMTargetImporter >> endProperty: aName [
 
