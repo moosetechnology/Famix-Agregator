@@ -36,6 +36,20 @@ FMAssociationImporter >> beginEntity: aDescription [
 		                               yourself
 ]
 
+{ #category : #parsing }
+FMAssociationImporter >> beginProperty: aName [
+	"We will not create an actual method. So we don't need to create properties"
+	"Codage en dur pour le moment, refactoring plus tard"
+
+	| sourceTypes targetTypes |
+	sourceTypes := #( 'accessor' 'referencer' 'sender' ).
+	targetTypes := #( 'variable' 'refferedType' 'candidates' ).
+	(sourceTypes includes: aName) ifTrue: [
+		self currentParser importer: (FMSourceTypeImporter on: self) ].
+	(targetTypes includes: aName) ifTrue: [
+		self currentParser importer: (FMTargetImporter on: self) ]
+]
+
 { #category : #accessing }
 FMAssociationImporter >> currentAssociationReference [
 
