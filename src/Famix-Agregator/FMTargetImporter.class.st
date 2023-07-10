@@ -48,6 +48,15 @@ FMTargetImporter >> referenceNumber: aNumber [
 ]
 
 { #category : #accessing }
+FMTargetImporter >> sourceImporter [
+	"Decorated importer is a FMAssociationImporter.
+	Its decorated importer is a FMImporterAggregationDecorator.
+	We want to access the decorated importer of this FMImporterAggregationDecorator which is a 	FMImporter"
+
+	^ decoratedImporter decoratedImporter decoratedImporter
+]
+
+{ #category : #accessing }
 FMTargetImporter >> targetName: aName [
 
 	targetName := aName
