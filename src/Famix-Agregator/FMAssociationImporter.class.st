@@ -73,6 +73,13 @@ FMAssociationImporter >> primitive: value [
 	
 ]
 
+{ #category : #parsing }
+FMAssociationImporter >> referenceNumber: index [
+	"Nothing to do: the current property is not a source or target of the association, so we don't care 	about it."
+
+	
+]
+
 { #category : #accessing }
 FMAssociationImporter >> serial: aNumber [
 
