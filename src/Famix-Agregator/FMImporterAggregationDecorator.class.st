@@ -161,14 +161,21 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 { #category : #asserting }
 FMImporterAggregationDecorator >> isImportingAssociation: aString [
 	"For now, we will only handle accesses, references, and invocations.
-	However, to expand the functionality in the future, we can consider treating all types of 	associations by doing :
-	associations := decoratedImporter metamodel classes select:  [ :c | c traits anySatisfy: [ :trait 	| trait name = 	#TAssociation ]].
-	"
-
-	| shortName allowedAssociations |
 	allowedAssociations := #( #Access #Reference #Invocation ).
 	shortName := (aString findTokens: $.) last.
 	^ allowedAssociations includes: shortName
+	
+	However, to expand the functionality in the future, we can consider treating all types of 	associations by doing :
+	"
+
+	| associations associationsNames shortName |
+	associations := decoratedImporter metamodel classes select: [ :c |
+		                c traits anySatisfy: [ :trait |
+			                trait name = #TAssociation ] ].
+
+	associationsNames := associations collect: [ :a | a name ].
+	shortName := (aString findTokens: $.) last.
+	^ associationsNames includes: shortName
 ]
 
 { #category : #asserting }
