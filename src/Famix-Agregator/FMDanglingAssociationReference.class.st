@@ -34,10 +34,21 @@ Class {
 		'importer',
 		'description',
 		'sourceType',
-		'targetType'
+		'targetType',
+		'association'
 	],
 	#category : #'Famix-Agregator-Core'
 }
+
+{ #category : #creating }
+FMDanglingAssociationReference >> createAssociation [
+
+	association := (importer metamodel elementNamed: description)
+		               createInstance.
+	association source: (importer serialDict at: sourceID).
+	association target: (importer serialDict at: targetID).
+	importer allEntities add: association
+]
 
 { #category : #accessing }
 FMDanglingAssociationReference >> description: anObject [

@@ -135,7 +135,6 @@ FMImporterAggregationDecorator >> entityAt: serial ifAbsent: aBlock [
 { #category : #parsing }
 FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 
-	1 halt.
 	(self isImportingMethod: aDescription) ifTrue: [
 		| methodImporter |
 		methodImporter := FMMethodImporter on: self.
@@ -145,13 +144,13 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 		currentParser importer: self.
 		^ self ].
 
-	"(self isImportingAssociation: aDescription) ifTrue: [
+	(self isImportingAssociation: aDescription) ifTrue: [
 		| associationImporter |
 		associationImporter := FMAssociationImporter on: self.
 		currentParser importer: associationImporter.
 		associationImporter beginEntity: aDescription.
 		aBlock value.
-		currentParser importer: self ]."
+		currentParser importer: self ].
 
 	self beginEntity: aDescription.
 	aBlock value.
@@ -172,7 +171,7 @@ FMImporterAggregationDecorator >> isImportingAssociation: aString [
 	associations := decoratedImporter metamodel classes select: [ :c |
 		                c traits anySatisfy: [ :trait |
 			                trait name = #TAssociation ] ].
-
+	
 	associationsNames := associations collect: [ :a | a name ].
 	shortName := (aString findTokens: $.) last.
 	^ associationsNames includes: shortName
