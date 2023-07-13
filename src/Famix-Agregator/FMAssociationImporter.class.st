@@ -59,7 +59,6 @@ FMAssociationImporter >> currentParser [
 { #category : #parsing }
 FMAssociationImporter >> endProperty: name [
 
-	self currentParser importer: self
 ]
 
 { #category : #parsing }
