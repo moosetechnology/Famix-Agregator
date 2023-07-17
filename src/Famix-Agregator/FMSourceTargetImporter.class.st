@@ -80,33 +80,18 @@ FMSourceTargetImporter >> propertyName: aName [
 { #category : #parsing }
 FMSourceTargetImporter >> referenceNumber: aNumber [
 
-	(self isSource: propertyName) ifTrue: [
-		1 halt.
-		self sourceImporter
-			entityAt: aNumber
-			ifPresent: [ :element |
-				1 halt.
-				decoratedImporter currentAssociationReference resolve: element.
-				 ]
-			ifAbsent: [
-				1 halt.
-				self sourceImporter
-					dangling:
-					(decoratedImporter currentAssociationReference isSource: true)
-					to: aNumber ] ].
-
-	(self isTarget: propertyName) ifFalse: [ ^ self ].
-	1 halt.
 	self sourceImporter
 		entityAt: aNumber
 		ifPresent: [ :element |
-			1 halt.
-			decoratedImporter currentAssociationReference resolve: element ]
+			decoratedImporter currentAssociationReference resolve: element.
+			(self isSource: propertyName) ifTrue: [1 halt.
+				decoratedImporter currentAssociationReference source: element ].
+			(self isTarget: propertyName) ifTrue: [1 halt.
+				decoratedImporter currentAssociationReference target: element ] ]
 		ifAbsent: [
 			1 halt.
 			self sourceImporter
-				dangling:
-				(decoratedImporter currentAssociationReference isTarget: true)
+				dangling: decoratedImporter currentAssociationReference
 				to: aNumber ]
 ]
 
