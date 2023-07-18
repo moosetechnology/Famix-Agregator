@@ -111,6 +111,5 @@ FMDanglingMethodReference >> resolve: element [
 
 	self assert: element isNotNil.
 	parentType := element.
-
 	importer assignDanglingMethod: self to: methodID
 ]

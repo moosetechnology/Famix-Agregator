@@ -40,8 +40,8 @@ FMAssociationImporter >> beginEntity: aDescription [
 FMAssociationImporter >> beginProperty: aName [
 	"Codage en dur pour le moment, généralisation plus tard"
 
-	1 halt.
-	self currentParser importer: ((FMSourceTargetImporter on: self) propertyName: aName)
+	self currentParser importer:
+		((FMSourceTargetImporter on: self) propertyName: aName)
 ]
 
 { #category : #accessing }

@@ -84,12 +84,11 @@ FMSourceTargetImporter >> referenceNumber: aNumber [
 		entityAt: aNumber
 		ifPresent: [ :element |
 			decoratedImporter currentAssociationReference resolve: element.
-			(self isSource: propertyName) ifTrue: [1 halt.
+			(self isSource: propertyName) ifTrue: [
 				decoratedImporter currentAssociationReference source: element ].
-			(self isTarget: propertyName) ifTrue: [1 halt.
+			(self isTarget: propertyName) ifTrue: [
 				decoratedImporter currentAssociationReference target: element ] ]
 		ifAbsent: [
-			1 halt.
 			self sourceImporter
 				dangling: decoratedImporter currentAssociationReference
 				to: aNumber ]

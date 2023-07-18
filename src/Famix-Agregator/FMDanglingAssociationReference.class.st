@@ -33,8 +33,8 @@ Class {
 		'targetID',
 		'importer',
 		'description',
-		'sourceType',
-		'targetType',
+		'source',
+		'target',
 		'association'
 	],
 	#category : #'Famix-Agregator-Core'
@@ -45,9 +45,9 @@ FMDanglingAssociationReference >> createAssociation [
 
 	association := (importer metamodel elementNamed: description)
 		               createInstance.
-	association source: (importer serialDict at: sourceID).
-	association target: (importer serialDict at: targetID).
-	importer allEntities add: association
+	association source: source.
+	association target: target.
+	^ association
 ]
 
 { #category : #accessing }
@@ -68,12 +68,6 @@ FMDanglingAssociationReference >> isDanglingReference [
 	^ true
 ]
 
-{ #category : #resolving }
-FMDanglingAssociationReference >> maybeResolve [
-
-	sourceType ~= targetType ifTrue: [ ]
-]
-
 { #category : #accessing }
 FMDanglingAssociationReference >> referenceID [
 
@@ -86,6 +80,18 @@ FMDanglingAssociationReference >> referenceID: aNumber [
 	referenceID := aNumber
 ]
 
+{ #category : #resolving }
+FMDanglingAssociationReference >> resolve: element [
+
+	
+]
+
+{ #category : #accessing }
+FMDanglingAssociationReference >> source: anEntity [
+
+	source := anEntity
+]
+
 { #category : #accessing }
 FMDanglingAssociationReference >> sourceID: aNumber [
 
@@ -93,19 +99,13 @@ FMDanglingAssociationReference >> sourceID: aNumber [
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> sourceType: anEntity [
+FMDanglingAssociationReference >> target: anEntity [
 
-	sourceType := anEntity
+	target := anEntity
 ]
 
 { #category : #accessing }
 FMDanglingAssociationReference >> targetID: aNumber [
 
 	targetID := aNumber
-]
-
-{ #category : #accessing }
-FMDanglingAssociationReference >> targetType: anEntity [
-
-	targetType := anEntity
 ]

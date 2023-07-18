@@ -31,7 +31,7 @@ FMMethodImporter >> beginEntity: aDescription [
 
 	currentMethodReference := FMDanglingMethodReference new
 		                          importer: self decoratedImporter;
-										  description: aDescription;
+		                          description: aDescription;
 		                          yourself
 ]
 
@@ -41,8 +41,6 @@ FMMethodImporter >> beginProperty: aName [
 
 	aName = #parentType ifTrue: [
 		self currentParser importer: (FMParentTypeImporter on: self) ]
-
-	
 ]
 
 { #category : #accessing }
