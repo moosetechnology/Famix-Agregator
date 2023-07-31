@@ -11,7 +11,7 @@ FMImporter >> assignDanglingMethod: element to: serial [
 		self assert: numberOfDanglingReferences >= 0 ].
 	serialDict
 		at: serial
-		put: (element aggregatedMethod ifNil: [ element ]) 
+		put: (element aggregatedMethod ifNil: [ element ])
 ]
 
 { #category : #'*Famix-Agregator' }
