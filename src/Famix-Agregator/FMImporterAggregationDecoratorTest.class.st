@@ -360,18 +360,6 @@ FMImporterAggregationDecoratorTest class >> modelRefMethodClass [
 ]
 
 { #category : #setting }
-FMImporterAggregationDecoratorTest >> classA [
-
-	^ self mooseEntity: FamixJavaClass named: 'ClassA'
-]
-
-{ #category : #setting }
-FMImporterAggregationDecoratorTest >> classB [
-
-	^ self mooseEntity: FamixJavaClass named: 'ClassB'
-]
-
-{ #category : #setting }
 FMImporterAggregationDecoratorTest >> expectedAggregatedMethodName [
 
 	^ '__aggregatedMethod__'
@@ -418,18 +406,6 @@ FMImporterAggregationDecoratorTest >> importModel: aModelString [
 				                  customizingImporterWith: [ :importer |
 				                  FMImporterAggregationDecorator on: importer ])
 		                 named: 'testModel'
-]
-
-{ #category : #setting }
-FMImporterAggregationDecoratorTest >> methodA [
-
-	^ self mooseEntity: FamixJavaMethod named: 'methodA'
-]
-
-{ #category : #setting }
-FMImporterAggregationDecoratorTest >> methodB [
-
-	^ self mooseEntity: FamixJavaMethod named: 'methodB'
 ]
 
 { #category : #setting }
