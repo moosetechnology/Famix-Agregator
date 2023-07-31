@@ -25,7 +25,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #FMDanglingAssociationReference,
+	#name : #FMDanglingAssociation,
 	#superclass : #Object,
 	#instVars : [
 		'referenceID',
@@ -34,78 +34,67 @@ Class {
 		'importer',
 		'description',
 		'source',
-		'target',
-		'association'
+		'target'
 	],
 	#category : #'Famix-Agregator-Core'
 }
 
-{ #category : #creating }
-FMDanglingAssociationReference >> createAssociation [
-
-	association := (importer metamodel elementNamed: description)
-		               createInstance.
-	association source: source.
-	association target: target.
-	^ association
-]
-
 { #category : #accessing }
-FMDanglingAssociationReference >> description: anObject [
+FMDanglingAssociation >> description: anObject [
 
 	description := anObject
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> importer: anObject [
+FMDanglingAssociation >> importer: anObject [
 
 	importer := anObject
 ]
 
 { #category : #testing }
-FMDanglingAssociationReference >> isDanglingReference [
+FMDanglingAssociation >> isDanglingReference [
 
 	^ true
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> referenceID [
+FMDanglingAssociation >> referenceID [
 
 	^ referenceID
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> referenceID: aNumber [
+FMDanglingAssociation >> referenceID: aNumber [
 
 	referenceID := aNumber
 ]
 
 { #category : #resolving }
-FMDanglingAssociationReference >> resolve: element [
+FMDanglingAssociation >> resolve: element [
 
 	
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> source: anEntity [
+FMDanglingAssociation >> source: anEntity [
 
 	source := anEntity
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> sourceID: aNumber [
+FMDanglingAssociation >> sourceID: aNumber [
 
 	sourceID := aNumber
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> target: anEntity [
+FMDanglingAssociation >> target: anEntity [
 
 	target := anEntity
 ]
 
 { #category : #accessing }
-FMDanglingAssociationReference >> targetID: aNumber [
+FMDanglingAssociation >> targetID: aNumber [
 
 	targetID := aNumber
 ]

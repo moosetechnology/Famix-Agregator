@@ -28,7 +28,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #FMDanglingMethodReference,
+	#name : #FMDanglingMethod,
 	#superclass : #Object,
 	#instVars : [
 		'methodID',
@@ -41,13 +41,13 @@ Class {
 }
 
 { #category : #accessing }
-FMDanglingMethodReference >> aggregatedMethod [
+FMDanglingMethod >> aggregatedMethod [
 
 	^ aggregatedMethod
 ]
 
 { #category : #'creating a method' }
-FMDanglingMethodReference >> createAggregatedMethod [
+FMDanglingMethod >> createAggregatedMethod [
 
 	aggregatedMethod := (importer metamodel elementNamed: description)
 		                    createInstance.
@@ -62,13 +62,13 @@ FMDanglingMethodReference >> createAggregatedMethod [
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> description: aDescription [
+FMDanglingMethod >> description: aDescription [
 
 	description := aDescription
 ]
 
 { #category : #'creating a method' }
-FMDanglingMethodReference >> ensureCreateAggregatedMethod [
+FMDanglingMethod >> ensureCreateAggregatedMethod [
 	"ensures the existence of the unique aggregated method in the class. If the class doesn't already have an aggregated method, it creates it."
 
 	parentType methods ifEmpty: [ self createAggregatedMethod ].
@@ -76,37 +76,37 @@ FMDanglingMethodReference >> ensureCreateAggregatedMethod [
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> importer: anObject [
+FMDanglingMethod >> importer: anObject [
 
 	importer := anObject
 ]
 
 { #category : #testing }
-FMDanglingMethodReference >> isDanglingReference [
+FMDanglingMethod >> isDanglingReference [
 
 	^ true
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> methodID [
+FMDanglingMethod >> methodID [
 
 	^ methodID
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> methodID: aNumber [
+FMDanglingMethod >> methodID: aNumber [
 
 	^ methodID := aNumber
 ]
 
 { #category : #accessing }
-FMDanglingMethodReference >> parentType [
+FMDanglingMethod >> parentType [
 
 	^ parentType
 ]
 
 { #category : #resolving }
-FMDanglingMethodReference >> resolve: element [
+FMDanglingMethod >> resolve: element [
 	"this method is polymorphic with FMDanglingReference. This entity is now resolvable. It will be replaced by the parentType's aggregated method only if it is referenced elsewhere in the file."
 
 	self assert: element isNotNil.

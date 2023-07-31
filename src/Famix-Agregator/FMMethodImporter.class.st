@@ -29,7 +29,7 @@ Class {
 { #category : #parsing }
 FMMethodImporter >> beginEntity: aDescription [
 
-	currentMethodReference := FMDanglingMethodReference new
+	currentMethodReference := FMDanglingMethod new
 		                          importer: self decoratedImporter;
 		                          description: aDescription;
 		                          yourself
@@ -39,8 +39,11 @@ FMMethodImporter >> beginEntity: aDescription [
 FMMethodImporter >> beginProperty: aName [
 	"We will not create an actual method. So we don't need to create properties"
 
+	| importer |
+	importer := FMParentTypeImporter on: self.
+
 	aName = #parentType ifTrue: [
-		self currentParser importer: (FMParentTypeImporter on: self) ]
+		self currentParser importer: importer ]
 ]
 
 { #category : #accessing }

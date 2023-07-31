@@ -30,7 +30,7 @@ Class {
 { #category : #parsing }
 FMAssociationImporter >> beginEntity: aDescription [
 
-	currentAssociationReference := FMDanglingAssociationReference new
+	currentAssociationReference := FMDanglingAssociation new
 		                               importer: self decoratedImporter;
 		                               description: aDescription;
 		                               yourself
@@ -38,10 +38,13 @@ FMAssociationImporter >> beginEntity: aDescription [
 
 { #category : #parsing }
 FMAssociationImporter >> beginProperty: aName [
-	"Codage en dur pour le moment, généralisation plus tard"
 
-	self currentParser importer:
-		((FMSourceTargetImporter on: self) propertyName: aName)
+    | importer |
+    importer := FMSourceTargetImporter on: self.
+
+    ((self isSource: aName) or: [self isTarget: aName]) ifTrue: [
+        self currentParser importer: importer ].
+
 ]
 
 { #category : #accessing }
@@ -59,6 +62,32 @@ FMAssociationImporter >> currentParser [
 { #category : #parsing }
 FMAssociationImporter >> endProperty: name [
 
+]
+
+{ #category : #accessing }
+FMAssociationImporter >> isSource: aName [
+
+	| associations sources |
+	associations := self decoratedImporter metamodel classes select: [ :c |
+		                c traits anySatisfy: [ :trait |
+			                trait name = #TAssociation ] ].
+	sources := associations collect: [ :a |
+		           (a allProperties select: #isSource) anyOne
+			           implementingSelector ].
+	^ sources includes: aName
+]
+
+{ #category : #accessing }
+FMAssociationImporter >> isTarget: aName [
+
+	| associations targets |
+	associations := self decoratedImporter metamodel classes select: [ :c |
+		                c traits anySatisfy: [ :trait |
+			                trait name = #TAssociation ] ].
+	targets := associations collect: [ :a |
+		           (a allProperties select: #isTarget) anyOne
+			           implementingSelector ].
+	^ targets includes: aName
 ]
 
 { #category : #parsing }
