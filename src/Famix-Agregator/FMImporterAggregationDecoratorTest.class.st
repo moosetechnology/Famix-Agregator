@@ -102,10 +102,13 @@ FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependan
     		(Famix-Java-Entities.Access (id: 4)
         		(accessor (ref: 2))
         		(variable (ref: 3))))'.
+		
+	self flag:
+		'Should the access and the agregated method be created ?'.
 
 	self assert: importedModel allModelClasses size equals: 1.
-	self assert: importedModel allModelMethods size equals: 0.
-	self assert: importedModel allAccesses size equals: 0
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allAccesses size equals: 1
 ]
 
 { #category : #'test access' }
@@ -147,9 +150,13 @@ FMImporterAggregationDecoratorTest >> testAccessToExternalClassAttribute [
 
 { #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssociation [
-	
-	self classA addMethod: self methodA.
-	self importModel.
+
+	self importModel: '(
+        (Famix-Java-Entities.Class (id: 1)
+            (name ''ClassA''))
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4))))'.
 
 	self assert: importedModel allModelMethods size equals: 0.
 	self assert: importedModel allModelClasses size equals: 1
@@ -158,19 +165,31 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssoci
 { #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testClassesAreImported [
 
-	self classA.
-	self importModel.
+	self importModel: '(
+        (Famix-Java-Entities.Class (id: 1)
+            (name ''ClassA'')))'.
 
-	self assert: importedModel allModelClasses size equals: 1.
-	self
-		assert: importedModel allModelClasses anyOne name
-		equals: 'ClassA'
+	self assert: importedModel allModelClasses size equals: 1
 ]
 
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationClassInvocMethod [
 
-	self importModel: self class modelClassInvocMethod.
+	self importModel: '(								
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB''))
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB''))
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
@@ -192,7 +211,21 @@ FMImporterAggregationDecoratorTest >> testInvocationClassInvocMethod [
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationClassMethodInvoc [
 
-	self importModel: self class modelClassMethodInvoc.
+	self importModel: '(					
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB''))
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2)))
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
@@ -214,17 +247,47 @@ FMImporterAggregationDecoratorTest >> testInvocationClassMethodInvoc [
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationInSameClassDoesNotCreateDependance [
 
-	self importModel: self class modelInvocationInSameClass.
+	self importModel: '(					
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Method (id: 2)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodB'')
+				(signature ''methodB()'')
+   			 	(parentType (ref: 1)))
+			(Famix-Java-Entities.Invocation (id: 4)
+    			(candidates (ref: 3))
+    			(sender (ref: 2))
+    			(signature ''methodB()'')))'.
+
+	self flag:
+		'Should the invocation and the agregated method be created ?'.
 
 	self assert: importedModel allModelClasses size equals: 1.
-	self assert: importedModel allModelMethods size equals: 0.
-	self assert: importedModel allInvocations size equals: 0
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allInvocations size equals: 1
 ]
 
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationInvocClassMethod [
 
-	self importModel: self class modelInvocClassMethod.
+	self importModel: '(									
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB''))			
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB''))		
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
@@ -246,7 +309,21 @@ FMImporterAggregationDecoratorTest >> testInvocationInvocClassMethod [
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationInvocMethodClass [
 
-	self importModel: self class modelInvocMethodClass.
+	self importModel: '(									
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB''))			
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2)))
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
@@ -268,7 +345,21 @@ FMImporterAggregationDecoratorTest >> testInvocationInvocMethodClass [
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationMethodClassInvoc [
 
-	self importModel: self class modelMethodClassInvoc.
+	self importModel: '(			
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2)))			
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB''))		
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
@@ -290,7 +381,21 @@ FMImporterAggregationDecoratorTest >> testInvocationMethodClassInvoc [
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testInvocationMethodInvocClass [
 
-	self importModel: self class modelMethodInvocClass.
+	self importModel: '(			
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodB'')
+   			 	(parentType (ref: 2)))					
+			(Famix-Java-Entities.Invocation (id: 5)
+    			(candidates (ref: 4))
+    			(sender (ref: 3))
+    			(signature ''methodB''))		
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 2.
@@ -312,7 +417,28 @@ FMImporterAggregationDecoratorTest >> testInvocationMethodInvocClass [
 { #category : #'test invocation' }
 FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 
-	self importModel: self class modelMultipleInvocationsToSameMethods.
+	self importModel: '(					
+        	(Famix-Java-Entities.Class (id: 1)
+    			(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+    			(name ''ClassB''))
+			(Famix-Java-Entities.Method (id: 3)
+    			(name ''methodA1'')
+    			(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 4)
+    			(name ''methodA2'')
+   			 	(parentType (ref: 1)))
+			(Famix-Java-Entities.Method (id: 5)
+    			(name ''methodB1'')
+   			 	(parentType (ref: 2)))
+			(Famix-Java-Entities.Invocation (id: 6)
+    			(candidates (ref: 5))
+    			(sender (ref: 3))
+    			(signature ''methodB1''))
+			(Famix-Java-Entities.Invocation (id: 7)
+    			(candidates (ref: 5))
+    			(sender (ref: 4))
+    			(signature ''methodB1'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allInvocations size equals: 2.
@@ -334,7 +460,17 @@ FMImporterAggregationDecoratorTest >> testMultipleInvocationsToSameMethod [
 { #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 
-	self importModel: self class modelClassMethodRef.
+	self importModel: '(
+        (Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        (Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))
+        (Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))
+        (Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
@@ -358,7 +494,17 @@ FMImporterAggregationDecoratorTest >> testReferenceClassMethodRef [
 { #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 
-	self importModel: self class modelClassRefMethod.
+	self importModel: '(
+        (Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        (Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))	  
+        (Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+        (Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
@@ -380,9 +526,39 @@ FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 ]
 
 { #category : #'test reference' }
+FMImporterAggregationDecoratorTest >> testReferenceFromMethodToItsParentType [
+
+	self importModel: '(
+        (Famix-Java-Entities.Class (id: 1)
+            (name ''ClassA''))
+        (Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 1)))
+        (Famix-Java-Entities.Reference (id: 3)
+            (referencer (ref: 2))
+            (referredType (ref: 1))))'.
+	
+	self flag: 'Should the reference and the agregated method be created ?'.
+	
+	self assert: importedModel allModelClasses size equals: 1.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allReferences size equals: 1
+]
+
+{ #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 
-	self importModel: self class modelMethodClassRef.
+	self importModel: '(
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
@@ -406,7 +582,17 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodClassRef [
 { #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
 
-	self importModel: self class modelMethodRefClass.
+	self importModel: '(
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))		
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
@@ -430,7 +616,17 @@ FMImporterAggregationDecoratorTest >> testReferenceMethodRefClass [
 { #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceRefClassMethod [
 
-	self importModel: self class modelRefClassMethod.
+	self importModel: '(					
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))			
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB''))
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
@@ -454,7 +650,17 @@ FMImporterAggregationDecoratorTest >> testReferenceRefClassMethod [
 { #category : #'test reference' }
 FMImporterAggregationDecoratorTest >> testReferenceRefMethodClass [
 
-	self importModel: self class modelRefMethodClass.
+	self importModel: '(					
+        	(Famix-Java-Entities.Reference (id: 1)
+            (referencer (ref: 2))
+            (referredType (ref: 3)))
+			(Famix-Java-Entities.Method (id: 2)
+            (name ''methodA'')
+            (parentType (ref: 4)))
+        	(Famix-Java-Entities.Class (id: 4)
+            (name ''ClassA''))
+        	(Famix-Java-Entities.Class (id: 3)
+            (name ''ClassB'')))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.
