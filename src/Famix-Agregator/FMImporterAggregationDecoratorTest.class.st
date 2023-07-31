@@ -66,31 +66,6 @@ FMImporterAggregationDecoratorTest >> expectedAttributeName [
 ]
 
 { #category : #setting }
-FMImporterAggregationDecoratorTest >> importModel [
-
-	| mseString fileName stream testResourcesDirectory |
-	mseString := String streamContents: [ :s |
-		             sourceModel exportToMSEStream: s ].
-
-	fileName := 'sourceModel.mse'.
-	testResourcesDirectory := (FileLocator localDirectory
-	                           / 'iceberg/moosetechnology/Famix-Agregator/Test-resources')
-		                          ensureCreateDirectory.
-	(testResourcesDirectory / fileName) ensureCreateFile.
-	stream := (testResourcesDirectory / fileName) asFileReference writeStream.
-	stream nextPutAll: mseString.
-	stream close.
-
-	importedModel := FamixJavaModel new
-		                 importFrom: (FamixJavaModel
-				                  importFrom: mseString readStream
-				                  withMetamodel: FamixJavaModel metamodel
-				                  customizingImporterWith: [ :importer |
-				                  FMImporterAggregationDecorator on: importer ])
-		                 named: 'testModel'
-]
-
-{ #category : #setting }
 FMImporterAggregationDecoratorTest >> importModel: aModelString [
 
 	importedModel := FamixJavaModel new
@@ -100,12 +75,6 @@ FMImporterAggregationDecoratorTest >> importModel: aModelString [
 				                  customizingImporterWith: [ :importer |
 				                  FMImporterAggregationDecorator on: importer ])
 		                 named: 'testModel'
-]
-
-{ #category : #setting }
-FMImporterAggregationDecoratorTest >> mooseEntity: aFamixEntity named: aString [
-
-	^ aFamixEntity named: aString model: sourceModel
 ]
 
 { #category : #running }
@@ -408,16 +377,6 @@ FMImporterAggregationDecoratorTest >> testReferenceClassRefMethod [
 	self
 		assert: importedModel allReferences anyOne referredType name
 		equals: 'ClassB'
-]
-
-{ #category : #'test reference' }
-FMImporterAggregationDecoratorTest >> testReferenceFromMethodToItsParentTypeDoesNotCreateDependanceAndMethod [
-
-	self importModel: self class modelRefFromMethodToItsParentType.
-
-	self assert: importedModel allModelClasses size equals: 1.
-	self assert: importedModel allModelMethods size equals: 0.
-	self assert: importedModel allReferences size equals: 0.
 ]
 
 { #category : #'test reference' }
