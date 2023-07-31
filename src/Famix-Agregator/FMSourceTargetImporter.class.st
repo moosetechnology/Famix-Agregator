@@ -21,9 +21,6 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #FMSourceTargetImporter,
 	#superclass : #FMImporterAggregationDecorator,
-	#instVars : [
-		'propertyName'
-	],
 	#category : #'Famix-Agregator-Core'
 }
 
@@ -39,55 +36,13 @@ FMSourceTargetImporter >> endProperty: aName [
 	self currentParser importer: self decoratedImporter
 ]
 
-{ #category : #asserting }
-FMSourceTargetImporter >> isSource: aName [
-
-	| associations sources |
-	associations := self sourceImporter metamodel classes select: [ :c |
-		                c traits anySatisfy: [ :trait |
-			                trait name = #TAssociation ] ].
-	sources := associations collect: [ :a |
-		           (a allProperties select: #isSource) anyOne
-			           implementingSelector ].
-	^ sources includes: aName
-]
-
-{ #category : #asserting }
-FMSourceTargetImporter >> isTarget: aName [
-
-	| associations targets |
-	associations := self sourceImporter metamodel classes select: [ :c |
-		                c traits anySatisfy: [ :trait |
-			                trait name = #TAssociation ] ].
-	targets := associations collect: [ :a |
-		           (a allProperties select: #isTarget) anyOne
-			           implementingSelector ].
-	^ targets includes: aName
-]
-
-{ #category : #accessing }
-FMSourceTargetImporter >> propertyName [
-
-	^ propertyName
-]
-
-{ #category : #accessing }
-FMSourceTargetImporter >> propertyName: aName [
-
-	propertyName := aName
-]
-
 { #category : #parsing }
 FMSourceTargetImporter >> referenceNumber: aNumber [
 
 	self sourceImporter
 		entityAt: aNumber
 		ifPresent: [ :element |
-			decoratedImporter currentAssociationReference resolve: element.
-			(self isSource: propertyName) ifTrue: [
-				decoratedImporter currentAssociationReference source: element ].
-			(self isTarget: propertyName) ifTrue: [
-				decoratedImporter currentAssociationReference target: element ] ]
+			decoratedImporter currentAssociationReference resolve: element. ]
 		ifAbsent: [
 			self sourceImporter
 				dangling: decoratedImporter currentAssociationReference
