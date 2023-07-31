@@ -15,46 +15,6 @@ FMImporterAggregationDecoratorTest class >> inspectModelClassMethodRef [
 	self modelCreation inspect
 ]
 
-{ #category : #'model access' }
-FMImporterAggregationDecoratorTest class >> modelAccessInSameClass [
-
-	| mseString |
-	mseString := '(	
-        	(Famix-Java-Entities.Class (id: 1)
-        		(name ''ClassA''))
-    		(Famix-Java-Entities.Method (id: 2)
-        		(name ''methodA'')
-        		(parentType (ref: 1)))
-    		(Famix-Java-Entities.Attribute (id: 3)
-        		(name ''attributeA'')
-        		(parentType (ref: 1)))
-    		(Famix-Java-Entities.Access (id: 4)
-        		(accessor (ref: 2))
-        		(variable (ref: 3))))'.
-	^ mseString
-]
-
-{ #category : #'model access' }
-FMImporterAggregationDecoratorTest class >> modelAccessToExternalClassAttribute [
-
-	| mseString |
-	mseString := '(					
-        	(Famix-Java-Entities.Class (id: 1)
-        		(name ''ClassA''))
-			(Famix-Java-Entities.Class (id: 2)
-        		(name ''ClassB''))
-    		(Famix-Java-Entities.Method (id: 3)
-        		(name ''methodA'')
-        		(parentType (ref: 1)))
-    		(Famix-Java-Entities.Attribute (id: 4)
-        		(name ''attributeB'')
-        		(parentType (ref: 2)))
-    		(Famix-Java-Entities.Access (id: 5)
-        		(accessor (ref: 3))
-        		(variable (ref: 4))))'.
-	^ mseString
-]
-
 { #category : #'model invocation' }
 FMImporterAggregationDecoratorTest class >> modelClassInvocMethod [
 
@@ -491,17 +451,41 @@ FMImporterAggregationDecoratorTest >> setUp [
 { #category : #'test access' }
 FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependanceAndMethod [
 
-	self importModel: self class modelAccessInSameClass.
+	self importModel: '(	
+        	(Famix-Java-Entities.Class (id: 1)
+        		(name ''ClassA''))
+    		(Famix-Java-Entities.Method (id: 2)
+        		(name ''methodA'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Attribute (id: 3)
+        		(name ''attributeA'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Access (id: 4)
+        		(accessor (ref: 2))
+        		(variable (ref: 3))))'.
 
 	self assert: importedModel allModelClasses size equals: 1.
 	self assert: importedModel allModelMethods size equals: 0.
-	self assert: importedModel allAccesses size equals: 0.
+	self assert: importedModel allAccesses size equals: 0
 ]
 
 { #category : #'test access' }
 FMImporterAggregationDecoratorTest >> testAccessToExternalClassAttribute [
 
-	self importModel: self class modelAccessToExternalClassAttribute.
+	self importModel: '(					
+        	(Famix-Java-Entities.Class (id: 1)
+        		(name ''ClassA''))
+			(Famix-Java-Entities.Class (id: 2)
+        		(name ''ClassB''))
+    		(Famix-Java-Entities.Method (id: 3)
+        		(name ''methodA'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Attribute (id: 4)
+        		(name ''attributeB'')
+        		(parentType (ref: 2)))
+    		(Famix-Java-Entities.Access (id: 5)
+        		(accessor (ref: 3))
+        		(variable (ref: 4))))'.
 
 	self assert: importedModel allModelClasses size equals: 2.
 	self assert: importedModel allModelMethods size equals: 1.

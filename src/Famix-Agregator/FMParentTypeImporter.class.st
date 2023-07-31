@@ -43,8 +43,7 @@ FMParentTypeImporter >> referenceNumber: aNumber [
 		entityAt: aNumber
 		ifPresent: [ :parentType |
 			decoratedImporter currentMethodReference resolve: parentType ]
-		ifAbsent: [
-			self sourceImporter
+		ifAbsent: [self sourceImporter
 				dangling: decoratedImporter currentMethodReference
 				to: aNumber ]
 ]
