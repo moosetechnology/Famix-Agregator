@@ -26,23 +26,44 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #FMDanglingAssociation,
-	#superclass : #Object,
+	#superclass : #FMFutureEntity,
 	#instVars : [
-		'referenceID',
-		'sourceID',
-		'targetID',
-		'importer',
-		'description',
-		'source',
-		'target'
+		'referenceID'
 	],
 	#category : #'Famix-Agregator-Core'
 }
 
-{ #category : #accessing }
-FMDanglingAssociation >> description: anObject [
+{ #category : #parsing }
+FMDanglingAssociation >> beginProperty: aString [
 
-	description := anObject
+	self assert: currentProperty isNil.
+	currentProperty := FMFutureSourceOrTarget in: self named: aString
+]
+
+{ #category : #'as yet unclassified' }
+FMDanglingAssociation >> canBeResolved [
+
+	| source target canBeResolved |
+	source := self instance source.
+	target := self instance target.
+
+	canBeResolved := source isNotNil and: [ target isNotNil ].
+
+	canBeResolved := canBeResolved and: [ source ~= target ].
+
+	canBeResolved := canBeResolved and: [
+		                 (source isCollection not and: [
+			                  target isCollection not and: [
+				                  (source atScope: FamixTType)
+				                  = (target atScope: FamixTType) ] ]) not ].
+
+	canBeResolved := canBeResolved and: [
+		                 self importer allEntities noneSatisfy: [ :entity |
+			                 entity class mooseDescription = metaDescription
+				                 and: [
+				                 entity source = source and: [
+					                 entity target = target ] ] ] ].
+	^ canBeResolved
 ]
 
 { #category : #accessing }
@@ -57,44 +78,16 @@ FMDanglingAssociation >> isDanglingReference [
 	^ true
 ]
 
-{ #category : #accessing }
-FMDanglingAssociation >> referenceID [
+{ #category : #'as yet unclassified' }
+FMDanglingAssociation >> maybeResolve [
 
-	^ referenceID
+	self canBeResolved ifFalse: [ ^ self ].
+	self importer decoratedImporter assign: self to: referenceID.
+	self importer allEntities add: self instance
 ]
 
 { #category : #accessing }
 FMDanglingAssociation >> referenceID: aNumber [
 
 	referenceID := aNumber
-]
-
-{ #category : #resolving }
-FMDanglingAssociation >> resolve: element [
-
-	
-]
-
-{ #category : #accessing }
-FMDanglingAssociation >> source: anEntity [
-
-	source := anEntity
-]
-
-{ #category : #accessing }
-FMDanglingAssociation >> sourceID: aNumber [
-
-	sourceID := aNumber
-]
-
-{ #category : #accessing }
-FMDanglingAssociation >> target: anEntity [
-
-	target := anEntity
-]
-
-{ #category : #accessing }
-FMDanglingAssociation >> targetID: aNumber [
-
-	targetID := aNumber
 ]

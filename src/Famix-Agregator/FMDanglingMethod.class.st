@@ -69,10 +69,10 @@ FMDanglingMethod >> description: aDescription [
 
 { #category : #'creating a method' }
 FMDanglingMethod >> ensureCreateAggregatedMethod [
-	"ensures the existence of the unique aggregated method in the class. If the class doesn't already have an aggregated method, it creates it."
 
 	parentType methods ifEmpty: [ self createAggregatedMethod ].
-	^ parentType methods anyOne
+
+	^ aggregatedMethod := parentType methods anyOne
 ]
 
 { #category : #accessing }
@@ -85,6 +85,14 @@ FMDanglingMethod >> importer: anObject [
 FMDanglingMethod >> isDanglingReference [
 
 	^ true
+]
+
+{ #category : #resolving }
+FMDanglingMethod >> maybeResolve [
+
+	parentType ifNotNil: [
+		self ensureCreateAggregatedMethod.
+		importer assignDanglingMethod: self to: methodID ]
 ]
 
 { #category : #accessing }

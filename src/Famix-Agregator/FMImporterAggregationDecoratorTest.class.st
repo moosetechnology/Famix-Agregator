@@ -102,9 +102,6 @@ FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependan
     		(Famix-Java-Entities.Access (id: 4)
         		(accessor (ref: 2))
         		(variable (ref: 3))))'.
-		
-	self flag:
-		'Should the access and the agregated method be created ?'.
 
 	self assert: importedModel allModelClasses size equals: 1.
 	self assert: importedModel allModelMethods size equals: 1.

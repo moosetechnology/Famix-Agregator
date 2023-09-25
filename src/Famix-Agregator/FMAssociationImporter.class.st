@@ -22,7 +22,7 @@ Class {
 	#name : #FMAssociationImporter,
 	#superclass : #FMImporterAggregationDecorator,
 	#instVars : [
-		'currentAssociationReference'
+		'currentAssociation'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -30,27 +30,21 @@ Class {
 { #category : #parsing }
 FMAssociationImporter >> beginEntity: aDescription [
 
-	currentAssociationReference := FMDanglingAssociation new
-		                               importer: self decoratedImporter;
-		                               description: aDescription;
-		                               yourself
+	currentAssociation := FMDanglingAssociation
+		                      in: self decoratedImporter
+		                      named: aDescription
 ]
 
 { #category : #parsing }
 FMAssociationImporter >> beginProperty: aName [
 
-    | importer |
-    importer := FMSourceTargetImporter on: self.
-
-    ((self isSource: aName) or: [self isTarget: aName]) ifTrue: [
-        self currentParser importer: importer ].
-
+	
 ]
 
 { #category : #accessing }
-FMAssociationImporter >> currentAssociationReference [
+FMAssociationImporter >> currentAssociation [
 
-	^ currentAssociationReference
+	^ currentAssociation
 ]
 
 { #category : #accessing }
@@ -59,35 +53,43 @@ FMAssociationImporter >> currentParser [
 	^ decoratedImporter currentParser
 ]
 
+{ #category : #'as yet unclassified' }
+FMAssociationImporter >> endEntity [
+
+	currentAssociation maybeResolve
+]
+
 { #category : #parsing }
 FMAssociationImporter >> endProperty: name [
 
+	
+]
+
+{ #category : #parsing }
+FMAssociationImporter >> inProperty: aName do: aBlock [
+
+	| sourceOrTargetImporter |
+	((self isSource: aName) or: [ self isTarget: aName ]) ifFalse: [
+		super inProperty: aName do: aBlock.
+		^ self ].
+
+	sourceOrTargetImporter := FMSourceOrTargetImporter on: self.
+	self currentParser importer: sourceOrTargetImporter.
+	sourceOrTargetImporter inProperty: aName do: aBlock
 ]
 
 { #category : #accessing }
 FMAssociationImporter >> isSource: aName [
 
-	| associations sources |
-	associations := self decoratedImporter metamodel classes select: [ :c |
-		                c traits anySatisfy: [ :trait |
-			                trait name = #TAssociation ] ].
-	sources := associations collect: [ :a |
-		           (a allProperties select: #isSource) anyOne
-			           implementingSelector ].
-	^ sources includes: aName
+	^ (self decoratedImporter metamodel properties detect: [ :prop |
+		   prop name = aName ]) isSource
 ]
 
 { #category : #accessing }
 FMAssociationImporter >> isTarget: aName [
 
-	| associations targets |
-	associations := self decoratedImporter metamodel classes select: [ :c |
-		                c traits anySatisfy: [ :trait |
-			                trait name = #TAssociation ] ].
-	targets := associations collect: [ :a |
-		           (a allProperties select: #isTarget) anyOne
-			           implementingSelector ].
-	^ targets includes: aName
+	^ (self decoratedImporter metamodel properties detect: [ :prop |
+		   prop name = aName ]) isTarget
 ]
 
 { #category : #parsing }
@@ -107,5 +109,5 @@ FMAssociationImporter >> referenceNumber: index [
 { #category : #accessing }
 FMAssociationImporter >> serial: aNumber [
 
-	currentAssociationReference referenceID: aNumber
+	currentAssociation referenceID: aNumber
 ]
