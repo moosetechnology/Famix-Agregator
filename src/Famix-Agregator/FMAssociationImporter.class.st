@@ -81,15 +81,17 @@ FMAssociationImporter >> inProperty: aName do: aBlock [
 { #category : #accessing }
 FMAssociationImporter >> isSource: aName [
 
-	^ (self decoratedImporter metamodel properties detect: [ :prop |
-		   prop name = aName ]) isSource
+	^ ((self decoratedImporter metamodel elementNamed:
+		    currentAssociation metaDescription fullName) propertyNamed:
+		   aName) isSource
 ]
 
 { #category : #accessing }
 FMAssociationImporter >> isTarget: aName [
 
-	^ (self decoratedImporter metamodel properties detect: [ :prop |
-		   prop name = aName ]) isTarget
+	^ ((self decoratedImporter metamodel elementNamed:
+		    currentAssociation metaDescription fullName) propertyNamed:
+		   aName) isTarget
 ]
 
 { #category : #parsing }

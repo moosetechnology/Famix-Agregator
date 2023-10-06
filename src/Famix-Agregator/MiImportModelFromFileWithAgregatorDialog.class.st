@@ -17,7 +17,7 @@ MiImportModelFromFileWithAgregatorDialog >> agregateMethods [
 { #category : #agregation }
 MiImportModelFromFileWithAgregatorDialog >> doNotAgregateMethods [
 
-	agregateMethods := true
+	agregateMethods := false
 ]
 
 { #category : #initialization }
@@ -53,7 +53,7 @@ MiImportModelFromFileWithAgregatorDialog >> privateImportModel [
 		            inputFile: modelFile.
 
 	agregateMethods
-		ifTrue: [ importer runAgregated ]
+		ifTrue: [ [importer runAgregated] timeProfile ]
 		ifFalse: [ importer runFilteredBy: importingContext ].
 
 	model name: (modelNameInput text ifEmpty: [ 'MooseModel' ]).

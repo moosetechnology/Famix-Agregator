@@ -28,7 +28,9 @@ Class {
 	#name : #FMDanglingAssociation,
 	#superclass : #FMFutureEntity,
 	#instVars : [
-		'referenceID'
+		'referenceID',
+		'danglingSource',
+		'danglingTarget'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -40,30 +42,66 @@ FMDanglingAssociation >> beginProperty: aString [
 	currentProperty := FMFutureSourceOrTarget in: self named: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resolving }
 FMDanglingAssociation >> canBeResolved [
 
-	| source target canBeResolved |
-	source := self instance source.
-	target := self instance target.
+	| sourceType targetType |
+	(danglingSource isNil or: [ danglingTarget isNil ]) ifTrue: [
+		^ false ].
+	danglingSource numberOfDanglingReferences
+	+ danglingTarget numberOfDanglingReferences > 0 ifTrue: [ ^ false ].
+	(danglingSource metaDescription isMultivalued or: [
+		 danglingTarget metaDescription isMultivalued ]) ifTrue: [ ^ true ].
 
-	canBeResolved := source isNotNil and: [ target isNotNil ].
 
-	canBeResolved := canBeResolved and: [ source ~= target ].
+	(danglingSource values size > 1 or: [ danglingTarget values size > 1 ])
+		ifTrue: [ ^ true ].
 
-	canBeResolved := canBeResolved and: [
-		                 (source isCollection not and: [
-			                  target isCollection not and: [
-				                  (source atScope: FamixTType)
-				                  = (target atScope: FamixTType) ] ]) not ].
+	sourceType := danglingSource values anyOne isType
+		              ifTrue: [ danglingSource values anyOne ]
+		              ifFalse: [
+			              (danglingSource values anyOne atScope: FamixTType)
+				              ifEmpty: [ ^ false ]
+				              ifNotEmpty: [ :scopes | scopes anyOne ] ].
+	targetType := danglingTarget values anyOne isType
+		              ifTrue: [ danglingTarget values anyOne ]
+		              ifFalse: [
+			              (danglingTarget values anyOne atScope: FamixTType)
+				              ifEmpty: [ ^ false ]
+				              ifNotEmpty: [ :scopes | scopes anyOne ] ].
+	^ sourceType ~= targetType and: [
+		  (sourceType queryOutgoing: metaDescription implementingClass)
+			  noneSatisfy: [ :association |
+				  (association target isType
+					   ifTrue: [ association target ]
+					   ifFalse: [
+						   (association target atScope: FamixTType)
+							   ifEmpty: [ ^ false ]
+							   ifNotEmpty: [ :scopes | scopes anyOne ] ]) = targetType ] ]
+]
 
-	canBeResolved := canBeResolved and: [
-		                 self importer allEntities noneSatisfy: [ :entity |
-			                 entity class mooseDescription = metaDescription
-				                 and: [
-				                 entity source = source and: [
-					                 entity target = target ] ] ] ].
-	^ canBeResolved
+{ #category : #accessing }
+FMDanglingAssociation >> danglingSource [
+
+	^ danglingSource
+]
+
+{ #category : #accessing }
+FMDanglingAssociation >> danglingSource: aFutureSource [
+
+	danglingSource := aFutureSource
+]
+
+{ #category : #accessing }
+FMDanglingAssociation >> danglingTarget [
+
+	^ danglingTarget
+]
+
+{ #category : #accessing }
+FMDanglingAssociation >> danglingTarget: aFutureTarget [
+
+	danglingTarget := aFutureTarget
 ]
 
 { #category : #accessing }
@@ -78,11 +116,14 @@ FMDanglingAssociation >> isDanglingReference [
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resolving }
 FMDanglingAssociation >> maybeResolve [
 
 	self canBeResolved ifFalse: [ ^ self ].
 	self importer decoratedImporter assign: self to: referenceID.
+	self danglingSource end.
+	self danglingTarget end.
+	self flag: 'Is the last line necessary?'.
 	self importer allEntities add: self instance
 ]
 
