@@ -17,7 +17,7 @@ MiImportModelFromFileWithAgregatorDialog >> agregateMethods [
 { #category : #agregation }
 MiImportModelFromFileWithAgregatorDialog >> doNotAgregateMethods [
 
-	agregateMethods := true
+	agregateMethods := false
 ]
 
 { #category : #initialization }
