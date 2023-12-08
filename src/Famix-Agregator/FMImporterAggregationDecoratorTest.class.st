@@ -88,7 +88,30 @@ FMImporterAggregationDecoratorTest >> setUp [
 ]
 
 { #category : #'test access' }
-FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependanceAndMethod [
+FMImporterAggregationDecoratorTest >> testAccessInDifferentClassCreatesDependance [
+
+	self importModel: '(	
+        	(Famix-Java-Entities.Class (id: 1)
+        		(name ''ClassA''))
+    		(Famix-Java-Entities.Method (id: 2)
+        		(name ''methodA'')
+        		(parentType (ref: 1)))
+        	(Famix-Java-Entities.Class (id: 3)
+        		(name ''ClassB''))
+    		(Famix-Java-Entities.Attribute (id:4 )
+        		(name ''attributeB'')
+        		(parentType (ref: 3)))
+    		(Famix-Java-Entities.Access (id: 5)
+        		(accessor (ref: 2))
+        		(variable (ref:4 ))))'.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allAccesses size equals: 1
+]
+
+{ #category : #'test access' }
+FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependance [
 
 	self importModel: '(	
         	(Famix-Java-Entities.Class (id: 1)
@@ -105,7 +128,7 @@ FMImporterAggregationDecoratorTest >> testAccessInSameClassDoesNotCreateDependan
 
 	self assert: importedModel allModelClasses size equals: 1.
 	self assert: importedModel allModelMethods size equals: 1.
-	self assert: importedModel allAccesses size equals: 1
+	self assert: importedModel allAccesses size equals: 0
 ]
 
 { #category : #'test access' }
@@ -157,6 +180,35 @@ FMImporterAggregationDecoratorTest >> testAggregatedMethodNotCreatedWhenNoAssoci
 
 	self assert: importedModel allModelMethods size equals: 0.
 	self assert: importedModel allModelClasses size equals: 1
+]
+
+{ #category : #'test access' }
+FMImporterAggregationDecoratorTest >> testAgregateAccesses [
+
+	self importModel: '(	
+        	(Famix-Java-Entities.Class (id: 1)
+        		(name ''ClassA''))
+    		(Famix-Java-Entities.Method (id: 2)
+        		(name ''methodA1'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Method (id: 3)
+        		(name ''methodA2'')
+        		(parentType (ref: 1)))
+        	(Famix-Java-Entities.Class (id: 4)
+        		(name ''ClassB''))
+    		(Famix-Java-Entities.Attribute (id: 5)
+        		(name ''attributeB'')
+        		(parentType (ref: 4)))
+    		(Famix-Java-Entities.Access (id: 6)
+        		(accessor (ref: 2))
+        		(variable (ref: 5)))
+    		(Famix-Java-Entities.Access (id: 7)
+        		(accessor (ref: 3))
+        		(variable (ref: 5))))'.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allAccesses size equals: 1
 ]
 
 { #category : #'test class' }
@@ -539,7 +591,7 @@ FMImporterAggregationDecoratorTest >> testReferenceFromMethodToItsParentType [
 	
 	self assert: importedModel allModelClasses size equals: 1.
 	self assert: importedModel allModelMethods size equals: 1.
-	self assert: importedModel allReferences size equals: 1
+	self assert: importedModel allReferences size equals: 0
 ]
 
 { #category : #'test reference' }

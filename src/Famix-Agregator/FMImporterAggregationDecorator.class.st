@@ -24,7 +24,8 @@ Class {
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
 		'decoratedImporter',
-		'currentParser'
+		'currentParser',
+		'associationsDict'
 	],
 	#category : #'Famix-Agregator-Core'
 }
@@ -43,10 +44,33 @@ FMImporterAggregationDecorator >> allEntities [
 	^ decoratedImporter entities
 ]
 
+{ #category : #accessing }
+FMImporterAggregationDecorator >> alreadyHasAssociationsWithSource: sourceType target: targetType [
+
+	^ self associationsDict
+		  at: sourceType
+		  ifPresent: [ :targetTypes | targetTypes includes: targetType ]
+		  ifAbsent: [ false ]
+]
+
 { #category : #parsing }
 FMImporterAggregationDecorator >> assignDanglingMethod: element to: serial [
 
 	decoratedImporter assignDanglingMethod: element to: serial
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> associationsAtSourceID: danglingSourceType addTargetID: danglingTargetType [
+
+	^ self associationsDict
+		  at: danglingSourceType
+		  ifAbsentPut: [ OrderedCollection with: danglingTargetType ]
+]
+
+{ #category : #accessing }
+FMImporterAggregationDecorator >> associationsDict [
+
+	^ associationsDict ifNil: [ associationsDict := Dictionary new ]
 ]
 
 { #category : #parsing }
@@ -156,6 +180,12 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 	self beginEntity: aDescription.
 	aBlock value.
 	self endEntity: aDescription
+]
+
+{ #category : #initialization }
+FMImporterAggregationDecorator >> initialize [
+
+	super initialize
 ]
 
 { #category : #asserting }

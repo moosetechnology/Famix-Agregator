@@ -45,39 +45,22 @@ FMDanglingAssociation >> beginProperty: aString [
 { #category : #resolving }
 FMDanglingAssociation >> canBeResolved [
 
-	| sourceType targetType |
 	(danglingSource isNil or: [ danglingTarget isNil ]) ifTrue: [
 		^ false ].
+
 	danglingSource numberOfDanglingReferences
 	+ danglingTarget numberOfDanglingReferences > 0 ifTrue: [ ^ false ].
+
 	(danglingSource metaDescription isMultivalued or: [
 		 danglingTarget metaDescription isMultivalued ]) ifTrue: [ ^ true ].
-
 
 	(danglingSource values size > 1 or: [ danglingTarget values size > 1 ])
 		ifTrue: [ ^ true ].
 
-	sourceType := danglingSource values anyOne isType
-		              ifTrue: [ danglingSource values anyOne ]
-		              ifFalse: [
-			              (danglingSource values anyOne atScope: FamixTType)
-				              ifEmpty: [ ^ false ]
-				              ifNotEmpty: [ :scopes | scopes anyOne ] ].
-	targetType := danglingTarget values anyOne isType
-		              ifTrue: [ danglingTarget values anyOne ]
-		              ifFalse: [
-			              (danglingTarget values anyOne atScope: FamixTType)
-				              ifEmpty: [ ^ false ]
-				              ifNotEmpty: [ :scopes | scopes anyOne ] ].
-	^ sourceType ~= targetType and: [
-		  (sourceType queryOutgoing: metaDescription implementingClass)
-			  noneSatisfy: [ :association |
-				  (association target isType
-					   ifTrue: [ association target ]
-					   ifFalse: [
-						   (association target atScope: FamixTType)
-							   ifEmpty: [ ^ false ]
-							   ifNotEmpty: [ :scopes | scopes anyOne ] ]) = targetType ] ]
+	self sourceType = self targetType ifTrue: [ ^ false ].
+	^ (importer
+		   alreadyHasAssociationsWithSource: danglingSource typeContainer
+		   target: danglingTarget typeContainer) not
 ]
 
 { #category : #accessing }
@@ -123,7 +106,7 @@ FMDanglingAssociation >> maybeResolve [
 	self importer decoratedImporter assign: self to: referenceID.
 	self danglingSource end.
 	self danglingTarget end.
-	self flag: 'Is the last line necessary?'.
+	self registerInImporter.
 	self importer allEntities add: self instance
 ]
 
@@ -131,4 +114,24 @@ FMDanglingAssociation >> maybeResolve [
 FMDanglingAssociation >> referenceID: aNumber [
 
 	referenceID := aNumber
+]
+
+{ #category : #resolving }
+FMDanglingAssociation >> registerInImporter [
+
+	^ importer
+		  associationsAtSourceID: danglingSource typeContainer
+		  addTargetID: danglingTarget typeContainer
+]
+
+{ #category : #accessing }
+FMDanglingAssociation >> sourceType [
+
+	^ danglingSource typeContainer
+]
+
+{ #category : #accessing }
+FMDanglingAssociation >> targetType [
+
+	^ danglingTarget typeContainer
 ]

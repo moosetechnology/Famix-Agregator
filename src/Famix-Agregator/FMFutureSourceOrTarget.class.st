@@ -2,10 +2,17 @@ Class {
 	#name : #FMFutureSourceOrTarget,
 	#superclass : #FMFutureProperty,
 	#instVars : [
-		'otherEndID'
+		'otherEndID',
+		'referenceNumber'
 	],
 	#category : #'Famix-Agregator-Core'
 }
+
+{ #category : #parsing }
+FMFutureSourceOrTarget >> addDanglingTo: serial [
+
+	^ self importer dangling: (FMDanglingReference with: self) to: serial
+]
 
 { #category : #accessing }
 FMFutureSourceOrTarget >> end [
@@ -38,52 +45,35 @@ FMFutureSourceOrTarget >> maybeEnd [
 	self parentEntity maybeResolve
 ]
 
+{ #category : #accessing }
+FMFutureSourceOrTarget >> referenceNumber [
+
+	^ referenceNumber
+]
+
 { #category : #parsing }
 FMFutureSourceOrTarget >> referenceNumber: serial [
 
+	referenceNumber := serial.
 	self addToValues: (self importer decoratedImporter
 			 entityAt: serial
 			 ifPresent: [ :entity |
 				 entity isDanglingReference
 					 ifTrue: [
 						 entity maybeResolve.
-						 entity aggregatedMethod ifNil: [
-							 self importer
-								 dangling: (FMDanglingReference with: self)
-								 to: serial ] ]
+						 entity aggregatedMethod ifNil: [ self addDanglingTo: serial ] ]
 					 ifFalse: [ entity ] ]
-			 ifAbsent: [
-			 self importer
-				 dangling: (FMDanglingReference with: self)
-				 to: serial ])
+			 ifAbsent: [ self addDanglingTo: serial ])
 ]
 
-{ #category : #parsing }
-FMFutureSourceOrTarget >> shouldBeImported [
-	"The other end of the association is not nil and has no dangling references."
+{ #category : #accessing }
+FMFutureSourceOrTarget >> typeContainer [
 
-	| otherEndProperty oppositeEntity otherEndOppositeEntity |
-	values size > 1 ifTrue: [ ^ true ].
-	otherEndID ifNil: [ ^ false ].
-
-	otherEndProperty := parentElement importer decoratedImporter reminderDict 
-		                    at: otherEndID
-		                    ifAbsent: [ ^ false ].
-	otherEndProperty numberOfDanglingReferences > 0 ifTrue: [ ^ false ].
-	otherEndProperty values size > 1 ifTrue: [ ^ true ].
-
-	oppositeEntity := values anyOne.
-	otherEndOppositeEntity := otherEndProperty values anyOne.
-	
-	otherEndOppositeEntity = oppositeEntity ifTrue: [ ^ false ].
-	(metaDescription isSource
-		 ifTrue: [ oppositeEntity instance queryAllOutgoing object ]
-		 ifFalse: [ oppositeEntity instance queryAllIncoming object ])
-	= otherEndOppositeEntity ifTrue: [ ^ false ].
-
-	"My class (self if I am a class) is not nil.
-	The class of the other end of the association (itself if it is a class) is not nil.
-	Both classes are different.
-	In the case of multivalued properties, we import." "There is no other association between my end of the association and the other end."
-	^ true
+	^ values ifEmpty: [ nil ] ifNotEmpty: [
+		  values anyOne isType
+			  ifTrue: [ values anyOne ]
+			  ifFalse: [
+				  (values anyOne atScope: FamixTType)
+					  ifEmpty: [ nil ]
+					  ifNotEmpty: [ :scopes | scopes anyOne ] ] ]
 ]
