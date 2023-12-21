@@ -45,11 +45,15 @@ FMImporterAggregationDecorator >> allEntities [
 ]
 
 { #category : #accessing }
-FMImporterAggregationDecorator >> alreadyHasAssociationsWithSource: sourceType target: targetType [
+FMImporterAggregationDecorator >> alreadyHasAssociation: anAssociationType withSource: sourceType target: targetType [
 
 	^ self associationsDict
-		  at: sourceType
-		  ifPresent: [ :targetTypes | targetTypes includes: targetType ]
+		  at: anAssociationType
+		  ifPresent: [ :dict |
+			  dict
+				  at: sourceType
+				  ifPresent: [ :targetTypes | targetTypes includes: targetType ]
+				  ifAbsent: [ false ] ]
 		  ifAbsent: [ false ]
 ]
 
@@ -60,9 +64,10 @@ FMImporterAggregationDecorator >> assignDanglingMethod: element to: serial [
 ]
 
 { #category : #accessing }
-FMImporterAggregationDecorator >> associationsAtSourceID: danglingSourceType addTargetID: danglingTargetType [
+FMImporterAggregationDecorator >> association: anAssociationName atSourceID: danglingSourceType addTargetID: danglingTargetType [
 
 	^ self associationsDict
+		  at: anAssociationName
 		  at: danglingSourceType
 		  ifAbsentPut: [ OrderedCollection with: danglingTargetType ]
 ]
@@ -110,7 +115,7 @@ FMImporterAggregationDecorator >> currentParser [
 { #category : #private }
 FMImporterAggregationDecorator >> dangling: aFMDanglingReference to: anInteger [
 
-^ decoratedImporter dangling: aFMDanglingReference to: anInteger
+	^ decoratedImporter dangling: aFMDanglingReference to: anInteger
 ]
 
 { #category : #accessing }
@@ -182,27 +187,14 @@ FMImporterAggregationDecorator >> inEntity: aDescription do: aBlock [
 	self endEntity: aDescription
 ]
 
-{ #category : #initialization }
-FMImporterAggregationDecorator >> initialize [
-
-	super initialize
-]
-
 { #category : #asserting }
 FMImporterAggregationDecorator >> isImportingAssociation: aString [
-	"For now, we will only handle accesses, references, and invocations.
-	allowedAssociations := #( #Access #Reference #Invocation ).
-	shortName := (aString findTokens: $.) last.
-	^ allowedAssociations includes: shortName
-	
-	However, to expand the functionality in the future, we can consider treating all types of 	associations by doing :
-	"
 
 	| associations associationsNames shortName |
 	associations := decoratedImporter metamodel classes select: [ :c |
 		                c traits anySatisfy: [ :trait |
 			                trait name = #TAssociation ] ].
-	
+
 	associationsNames := associations collect: [ :a | a name ].
 	shortName := (aString findTokens: $.) last.
 	^ associationsNames includes: shortName

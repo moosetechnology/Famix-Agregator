@@ -211,6 +211,41 @@ FMImporterAggregationDecoratorTest >> testAgregateAccesses [
 	self assert: importedModel allAccesses size equals: 1
 ]
 
+{ #category : #'test access' }
+FMImporterAggregationDecoratorTest >> testAgregateAccessesThatAreFirstInFile [
+
+	self importModel: '(
+			(Famix-Java-Entities.Access (id: 6)
+        		(accessor (ref: 2))
+        		(variable (ref: 5)))
+    		(Famix-Java-Entities.Access (id: 7)
+        		(accessor (ref: 3))
+        		(variable (ref: 5)))
+        	(Famix-Java-Entities.Class (id: 1)
+        		(name ''ClassA''))
+    		(Famix-Java-Entities.Method (id: 2)
+        		(name ''methodA1'')
+        		(parentType (ref: 1)))
+    		(Famix-Java-Entities.Method (id: 3)
+        		(name ''methodA2'')
+        		(parentType (ref: 1)))
+        	(Famix-Java-Entities.Class (id: 4)
+        		(name ''ClassB''))
+    		(Famix-Java-Entities.Attribute (id: 5)
+        		(name ''attributeB'')
+        		(parentType (ref: 4)))
+    		(Famix-Java-Entities.Access (id: 6)
+        		(accessor (ref: 2))
+        		(variable (ref: 5)))
+    		(Famix-Java-Entities.Access (id: 7)
+        		(accessor (ref: 3))
+        		(variable (ref: 5))))'.
+
+	self assert: importedModel allModelClasses size equals: 2.
+	self assert: importedModel allModelMethods size equals: 1.
+	self assert: importedModel allAccesses size equals: 1
+]
+
 { #category : #'test class' }
 FMImporterAggregationDecoratorTest >> testClassesAreImported [
 

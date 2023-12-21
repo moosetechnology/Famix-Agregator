@@ -54,13 +54,14 @@ FMDanglingAssociation >> canBeResolved [
 	(danglingSource metaDescription isMultivalued or: [
 		 danglingTarget metaDescription isMultivalued ]) ifTrue: [ ^ true ].
 
-	(danglingSource values size > 1 or: [ danglingTarget values size > 1 ])
-		ifTrue: [ ^ true ].
-
+	(self sourceType isNil or: [ self targetType isNil ]) ifTrue: [
+		^ false ].
 	self sourceType = self targetType ifTrue: [ ^ false ].
+
 	^ (importer
-		   alreadyHasAssociationsWithSource: danglingSource typeContainer
-		   target: danglingTarget typeContainer) not
+		   alreadyHasAssociation: self metaDescription
+		   withSource: self sourceType
+		   target: self targetType) not
 ]
 
 { #category : #accessing }
@@ -120,7 +121,8 @@ FMDanglingAssociation >> referenceID: aNumber [
 FMDanglingAssociation >> registerInImporter [
 
 	^ importer
-		  associationsAtSourceID: danglingSource typeContainer
+		  association: self metaDescription
+		  atSourceID: danglingSource typeContainer
 		  addTargetID: danglingTarget typeContainer
 ]
 
